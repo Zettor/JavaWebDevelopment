@@ -48,7 +48,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public int calcSumOfPassengers() {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         ArrayList<Car> storage = repository.getAll();
 
@@ -65,7 +65,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public double calcSumOfSpeed() {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         ArrayList<Car> storage = repository.getAll();
 
@@ -82,7 +82,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public void addCars() throws ServiceException {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         DAOFactory daoObjectFactory = DAOFactory.getInstance();
         Reader reader = daoObjectFactory.getReader();
@@ -123,7 +123,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public void deleteCar(int index) throws ServiceException {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         if (index >= 0 && index < repository.getAll().size()) {
             repository.deleteCar(index);
@@ -135,25 +135,25 @@ public class CarServiceImpl implements CarService {
     @Override
     public ArrayList<Car> searchByName(String name) {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.querry(new SearchByName(name));
     }
 
     @Override
     public ArrayList<Car> searchByPassengers(final int start, final int end) {
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.querry(new SearchByPassengers(start, end));
     }
 
     @Override
     public ArrayList<Car> searchByWeight(final double start, final double end) {
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.querry(new SearchByWeight(start, end));
     }
 
     @Override
     public ArrayList<Car> sortByName() {
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         return repository.querry(new SortByName());
     }
@@ -161,7 +161,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public ArrayList<Car> sortByWeight() {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         return repository.querry(new SortByWeight());
     }
@@ -169,7 +169,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public ArrayList<Car> getAll() {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.getAll();
     }
 }

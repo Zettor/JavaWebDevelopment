@@ -21,7 +21,7 @@ public class CarRepositoryImpl implements CarRepository {
 
     private static final CarRepositoryImpl instance = new CarRepositoryImpl();
 
-    public static CarRepository getInstance() {
+    public static CarRepositoryImpl getInstance() {
         return instance;
     }
 
