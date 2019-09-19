@@ -32,7 +32,6 @@ public class CarRepositoryImp implements CarRepository {
         return train;
     }
 
-
     @Override
     public void addCar(Car car) {
         train.add(car);
@@ -52,8 +51,6 @@ public class CarRepositoryImp implements CarRepository {
     public ArrayList<Car> getAll() {
         return train.getList();
     }
-
-
 }
 
 
