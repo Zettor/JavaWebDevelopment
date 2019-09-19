@@ -7,7 +7,6 @@ import by.ysenko.task1.bean.Locomotive;
 import by.ysenko.task1.dao.Reader;
 import by.ysenko.task1.dao.exception.ReaderException;
 import by.ysenko.task1.dao.factory.DAOFactory;
-import by.ysenko.task1.repository.CarRepositoryImp;
 import by.ysenko.task1.repository.CarRepositoryImpl;
 import by.ysenko.task1.service.CarService;
 import by.ysenko.task1.service.creation.BaggageCarCreation;
@@ -20,6 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CarServiceImpl implements CarService {
 
@@ -133,33 +133,33 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public ArrayList<Car> searchByName(String name) {
+    public List<Car> searchByName(String name) {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.querry(new SearchByName(name));
     }
 
     @Override
-    public ArrayList<Car> searchByPassengers(final int start, final int end) {
+    public List<Car> searchByPassengers(final int start, final int end) {
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.querry(new SearchByPassengers(start, end));
     }
 
     @Override
-    public ArrayList<Car> searchByWeight(final double start, final double end) {
+    public List<Car> searchByWeight(final double start, final double end) {
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.querry(new SearchByWeight(start, end));
     }
 
     @Override
-    public ArrayList<Car> sortByName() {
+    public List<Car> sortByName() {
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         return repository.querry(new SortByName());
     }
 
     @Override
-    public ArrayList<Car> sortByWeight() {
+    public List<Car> sortByWeight() {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
@@ -167,7 +167,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public ArrayList<Car> getAll() {
+    public List<Car> getAll() {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         return repository.getAll();

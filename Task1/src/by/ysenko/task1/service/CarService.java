@@ -20,13 +20,13 @@ public interface CarService {
 
     public ArrayList<Car> searchByName(String name);
 
-    public ArrayList<Car> searchByPassengers(final int start, final int end);
+    public List<Car> searchByPassengers(final int start, final int end);
 
-    public ArrayList<Car> searchByWeight(final double start, final double end);
+    public List<Car> searchByWeight(final double start, final double end);
 
-    public ArrayList<Car> sortByName();
+    public List<Car> sortByName();
 
-    public ArrayList<Car> sortByWeight();
+    public List<Car> sortByWeight();
 
     public List<Car> getAll();
 
