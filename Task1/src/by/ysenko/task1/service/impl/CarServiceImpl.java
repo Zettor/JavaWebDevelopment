@@ -8,6 +8,7 @@ import by.ysenko.task1.dao.Reader;
 import by.ysenko.task1.dao.exception.ReaderException;
 import by.ysenko.task1.dao.factory.DAOFactory;
 import by.ysenko.task1.repository.CarRepositoryImp;
+import by.ysenko.task1.repository.CarRepositoryImpl;
 import by.ysenko.task1.service.CarService;
 import by.ysenko.task1.service.creation.BaggageCarCreation;
 import by.ysenko.task1.service.creation.CoachCreation;
@@ -30,7 +31,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public double calcSumOfBaggage() {
 
-        CarRepositoryImp repository = CarRepositoryImp.getInstance();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         ArrayList<Car> storage = repository.getAll();
 
