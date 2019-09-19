@@ -12,7 +12,7 @@ public class SumOfBaggage implements Command {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         CarService carService = serviceFactory.getCarService();
 
-        double sumOfBaggage = carService.getSumOfBaggage();
+        double sumOfBaggage = carService.calcSumOfBaggage();
 
         response = "Sum of baggage " + sumOfBaggage;
 

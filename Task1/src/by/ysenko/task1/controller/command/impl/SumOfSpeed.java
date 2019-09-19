@@ -12,7 +12,7 @@ public class SumOfSpeed implements Command {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         CarService carService = serviceFactory.getCarService();
 
-        double sumOfSpeed = carService.getSumOfSpeed();
+        double sumOfSpeed = carService.calcSumOfSpeed();
 
         response = "Sum of speed " + sumOfSpeed;
 

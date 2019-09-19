@@ -15,13 +15,20 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 
-public class CarRepositoryImp implements CarRepository  {
+public class CarRepositoryImp implements CarRepository {
 
-    private  TrainStorage train = TrainStorage.getInstance() ;
-    public CarRepositoryImp(){
+    private TrainStorage train = TrainStorage.getInstance();
+
+    private static final CarRepository instance = new CarRepositoryImp();
+
+    public static CarRepository getInstance() {
+        return instance;
     }
 
-    public TrainStorage getTrain(){
+    private CarRepositoryImp() {
+    }
+
+    public TrainStorage getTrain() {
         return train;
     }
 
