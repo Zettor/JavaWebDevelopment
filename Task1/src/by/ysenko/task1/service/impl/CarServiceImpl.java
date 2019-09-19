@@ -30,7 +30,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public double calcSumOfBaggage() {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImp repository = CarRepositoryImp.getInstance();
 
         ArrayList<Car> storage = repository.getAll();
 
