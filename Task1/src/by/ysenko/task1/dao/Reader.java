@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface Reader {
 
-    public List<String> read(final String path) throws ReaderException;
+    public ArrayList<String> read(final String path) throws ReaderException;
 
 }
