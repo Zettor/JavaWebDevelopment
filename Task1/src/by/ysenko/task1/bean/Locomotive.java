@@ -46,14 +46,14 @@ public class Locomotive extends Car {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof Locomotive)) return false;
         Locomotive that = (Locomotive) o;
-        return this.getWorkers() == ((Coach) o).getWorkers() &&
-                this.getName().equals(this.getName()) &&
-                this.getWeight() == this.getWeight() &&
-                Double.compare(that.speed, speed) == 0 &&
-                Double.compare(that.power, power) == 0 &&
-                Double.compare(that.fuel, fuel) == 0;
+        return this.getWorkers() == that.getWorkers() &&
+                this.getName().equals(that.getName()) &&
+                this.getWeight() == that.getWeight() &&
+                that.speed == speed &&
+                that.power == power &&
+                that.fuel == fuel;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Locomotive extends Car {
     }
 
     @Override
-    public String toString()  {
+    public String toString() {
         return "Locomotive: " +
                 "workers=" + getWorkers() +
                 ", name=" + getName() +

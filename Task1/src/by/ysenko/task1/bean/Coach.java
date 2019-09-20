@@ -31,19 +31,19 @@ public class Coach extends Car {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof Coach)) return false;
         Coach coach = (Coach) o;
 
-        return this.getWorkers() == ((Coach) o).getWorkers() &&
-                this.getName().equals(this.getName()) &&
-                this.getWeight() == this.getWeight() &&
+        return this.getWorkers() == coach.getWorkers() &&
+                this.getName().equals(coach.getName()) &&
+                this.getWeight() == coach.getWeight() &&
                 passengers == coach.passengers &&
                 typeOfCoach == coach.typeOfCoach;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getWorkers()+getWeight()+passengers);
+        return Objects.hash(getWorkers() + getWeight() + passengers);
     }
 
     @Override

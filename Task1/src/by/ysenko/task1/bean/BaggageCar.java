@@ -29,12 +29,12 @@ public class BaggageCar extends Car {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !(o instanceof BaggageCar)) return false;
         BaggageCar that = (BaggageCar) o;
-        return this.getWorkers() == ((Coach) o).getWorkers() &&
-                this.getName().equals(this.getName()) &&
-                this.getWeight() == this.getWeight() &&
-                Double.compare(that.baggage, baggage) == 0;
+        return this.getWorkers() == that.getWorkers() &&
+                this.getName().equals(that.getName()) &&
+                this.getWeight() == that.getWeight() &&
+                that.baggage == baggage;
     }
 
     @Override
@@ -48,6 +48,6 @@ public class BaggageCar extends Car {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getWorkers()+getWeight()+baggage);
+        return Objects.hash(getWorkers() + getWeight() + baggage);
     }
 }

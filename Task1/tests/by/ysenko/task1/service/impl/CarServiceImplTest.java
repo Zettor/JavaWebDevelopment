@@ -1,10 +1,7 @@
 package by.ysenko.task1.service.impl;
 
 
-import by.ysenko.task1.bean.BaggageCar;
-import by.ysenko.task1.bean.Coach;
-import by.ysenko.task1.bean.Locomotive;
-import by.ysenko.task1.bean.TypeOfCoach;
+import by.ysenko.task1.bean.*;
 import by.ysenko.task1.repository.CarRepositoryImpl;
 import by.ysenko.task1.service.CarService;
 import by.ysenko.task1.service.exception.ServiceException;
@@ -12,6 +9,8 @@ import by.ysenko.task1.service.factory.ServiceFactory;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
 
 public class CarServiceImplTest {
 
@@ -27,19 +26,41 @@ public class CarServiceImplTest {
     @DataProvider(name = "DataForBaggegeSum")
     public Object[] createDataForSumOfBaggege() {
         return new Object[][]{
-                {STANDART_FILE, 5400, 54},
-                {ZEROES_FILE, 0.0},
-                {EMPTY_FILE, 0.0}
+                {STANDART_FILE, 5400.54},
+                {EMPTY_FILE, 0.0},
+                {ZEROES_FILE, 0.0}
+
+
+        };
+    }
+
+    @DataProvider(name = "DataForAddingCars")
+    public Object[] createDataForAddingCars() {
+
+        ArrayList<Car> standart = new ArrayList<Car>();
+        ArrayList<Car> empty = new ArrayList<Car>();
+
+        standart.add(new Locomotive(4, "LPOX", 3.45, 6.57, 5.67));
+        standart.add(new BaggageCar(8, "BRGR", 2000.23, 1500.12));
+        standart.add(new Coach(12, "CPR", 3234.55, 49, TypeOfCoach.BUFFET));
+        standart.add(new Coach(17, "CPZ", 3534.3, 42, TypeOfCoach.COMPARTMENT));
+        standart.add(new Locomotive(21, "LASD", 2012.123, 4.567, 600.123));
+        standart.add(new BaggageCar(7, "BRGR", 2320.13, 3900.42));
+        return new Object[][]{
+                {EMPTY_FILE, empty},
+                {STANDART_FILE, standart}
+
         };
     }
 
 
-    @Test(expectedExceptions = {ServiceException.class},
-            dataProvider = "DataForBaggegeSum")
-    public void testGetSumOfBaggageNormal(String path, double expected) throws ServiceException {
+    @Test(dataProvider = "DataForBaggegeSum", expectedExceptions = {ServiceException.class})
+    public void testSumOfBaggage(String path, double expected) throws ServiceException {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         CarService carService = serviceFactory.getCarService();
-        carService.addCars(path);
+
+            carService.addCars(path);
+
 
         Assert.assertEquals(carService.calcSumOfBaggage(), expected);
 
@@ -48,64 +69,40 @@ public class CarServiceImplTest {
     @Test
     public void testGetSumOfPassengersNormal() {
 
-        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
-        repository.addCar(new Coach(12, "PS",
-                4, 12, TypeOfCoach.COMPARTMENT));
-        repository.addCar(new BaggageCar(12, "PS", 4, 82.3));
-        repository.addCar(new Coach(34, "MOS",
-                2.56, 24, TypeOfCoach.BUFFET));
-
-        ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        CarService carService = serviceFactory.getCarService();
-
-        int expected = 36;
-
-        Assert.assertEquals(carService.calcSumOfPassengers(), expected);
     }
 
     @Test
     public void testGetSumOfPassengersEmptyTrain() {
 
 
-        ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        CarService carService = serviceFactory.getCarService();
-
-        int expected = 0;
-
-        Assert.assertEquals(carService.calcSumOfPassengers(), expected);
     }
 
     @Test
     public void testGetSumOfSpeedNormal() {
 
-        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
-
-        repository.addCar(new Locomotive(12, "PS", 4, 12.3, 123));
-        repository.addCar(new BaggageCar(12, "PS", 4, 82.3));
-        repository.addCar(new Locomotive(12, "PS", 4, 23.4, 457));
-
-        double expected = 0.357;
-
-        ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        CarService carService = serviceFactory.getCarService();
-
-        Assert.assertEquals(carService.calcSumOfSpeed(), expected);
     }
 
     @Test
     public void testGetSumOfSpeedEptyTrain() {
 
-        double expected = 0.0;
+
+    }
+
+    @Test(dataProvider = "DataForAddingCars")
+    public void testAddCars(String path,ArrayList<Car> expected)  {
+
+        CarRepositoryImpl repository=CarRepositoryImpl.getInstance();
 
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         CarService carService = serviceFactory.getCarService();
+        try {
+            carService.addCars(path);
+        } catch (ServiceException e) {
+            Assert.fail();
+        }
 
-        Assert.assertEquals(carService.calcSumOfSpeed(), expected);
-    }
-
-    @Test
-    public void testAddCars() {
+        Assert.assertEquals(repository.getAll(),expected);
     }
 
     @Test
