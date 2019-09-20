@@ -5,7 +5,9 @@ import by.ysenko.task1.bean.Car;
 import by.ysenko.task1.bean.Coach;
 import by.ysenko.task1.bean.Locomotive;
 import by.ysenko.task1.dao.Reader;
+import by.ysenko.task1.dao.Writer;
 import by.ysenko.task1.dao.exception.ReaderException;
+import by.ysenko.task1.dao.exception.WriterException;
 import by.ysenko.task1.dao.factory.DAOFactory;
 import by.ysenko.task1.repository.CarRepositoryImpl;
 import by.ysenko.task1.service.CarService;
@@ -23,8 +25,7 @@ import java.util.List;
 
 public class CarServiceImpl implements CarService {
 
-    private final static String PATH_TO_FILE = "D:\\Курсы\\JavaWebDevelopment\\" +
-            "Task1\\src\\data\\input.txt";
+
 
     private static final Logger LOGGER = LogManager.getLogger(CarService.class);
 
@@ -80,7 +81,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void addCars() throws ServiceException {
+    public void addCars(String path) throws ServiceException {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
@@ -89,7 +90,7 @@ public class CarServiceImpl implements CarService {
         ArrayList<String> lines = null;
 
         try {
-            lines = reader.read(PATH_TO_FILE);
+            lines = reader.read(path);
         } catch (ReaderException e) {
             LOGGER.error(e.getMessage());
         }
@@ -136,25 +137,31 @@ public class CarServiceImpl implements CarService {
     public List<Car> searchByName(String name) {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
+
+        writeToFile(repository.querry(new SearchByName(name)));
         return repository.querry(new SearchByName(name));
     }
 
     @Override
     public List<Car> searchByPassengers(final int start, final int end) {
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
+
+        writeToFile(repository.querry(new SearchByPassengers(start, end)));
         return repository.querry(new SearchByPassengers(start, end));
     }
 
     @Override
     public List<Car> searchByWeight(final double start, final double end) {
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
+
+        writeToFile(repository.querry(new SearchByWeight(start, end)));
         return repository.querry(new SearchByWeight(start, end));
     }
 
     @Override
     public List<Car> sortByName() {
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
-
+        writeToFile(repository.querry(new SortByName()));
         return repository.querry(new SortByName());
     }
 
@@ -162,7 +169,7 @@ public class CarServiceImpl implements CarService {
     public List<Car> sortByWeight() {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
-
+        writeToFile(repository.querry(new SortByWeight()));
         return repository.querry(new SortByWeight());
     }
 
@@ -170,6 +177,29 @@ public class CarServiceImpl implements CarService {
     public List<Car> getAll() {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
+
+        writeToFile(repository.getAll());
         return repository.getAll();
     }
+
+    public void writeToFile(ArrayList<Car> train) {
+
+
+        DAOFactory daoObjectFactory = DAOFactory.getInstance();
+        Writer writer = daoObjectFactory.getWriter();
+
+        ArrayList<String> lines = new ArrayList<String>();
+
+        for (Car car : train) {
+            lines.add(car.toString());
+        }
+
+        try {
+            writer.write("D:\\Курсы\\JavaWebDevelopment\\Task1\\src\\data\\output.txt", lines);
+        } catch (WriterException ex) {
+            LOGGER.error(ex.getMessage());
+        }
+    }
+
+
 }

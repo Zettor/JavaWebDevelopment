@@ -4,6 +4,7 @@ import by.ysenko.task1.bean.Car;
 import by.ysenko.task1.service.specification.Specification;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface CarRepository {
 
@@ -14,6 +15,7 @@ public interface CarRepository {
     public ArrayList<Car> querry(Specification specification);
 
     public ArrayList<Car> getAll();
+
 
 
 

@@ -23,7 +23,7 @@ public class Validator {
             return false;
         }
 
-        if (!tokens[2].matches(FRACTIONAL_NUMBERS)) {
+        if (!tokens[2].matches(ALL_NUMBERS)) {
             return false;
         }
 
@@ -31,11 +31,20 @@ public class Validator {
             return false;
         }
         if (tokens.length == 5) {
-            if (!tokens[4].matches(FRACTIONAL_NUMBERS) && !tokens[4].equals("soft")
+            if (!tokens[4].matches(ALL_NUMBERS) && !tokens[4].equals("soft")
                     && !tokens[4].equals("buffet") && !tokens[4].equals("compartment")) {
                 return false;
             }
+
+            if ((tokens[4].equals("soft")
+                    || tokens[4].equals("buffet")
+                    || tokens[4].equals("compartment"))
+                    && !tokens[3].matches(NATURAL_NUMBERS)) {
+                return false;
+            }
         }
+
+
         return true;
     }
 

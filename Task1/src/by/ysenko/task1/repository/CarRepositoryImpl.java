@@ -1,19 +1,14 @@
 package by.ysenko.task1.repository;
 
-import by.ysenko.task1.bean.*;
+import by.ysenko.task1.bean.Car;
+import by.ysenko.task1.bean.TrainStorage;
 import by.ysenko.task1.dao.Reader;
-import by.ysenko.task1.dao.exception.ReaderException;
+import by.ysenko.task1.dao.Writer;
 import by.ysenko.task1.dao.factory.DAOFactory;
-import by.ysenko.task1.service.CarService;
-import by.ysenko.task1.service.creation.BaggageCarCreation;
-import by.ysenko.task1.service.creation.CoachCreation;
-import by.ysenko.task1.service.creation.LocomotiveCreation;
-import by.ysenko.task1.service.exception.ServiceException;
-import by.ysenko.task1.service.specification.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import by.ysenko.task1.service.specification.Specification;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CarRepositoryImpl implements CarRepository {
 
@@ -51,6 +46,8 @@ public class CarRepositoryImpl implements CarRepository {
     public ArrayList<Car> getAll() {
         return train.getList();
     }
+
+
 }
 
 

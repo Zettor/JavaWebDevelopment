@@ -7,35 +7,39 @@ import by.ysenko.task1.bean.Locomotive;
 import by.ysenko.task1.bean.TypeOfCoach;
 import by.ysenko.task1.repository.CarRepositoryImpl;
 import by.ysenko.task1.service.CarService;
+import by.ysenko.task1.service.exception.ServiceException;
 import by.ysenko.task1.service.factory.ServiceFactory;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class CarServiceImplTest {
 
+    private static final String STANDART_FILE = "D:\\Курсы\\JavaWebDevelopment\\" +
+            "Task1\\tests\\data\\testOfSumNormal.txt";
 
-    @Test
-    public void testGetSumOfBaggageNormal() {
-        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
-        repository.addCar(new Locomotive(12, "PS", 4, 12.3, 123));
-        repository.addCar(new BaggageCar(12, "PS", 4, 82.3));
-        repository.addCar(new BaggageCar(12, "PS", 4, 22.4));
+    private static final String EMPTY_FILE = "D:\\Курсы\\JavaWebDevelopment\\" +
+            "Task1\\tests\\data\\testOfSumEmpty.txt";
 
-        ServiceFactory serviceFactory = ServiceFactory.getInstance();
-        CarService carService = serviceFactory.getCarService();
+    private static final String ZEROES_FILE = "D:\\Курсы\\JavaWebDevelopment\\" +
+            "Task1\\tests\\data\\testOfSumZeroes.txt";
 
-        double expected = 104.69999999999999;
-
-        Assert.assertEquals(carService.calcSumOfBaggage(), expected);
-
+    @DataProvider(name = "DataForBaggegeSum")
+    public Object[] createDataForSumOfBaggege() {
+        return new Object[][]{
+                {STANDART_FILE, 5400, 54},
+                {ZEROES_FILE, 0.0},
+                {EMPTY_FILE, 0.0}
+        };
     }
 
-    @Test
-    public void testGetSumOfBaggageEmptyTrain() {
+
+    @Test(expectedExceptions = {ServiceException.class},
+            dataProvider = "DataForBaggegeSum")
+    public void testGetSumOfBaggageNormal(String path, double expected) throws ServiceException {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         CarService carService = serviceFactory.getCarService();
-
-        double expected = 0;
+        carService.addCars(path);
 
         Assert.assertEquals(carService.calcSumOfBaggage(), expected);
 

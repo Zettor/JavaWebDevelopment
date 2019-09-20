@@ -17,7 +17,7 @@ public class SearchByPassengers implements Specification {
     }
 
     @Override
-    public List<Car> querry(ArrayList<Car> storage) {
+    public ArrayList<Car> querry(ArrayList<Car> storage) {
         ArrayList<Car> result = new ArrayList<>();
         for (Car car : storage) {
             if ((car instanceof Coach)

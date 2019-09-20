@@ -13,7 +13,7 @@ public interface CarService {
 
     public double calcSumOfSpeed();
 
-    public void addCars() throws ServiceException;
+    public void addCars(String path) throws ServiceException;
 
     public void deleteCar(int index)throws ServiceException;
 

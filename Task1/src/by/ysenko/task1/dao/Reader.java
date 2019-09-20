@@ -2,7 +2,7 @@ package by.ysenko.task1.dao;
 
 import by.ysenko.task1.dao.exception.ReaderException;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface Reader {
 

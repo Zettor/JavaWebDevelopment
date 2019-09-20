@@ -11,7 +11,7 @@ public class ValidatorTest {
     @DataProvider(name = "positiveDataForValidator")
     public Object[] createPositiveDataForValidator() {
         return new Object[][]{
-                {"4,MP,3.45,6.57,5.67",true},
+                {"4,MP,3,6.57,5.67",true},
                 {"3,MPasd,3.456,6.57,",true},
                 {"7,MPSD,3.425,3,soft",true}
         };
@@ -22,10 +22,10 @@ public class ValidatorTest {
         return new Object[][]{
                 {"4,MP,3.45,6.57,5.67,3.45,2.35",false},
                 {"4.0,MP,3.45,6.57,5.67",false},
-                {"4.0,MP2,3.45,6.57,5.67",false},
+                {"4,MP2,3.45,6.57,5.67",false},
                 {"4.0,MP,3,6.57,5.67",false},
-                {"4.0,MP,3.4,6,5.67",false},
-                {"4.0,MP,3.4,6,5.67",false},
+                {"4,MP,3.4,6.5,soft",false},
+                {"",false}
 
         };
     }

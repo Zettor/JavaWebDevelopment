@@ -39,7 +39,7 @@ public class ReaderImpl implements Reader {
                 }
 
             } catch (IOException ex) {
-                throw new ReaderException("Method readInFile got wrong path");
+                throw new ReaderException("Method read() got wrong path");
             }
 
 return fileLines;

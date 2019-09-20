@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface Specification {
 
-    public List<Car> querry(ArrayList<Car> storage);
+    public ArrayList<Car> querry(ArrayList<Car> storage);
 }
