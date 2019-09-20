@@ -24,7 +24,7 @@ public class ReaderImpl implements Reader {
 
 
     @Override
-    public ArrayList<String> read(String path) throws ReaderException {
+    public List<String> read(String path) throws ReaderException {
 
         String line;
 

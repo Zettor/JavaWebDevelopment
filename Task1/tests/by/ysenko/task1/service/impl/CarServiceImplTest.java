@@ -5,7 +5,7 @@ import by.ysenko.task1.bean.BaggageCar;
 import by.ysenko.task1.bean.Coach;
 import by.ysenko.task1.bean.Locomotive;
 import by.ysenko.task1.bean.TypeOfCoach;
-import by.ysenko.task1.repository.CarRepositoryImp;
+import by.ysenko.task1.repository.CarRepositoryImpl;
 import by.ysenko.task1.service.CarService;
 import by.ysenko.task1.service.factory.ServiceFactory;
 import org.testng.Assert;
@@ -16,7 +16,7 @@ public class CarServiceImplTest {
 
     @Test
     public void testGetSumOfBaggageNormal() {
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
         repository.addCar(new Locomotive(12, "PS", 4, 12.3, 123));
         repository.addCar(new BaggageCar(12, "PS", 4, 82.3));
         repository.addCar(new BaggageCar(12, "PS", 4, 22.4));
@@ -26,7 +26,7 @@ public class CarServiceImplTest {
 
         double expected = 104.69999999999999;
 
-        Assert.assertEquals(carService.getSumOfBaggage(), expected);
+        Assert.assertEquals(carService.calcSumOfBaggage(), expected);
 
     }
 
@@ -37,14 +37,14 @@ public class CarServiceImplTest {
 
         double expected = 0;
 
-        Assert.assertEquals(carService.getSumOfBaggage(), expected);
+        Assert.assertEquals(carService.calcSumOfBaggage(), expected);
 
     }
 
     @Test
     public void testGetSumOfPassengersNormal() {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         repository.addCar(new Coach(12, "PS",
                 4, 12, TypeOfCoach.COMPARTMENT));
@@ -57,7 +57,7 @@ public class CarServiceImplTest {
 
         int expected = 36;
 
-        Assert.assertEquals(carService.getSumOfPassengers(), expected);
+        Assert.assertEquals(carService.calcSumOfPassengers(), expected);
     }
 
     @Test
@@ -69,13 +69,13 @@ public class CarServiceImplTest {
 
         int expected = 0;
 
-        Assert.assertEquals(carService.getSumOfPassengers(), expected);
+        Assert.assertEquals(carService.calcSumOfPassengers(), expected);
     }
 
     @Test
     public void testGetSumOfSpeedNormal() {
 
-        CarRepositoryImp repository = new CarRepositoryImp();
+        CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         repository.addCar(new Locomotive(12, "PS", 4, 12.3, 123));
         repository.addCar(new BaggageCar(12, "PS", 4, 82.3));
@@ -86,7 +86,7 @@ public class CarServiceImplTest {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         CarService carService = serviceFactory.getCarService();
 
-        Assert.assertEquals(carService.getSumOfSpeed(), expected);
+        Assert.assertEquals(carService.calcSumOfSpeed(), expected);
     }
 
     @Test
@@ -97,7 +97,7 @@ public class CarServiceImplTest {
         ServiceFactory serviceFactory = ServiceFactory.getInstance();
         CarService carService = serviceFactory.getCarService();
 
-        Assert.assertEquals(carService.getSumOfSpeed(), expected);
+        Assert.assertEquals(carService.calcSumOfSpeed(), expected);
     }
 
     @Test

@@ -4,6 +4,7 @@ import by.ysenko.task1.bean.Car;
 import by.ysenko.task1.bean.Coach;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchByPassengers implements Specification {
 
@@ -16,7 +17,7 @@ public class SearchByPassengers implements Specification {
     }
 
     @Override
-    public ArrayList<Car> querry(ArrayList<Car> storage) {
+    public List<Car> querry(ArrayList<Car> storage) {
         ArrayList<Car> result = new ArrayList<>();
         for (Car car : storage) {
             if ((car instanceof Coach)

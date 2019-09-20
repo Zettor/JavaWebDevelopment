@@ -3,7 +3,6 @@ package by.ysenko.task1.service;
 import by.ysenko.task1.bean.Car;
 import by.ysenko.task1.service.exception.ServiceException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface CarService {
@@ -18,7 +17,7 @@ public interface CarService {
 
     public void deleteCar(int index)throws ServiceException;
 
-    public ArrayList<Car> searchByName(String name);
+    public List<Car> searchByName(String name);
 
     public List<Car> searchByPassengers(final int start, final int end);
 

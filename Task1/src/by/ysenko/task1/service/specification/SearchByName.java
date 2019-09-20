@@ -3,6 +3,7 @@ package by.ysenko.task1.service.specification;
 import by.ysenko.task1.bean.Car;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SearchByName implements Specification {
 
@@ -13,7 +14,7 @@ public class SearchByName implements Specification {
     }
 
     @Override
-    public ArrayList<Car> querry(ArrayList<Car> storage) {
+    public List<Car> querry(ArrayList<Car> storage) {
         ArrayList<Car> result = new ArrayList<>();
 
         for (Car car : storage) {
