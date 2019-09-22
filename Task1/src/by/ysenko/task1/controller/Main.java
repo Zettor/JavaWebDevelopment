@@ -2,9 +2,12 @@ package by.ysenko.task1.controller;
 
 import by.ysenko.task1.view.Menu;
 
-public class Main {
+final class Main {
 
-    public static void main(String[] arg) {
+    private Main() {
+    }
+
+    public static void main(final String[] arg) {
         Menu menu = new Menu();
         menu.getMainMenu();
     }

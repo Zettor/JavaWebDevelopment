@@ -1,23 +1,17 @@
 package by.ysenko.task1.bean;
 
+/**
+ * Abstract Car class with different properties.
+ *
+ * @author Alexander Ysenko
+ * @version 1.0
+ */
 abstract public class Car {
 
-    protected static long id;
-
     /**
-     * Quality for standart car.
+     * Id of car.
      */
-    protected static final String STANDART_NAME = "MPT-300";
-
-    /**
-     * Number of workers for standart car.
-     */
-    protected static final int STANDART_WORKERS = 4;
-
-    /**
-     * Weight of standart car in t.
-     */
-    protected static final double STANDART_WEIGHT = 61;
+    private static long id;
 
     /**
      * Number of workers for car.
@@ -41,31 +35,66 @@ abstract public class Car {
         id++;
     }
 
+    /**
+     * Method of getting workers field.
+     *
+     * @return number of workers.
+     */
     public int getWorkers() {
         return workers;
     }
 
+    /**
+     * Method of setting workers field.
+     *
+     * @param workers - number of workers.
+     */
     public void setWorkers(final int workers) {
 
         this.workers = workers;
     }
 
+    /**
+     * Method of getting wieght field.
+     *
+     * @return weight if car.
+     */
     public double getWeight() {
         return weight;
     }
 
+    /**
+     * Method of setting weight field.
+     *
+     * @param weight - weight of car.
+     */
     public void setWeight(final double weight) {
         this.weight = weight;
     }
 
+    /**
+     * Method of getting name field.
+     *
+     * @return name of car.
+     */
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    /**
+     * Method of setting name field.
+     *
+     * @param name - name off car.
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 
+    /**
+     * Method of getting id field.
+     *
+     * @return id of car.
+     */
     public static long getId() {
         return id;
     }

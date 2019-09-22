@@ -5,9 +5,22 @@ import by.ysenko.task1.service.CarService;
 import by.ysenko.task1.service.exception.ServiceException;
 import by.ysenko.task1.service.factory.ServiceFactory;
 
+/**
+ * DeleteCar is the class that is used for calling deleteCar method.
+ *
+ * @author Alexander Ysenko
+ * @version 1.0
+ */
 public class DeleteCar implements Command {
+
+    /**
+     * Method for calling method deleteCar(int index) from service layer.
+     *
+     * @param request - request from user.
+     * @return response to user.
+     */
     @Override
-    public String execute(String request) {
+    public String execute(final String request) {
 
         String response;
 

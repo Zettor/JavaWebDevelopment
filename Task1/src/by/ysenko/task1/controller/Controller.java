@@ -2,18 +2,36 @@ package by.ysenko.task1.controller;
 
 import by.ysenko.task1.controller.command.Command;
 
+/**
+ * Class where programm refers to a specific command class.
+ *
+ * @author Alexander Ysenko
+ * @version 1.0
+ */
 public class Controller {
 
+    /**
+     * Object of class CommandProvider.
+     */
     private final CommandProvider provider = new CommandProvider();
 
-    private final static char paramDelimeter = ' ';
+    /**
+     * Delimiter for user request splitting.
+     */
+    private final static char PARAM_DELIMETER = ' ';
 
-    public String executeTask(String request) {
+    /**
+     * Method of calling different commands.
+     *
+     * @param request - request from user.
+     * @return response to user.
+     */
+    public String executeTask(final String request) {
 
         String commandName;
         Command executionCommand;
 
-        commandName = request.substring(0, request.indexOf(paramDelimeter));
+        commandName = request.substring(0, request.indexOf(PARAM_DELIMETER));
         executionCommand = provider.getCommand(commandName);
 
         String response;

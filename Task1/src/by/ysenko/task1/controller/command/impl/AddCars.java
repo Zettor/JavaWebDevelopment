@@ -5,13 +5,27 @@ import by.ysenko.task1.service.CarService;
 import by.ysenko.task1.service.exception.ServiceException;
 import by.ysenko.task1.service.factory.ServiceFactory;
 
+/**
+ * AddCars is the class that is used for calling addCars method.
+ * @author Alexander Ysenko
+ * @version 1.0
+ */
 public class AddCars implements Command {
 
-    private final static String PATH_TO_FILE = "D:\\Курсы\\JavaWebDevelopment\\" +
-            "Task1\\src\\data\\input.txt";
+    /**
+     * Path to file with data in String.
+     */
+    private final static String PATH_TO_FILE = "D:\\Курсы\\"
+            + "JavaWebDevelopment\\Task1\\src\\data\\input.txt";
 
+    /**
+     * Method for calling method addCars(String path) from service layer.
+     *
+     * @param request - request from user.
+     * @return response to user.
+     */
     @Override
-    public String execute(String request) {
+    public String execute(final String request) {
 
         String response;
 

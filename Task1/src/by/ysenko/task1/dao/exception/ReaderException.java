@@ -1,23 +1,46 @@
 package by.ysenko.task1.dao.exception;
 
+/**
+ * It is Exception related with Reader.
+ *
+ * @author Alexander Ysenko
+ * @version 1.0
+ */
 public class ReaderException extends Exception {
 
-        public static final long serialVersionUID = 1L;
+    /**
+     * Constructor - create a new ReaderException.
+     */
+    public ReaderException() {
+        super();
+    }
 
-        public ReaderException(){
-            super();
-        }
+    /**
+     * Constructor - create a new ReaderException with special parameters.
+     *
+     * @param message - message of exception.
+     */
+    public ReaderException(final String message) {
+        super(message);
+    }
 
-        public ReaderException(String message){
-            super(message);
-        }
+    /**
+     * Constructor - create a new ReaderException with special parameters.
+     *
+     * @param e - some exception
+     */
+    public ReaderException(final Exception e) {
+        super(e);
+    }
 
-        public ReaderException(Exception e){
-            super(e);
-        }
-
-        public ReaderException(String message,Exception e){
-            super(message,e);
-        }
+    /**
+     * Constructor - create a new ReaderException with special parameters.
+     *
+     * @param message - message of exception.
+     * @param e - some exception.
+     */
+    public ReaderException(final String message, final Exception e) {
+        super(message, e);
+    }
 
 }

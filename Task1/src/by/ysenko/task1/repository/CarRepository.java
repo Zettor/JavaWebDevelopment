@@ -4,19 +4,43 @@ import by.ysenko.task1.bean.Car;
 import by.ysenko.task1.service.specification.Specification;
 
 import java.util.ArrayList;
-import java.util.List;
 
+/**
+ * Interface for RepositoryImpl class.
+ *
+ * @author Alexander Ysenko
+ * @version 1.0
+ */
 public interface CarRepository {
 
-    public void addCar(Car car);
+    /**
+     * Method for adding car to storage.
+     *
+     * @param car - some car.
+     */
+    void addCar(Car car);
 
-    public void deleteCar(int index);
+    /**
+     * Method for removing car from storage.
+     *
+     * @param index - index of removing car.
+     */
+    void deleteCar(int index);
 
-    public ArrayList<Car> querry(Specification specification);
+    /**
+     * Method for adding car to storage.
+     *
+     * @param specification - one of specification classes.
+     * @return special ArrayList of cars.
+     */
+    ArrayList<Car> querry(Specification specification);
 
-    public ArrayList<Car> getAll();
-
-
+    /**
+     * Method for getting ArratList of cars from storage.
+     *
+     * @return copy of ArrayList from storage.
+     */
+    ArrayList<Car> getAll();
 
 
 }

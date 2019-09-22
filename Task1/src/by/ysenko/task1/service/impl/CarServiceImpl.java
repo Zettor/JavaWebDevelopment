@@ -13,9 +13,13 @@ import by.ysenko.task1.repository.CarRepositoryImpl;
 import by.ysenko.task1.service.CarService;
 import by.ysenko.task1.service.creation.BaggageCarCreation;
 import by.ysenko.task1.service.creation.CoachCreation;
+import by.ysenko.task1.service.specification.SearchByName;
+import by.ysenko.task1.service.specification.SearchByPassengers;
+import by.ysenko.task1.service.specification.SearchByWeight;
+import by.ysenko.task1.service.specification.SortByName;
 import by.ysenko.task1.service.creation.LocomotiveCreation;
 import by.ysenko.task1.service.exception.ServiceException;
-import by.ysenko.task1.service.specification.*;
+import by.ysenko.task1.service.specification.SortByWeight;
 import by.ysenko.task1.service.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,10 +27,17 @@ import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarServiceImpl implements CarService {
+public final class CarServiceImpl implements CarService {
 
+    /**
+     * Path to output file.
+     */
+    public static final String PATH_TO_OUTPUT_FILE = "D:\\Курсы\\"
+            + "JavaWebDevelopment\\Task1\\src\\data\\output.txt";
 
-
+    /**
+     * Service Logger.
+     */
     private static final Logger LOGGER = LogManager.getLogger(CarService.class);
 
     @Override
@@ -40,8 +51,9 @@ public class CarServiceImpl implements CarService {
 
         for (Car car : storage) {
 
-            if (car instanceof BaggageCar)
+            if (car instanceof BaggageCar) {
                 result += ((BaggageCar) car).getBaggage();
+            }
         }
         return result;
     }
@@ -57,8 +69,9 @@ public class CarServiceImpl implements CarService {
 
         for (Car car : storage) {
 
-            if (car instanceof Coach)
+            if (car instanceof Coach) {
                 result += ((Coach) car).getPassengers();
+            }
         }
         return result;
     }
@@ -74,20 +87,21 @@ public class CarServiceImpl implements CarService {
 
         for (Car car : storage) {
 
-            if (car instanceof Locomotive)
+            if (car instanceof Locomotive) {
                 result += ((Locomotive) car).getSpeed();
+            }
         }
         return result;
     }
 
     @Override
-    public void addCars(String path) throws ServiceException {
+    public void addCars(final String path) throws ServiceException {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         DAOFactory daoObjectFactory = DAOFactory.getInstance();
         Reader reader = daoObjectFactory.getReader();
-        ArrayList<String> lines = null;
+        ArrayList<String> lines = new ArrayList<>();
 
         try {
             lines = reader.read(path);
@@ -122,19 +136,20 @@ public class CarServiceImpl implements CarService {
 
 
     @Override
-    public void deleteCar(int index) throws ServiceException {
+    public void deleteCar(final int index) throws ServiceException {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
         if (index >= 0 && index < repository.getAll().size()) {
             repository.deleteCar(index);
         } else {
-            throw new ServiceException("The train is empty or method got wrong index.");
+            throw new ServiceException("The train is empty"
+                    + " or method got wrong index.");
         }
     }
 
     @Override
-    public List<Car> searchByName(String name) {
+    public List<Car> searchByName(final String name) {
 
         CarRepositoryImpl repository = CarRepositoryImpl.getInstance();
 
@@ -181,8 +196,12 @@ public class CarServiceImpl implements CarService {
         writeToFile(repository.getAll());
         return repository.getAll();
     }
-
-    public void writeToFile(ArrayList<Car> train) {
+    /**
+     * Method for writing cars to file.
+     *
+     *@param train - edit copy of storage of cars.
+     */
+    public void writeToFile(final ArrayList<Car> train) {
 
 
         DAOFactory daoObjectFactory = DAOFactory.getInstance();
@@ -195,7 +214,7 @@ public class CarServiceImpl implements CarService {
         }
 
         try {
-            writer.write("D:\\Курсы\\JavaWebDevelopment\\Task1\\src\\data\\output.txt", lines);
+            writer.write(PATH_TO_OUTPUT_FILE, lines);
         } catch (WriterException ex) {
             LOGGER.error(ex.getMessage());
         }
