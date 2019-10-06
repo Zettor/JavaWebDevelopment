@@ -16,6 +16,7 @@ public class Auction {
             public void run() {
                 Bid winner = Auction.this.defineWinner();
                 System.out.println("Bid #" + winner.getBidId() + ", price:" + winner.getPrice() + " win!");
+
             }
         });
     }
