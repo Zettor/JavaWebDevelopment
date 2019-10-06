@@ -1,0 +1,5 @@
+0,LPOX,0.0,0.0,0.0
+0,BRGR,0.0,0.0
+0,CPR,0.0,0,buffet
+0,CPZ,0.0,0,compartment
+0,LASD,0.0,0.0,0.0
