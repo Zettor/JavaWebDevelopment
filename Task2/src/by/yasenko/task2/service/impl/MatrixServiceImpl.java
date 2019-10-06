@@ -7,29 +7,40 @@ import by.yasenko.task2.dao.factory.DAOFactory;
 import by.yasenko.task2.service.MatrixService;
 import by.yasenko.task2.service.exception.ServiceException;
 import by.yasenko.task2.service.factory.MatrixFactory;
+import by.yasenko.task2.service.filler.impl.FillerLatch;
+import by.yasenko.task2.service.filler.impl.FillerLock;
+import by.yasenko.task2.service.thread.BarrierThread;
+import by.yasenko.task2.service.thread.LatchThread;
+import by.yasenko.task2.service.thread.LockThread;
+import by.yasenko.task2.service.thread.SemThread;
 import by.yasenko.task2.service.validator.Validator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MatrixServiceImpl implements MatrixService {
+public final class MatrixServiceImpl implements MatrixService {
 
-    ReentrantLock locker=new ReentrantLock();
-    Condition condition=locker.newCondition();
+    /**
+     * Locker for filling methods.
+     */
+    private ReentrantLock locker = new ReentrantLock();
 
     /**
      * Service Logger.
      */
-    private final Logger LOGGER = LogManager.getLogger(MatrixServiceImpl.class);
+    private final Logger logger = LogManager.getLogger(MatrixServiceImpl.class);
 
-    private static int count = 0;
+    /**
+     * Array with numbers for threads.
+     */
+    private int[] numbersOfThreads;
 
     @Override
-    public Matrix createMatrix(String path) {
+    public void createMatrix(final String path) throws ServiceException {
 
         DAOFactory daoObjectFactory = DAOFactory.getInstance();
         Reader reader = daoObjectFactory.getReader();
@@ -38,55 +49,140 @@ public class MatrixServiceImpl implements MatrixService {
         try {
             data = reader.read(path);
         } catch (ReaderException e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.info("Program closing.");
-            System.exit(0);
+            logger.error(e.getMessage());
         }
 
+        if (Validator.validate(data)) {
+            String[] tokens = data.get(0).split(",");
 
-        if (!Validator.validate(data)) {
-            LOGGER.error("createMatrix() got wrong data!");
-            LOGGER.info("Program closing.");
-            System.exit(0);
-        }
-        return MatrixFactory.createMatrix(data);
-    }
+            numbersOfThreads = new int[tokens.length];
 
-    @Override
-    public String showMatrix(Matrix matrix) {
-
-        int[][] temp = matrix.getMatrix();
-
-        String response = "";
-
-        for (int i = 0; i < temp.length; i++) {
-            for (int j = 0; j < temp[i].length; j++) {
-                response += (temp[i][j] + " ");
+            for (int i = 0; i < tokens.length; i++) {
+                numbersOfThreads[i] = Integer.parseInt(tokens[i]);
             }
-            response += "\n";
+            data.remove(0);
+            MatrixFactory.createMatrix(data);
+        } else {
+            throw new ServiceException();
+
         }
-        return response;
+
+
     }
 
     @Override
-    public void fillDiagonalLock(Matrix matrix, int number) {
+    public String showMatrix() {
 
-        locker.lock();
+        Matrix matrix = Matrix.getInstance();
+        return matrix.toString();
+    }
 
-        if (count <= matrix.getN()-1 && count <= matrix.getM()-1) {
-            matrix.getMatrix()[count][count] = number;
-            count++;
+    @Override
+    public void fillLock() throws ServiceException {
 
+        Thread[] threads = new Thread[numbersOfThreads.length];
+
+
+        FillerLock fillerLock = new FillerLock(locker);
+
+        for (int i = 0; i < numbersOfThreads.length; i++) {
+            threads[i] = new Thread(
+                    new LockThread(fillerLock, numbersOfThreads[i]));
+            threads[i].start();
+        }
+
+        for (Thread thread : threads) {
             try {
-                TimeUnit.MILLISECONDS.sleep(100);
+                thread.join();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                throw new ServiceException("InterruptedException"
+                        + " in service fillLock()", e);
             }
+        }
+    }
 
+    @Override
+    public void fillSem(final int permits) throws ServiceException {
+
+
+        if (permits <= 0 || permits > numbersOfThreads.length) {
+            throw new ServiceException("fillSem got wrong number of permits");
         }
-        else{
-            LOGGER.info("The main diagonal is already filled.");
+
+        Thread[] threads = new Thread[numbersOfThreads.length];
+        Semaphore sem = new Semaphore(permits);
+        logger.debug("permits in semaphore - " + permits);
+
+        FillerLock fillerLock = new FillerLock(locker);
+
+        for (int i = 0; i < numbersOfThreads.length; i++) {
+            threads[i] = new Thread(new SemThread(fillerLock,
+                    sem, numbersOfThreads[i]));
+            threads[i].start();
         }
-        locker.unlock();
+
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new ServiceException("InterruptedException"
+                        + " in service fillLock()", e);
+            }
+        }
+    }
+
+    @Override
+    public void fillBarrier() throws ServiceException {
+        CyclicBarrier barrier =
+                new CyclicBarrier(numbersOfThreads.length, new Runnable() {
+                    public void run() {
+                        logger.debug("Barrier open");
+                    }
+                });
+
+        Thread[] threads = new Thread[numbersOfThreads.length];
+
+        FillerLock fillerLock = new FillerLock(locker);
+
+        for (int i = 0; i < numbersOfThreads.length; i++) {
+            threads[i] = new Thread(new BarrierThread(fillerLock,
+                    barrier, numbersOfThreads[i]));
+            threads[i].start();
+        }
+
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new ServiceException("InterruptedException"
+                        + " in service fillBarrier()", e);
+            }
+        }
+    }
+
+    @Override
+    public void fillLatch() throws ServiceException {
+
+
+        Thread[] threads = new Thread[numbersOfThreads.length];
+
+
+        FillerLatch fillerLatch =
+                new FillerLatch(locker, numbersOfThreads.length);
+
+        for (int i = 0; i < numbersOfThreads.length; i++) {
+            threads[i] = new Thread(new LatchThread(fillerLatch,
+                    numbersOfThreads[i]));
+            threads[i].start();
+        }
+
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                throw new ServiceException("InterruptedException"
+                        + " in service fillLatch()", e);
+            }
+        }
     }
 }
