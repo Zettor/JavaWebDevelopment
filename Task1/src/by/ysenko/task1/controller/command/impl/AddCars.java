@@ -16,7 +16,7 @@ public class AddCars implements Command {
      * Path to file with data in String.
      */
     private final static String PATH_TO_FILE = "D:\\Курсы\\"
-            + "JavaWebDevelopment\\Task1\\src\\data\\input.txt";
+            + "JavaWebDvelopment\\Task1\\src\\data\\input.txt";
 
     /**
      * Method for calling method addCars(String path) from service layer.

@@ -2,12 +2,7 @@ package by.yasenko.task2.service.validator;
 
 import java.util.ArrayList;
 
-/**
- * This class for validating data.
- *
- * @author Alexander Ysenko
- * @version 1.0
- */
+
 public final class Validator {
 
     private Validator() {
@@ -19,14 +14,9 @@ public final class Validator {
     private static final String NATURAL_NUMBERS = "[0-9]+";
 
     /**
-     * String for checking fractional numbers.
+     * String for checking positive numbers.
      */
-    private static final String FRACTIONAL_NUMBERS = "[0-9]+.+[0-9]+";
-
-    /**
-     * String for checking numbers.
-     */
-    private static final String ALL_NUMBERS = "[0-9]+.+[0-9]+||[0-9]+";
+    private static final String POSITIVE_NUMBERS = "[1-9]+";
 
     /**
      * Mathod for validating.
@@ -36,11 +26,22 @@ public final class Validator {
      */
     public static boolean validate(final ArrayList<String> lines) {
 
-        int m = lines.get(0).length();
-        for (int i = 0; i < lines.size(); i++) {
+        if (lines.size() < 2) {
+            return false;
+        }
 
-            if (lines.get(i).length() != m) {
+        String[] numbers = lines.get(0).split(",");
 
+        for (String number : numbers) {
+            if (!number.matches(POSITIVE_NUMBERS)) {
+                return false;
+            }
+        }
+
+        int length = lines.get(1).length();
+
+        for (int i = 1; i < lines.size(); i++) {
+            if (lines.get(i).length() != length) {
                 return false;
             }
 
@@ -49,11 +50,9 @@ public final class Validator {
             for (int j = 0; j < tokens.length; j++) {
 
                 if (!tokens[j].matches(NATURAL_NUMBERS)
-                        || (i == j && !tokens[j].equals("0"))) {
+                        || (i == j + 1 && !tokens[j].equals("0"))) {
                     return false;
                 }
-
-
             }
         }
         return true;

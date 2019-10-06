@@ -19,15 +19,7 @@
     </Appenders>
 
     <Loggers>
-        <Logger name="by.ysenko.task2.service.impl.MatrixServiceImpl" level="error"
-                additivity="true">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="TxtFile"/>
-        </Logger>
-
-        <!-- Root Logger -->
         <Root level="all">
-            <AppenderRef ref="Console"/>
             <AppenderRef ref="TxtFile"/>
         </Root>
     </Loggers>
