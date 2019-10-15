@@ -68,3 +68,66 @@
 2019-10-06 18:43:02.656 [Thread-6] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
 2019-10-06 18:43:02.656 [Thread-8] DEBUG task2.service.filler.impl.FillerLock - The main diagonal is already filled.
 2019-10-06 18:43:02.656 [Thread-8] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.173 [Thread-0] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.173 [Thread-3] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.173 [Thread-5] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.173 [Thread-2] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.173 [Thread-7] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.267 [Thread-0] DEBUG task2.service.filler.impl.FillerLock - fill() of FillerLock fill 1 element of diagonal with 1
+2019-10-07 13:43:54.173 [Thread-4] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.173 [Thread-6] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.173 [Thread-1] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.173 [Thread-8] DEBUG yasenko.task2.service.thread.LockThread -  starting of filling with locker
+2019-10-07 13:43:54.282 [Thread-0] DEBUG task2.service.filler.impl.FillerLock - 
+1 2 4 4 3 
+2 0 1 8 7 
+3 5 0 3 1 
+4 1 6 0 2 
+3 7 2 1 0 
+
+2019-10-07 13:43:54.392 [Thread-1] DEBUG task2.service.filler.impl.FillerLock - fill() of FillerLock fill 2 element of diagonal with 2
+2019-10-07 13:43:54.392 [Thread-1] DEBUG task2.service.filler.impl.FillerLock - 
+1 2 4 4 3 
+2 2 1 8 7 
+3 5 0 3 1 
+4 1 6 0 2 
+3 7 2 1 0 
+
+2019-10-07 13:43:54.501 [Thread-8] DEBUG task2.service.filler.impl.FillerLock - fill() of FillerLock fill 3 element of diagonal with 9
+2019-10-07 13:43:54.501 [Thread-8] DEBUG task2.service.filler.impl.FillerLock - 
+1 2 4 4 3 
+2 2 1 8 7 
+3 5 9 3 1 
+4 1 6 0 2 
+3 7 2 1 0 
+
+2019-10-07 13:43:54.611 [Thread-7] DEBUG task2.service.filler.impl.FillerLock - fill() of FillerLock fill 4 element of diagonal with 8
+2019-10-07 13:43:54.611 [Thread-7] DEBUG task2.service.filler.impl.FillerLock - 
+1 2 4 4 3 
+2 2 1 8 7 
+3 5 9 3 1 
+4 1 6 8 2 
+3 7 2 1 0 
+
+2019-10-07 13:43:54.720 [Thread-4] DEBUG task2.service.filler.impl.FillerLock - fill() of FillerLock fill 5 element of diagonal with 5
+2019-10-07 13:43:54.720 [Thread-4] DEBUG task2.service.filler.impl.FillerLock - 
+1 2 4 4 3 
+2 2 1 8 7 
+3 5 9 3 1 
+4 1 6 8 2 
+3 7 2 1 5 
+
+2019-10-07 13:43:54.829 [Thread-5] DEBUG task2.service.filler.impl.FillerLock - The main diagonal is already filled.
+2019-10-07 13:43:54.829 [Thread-3] DEBUG task2.service.filler.impl.FillerLock - The main diagonal is already filled.
+2019-10-07 13:43:54.829 [Thread-2] DEBUG task2.service.filler.impl.FillerLock - The main diagonal is already filled.
+2019-10-07 13:43:54.829 [Thread-6] DEBUG task2.service.filler.impl.FillerLock - The main diagonal is already filled.
+2019-10-07 13:43:54.829 [Thread-6] DEBUG yasenko.task2.service.impl.MatrixServiceImpl - Barrier open
+2019-10-07 13:43:54.829 [Thread-6] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-0] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-1] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-7] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-8] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-4] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-3] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-2] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
+2019-10-07 13:43:54.829 [Thread-5] DEBUG yasenko.task2.service.thread.LockThread -  finishing of filling one element 
