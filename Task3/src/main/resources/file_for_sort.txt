@@ -1,0 +1,4 @@
+   In the Java programming language, you define an enum ty
+pe by using the enum keyword.
+   For example, you would specify a days-of-the-week enum 
+type as.
