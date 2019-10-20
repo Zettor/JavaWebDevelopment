@@ -32,7 +32,7 @@ public final class ServiceFactory {
      *
      * @return carService.
      */
-    public TextService getMatrixService() {
+    public TextService getTextService() {
         return textService;
     }
 }

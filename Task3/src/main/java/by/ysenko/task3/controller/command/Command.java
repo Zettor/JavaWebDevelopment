@@ -1,8 +1,6 @@
 package by.ysenko.task3.controller.command;
 
 
-import java.util.ResourceBundle;
-
 public interface Command {
 
     /**
@@ -11,5 +9,5 @@ public interface Command {
      * @param request - request from user.
      * @return response to user.
      */
-    String execute(String request, ResourceBundle rb);
+    String execute(String request);
 }

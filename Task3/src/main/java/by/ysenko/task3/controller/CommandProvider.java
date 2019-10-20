@@ -1,7 +1,14 @@
 package by.ysenko.task3.controller;
 
 import by.ysenko.task3.controller.command.Command;
-import by.ysenko.task3.controller.command.impl.*;
+import by.ysenko.task3.controller.command.impl.SortByToken;
+import by.ysenko.task3.controller.command.impl.SortByWord;
+import by.ysenko.task3.controller.command.impl.WrongRequest;
+import by.ysenko.task3.controller.command.CommandName;
+import by.ysenko.task3.controller.command.impl.GetText;
+import by.ysenko.task3.controller.command.impl.ReadText;
+import by.ysenko.task3.controller.command.impl.SortBySentence;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +29,8 @@ final class CommandProvider {
         repository.put(CommandName.GET_TEXT, new GetText());
         repository.put(CommandName.READ_TEXT, new ReadText());
         repository.put(CommandName.SORT_BY_SENTENCE, new SortBySentence());
+        repository.put(CommandName.SORT_BY_WORD, new SortByWord());
+        repository.put(CommandName.SORT_BY_TOKEN, new SortByToken());
         repository.put(CommandName.WRONG_REQUEST, new WrongRequest());
     }
 

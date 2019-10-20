@@ -3,8 +3,6 @@ package by.ysenko.task3.controller;
 
 import by.ysenko.task3.controller.command.Command;
 
-import java.util.ResourceBundle;
-
 /**
  * Class where programm refers to a specific command class.
  *
@@ -29,7 +27,7 @@ public class Controller {
      * @param request - request from user.
      * @return response to user.
      */
-    public String executeTask(final String request, ResourceBundle rb) {
+    public String executeTask(final String request) {
 
         String commandName;
         Command executionCommand;
@@ -38,7 +36,7 @@ public class Controller {
         executionCommand = provider.getCommand(commandName);
 
         String response;
-        response = executionCommand.execute(request,rb);
+        response = executionCommand.execute(request);
 
         return response;
     }
