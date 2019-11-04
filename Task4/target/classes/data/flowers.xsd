@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.ysenko.by/flowers"
+        xmlns:tns="http://www.ysenko.by/flowers"
+        elementFormDefault="qualified">
+
+
+    <element name="flower" type="tns:Flower" abstract="true"></element>
+    <element name="blossom" type="tns:Blossom" substitutionGroup="tns:flower"></element>
+    <element name="cactus" type="tns:Сactus" substitutionGroup="tns:flower"></element>
+    <element name="liana" type="tns:Liana" substitutionGroup="tns:flower"></element>
+    <element name="flowers">
+        <complexType>
+            <sequence>
+                <element ref="tns:flower" minOccurs="16" maxOccurs="unbounded"/>
+            </sequence>
+        </complexType>
+    </element>
+
+    <complexType name="visual_parameters">
+        <sequence>
+            <element name="stem_color">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="Green"/>
+                        <enumeration value="Orange"/>
+                        <enumeration value="Pink"/>
+                        <enumeration value="Brown"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="size" type="float"/>
+        </sequence>
+    </complexType>
+    <complexType name="blossom_visual_parameters">
+        <complexContent>
+            <extension base="tns:visual_parameters">
+                <sequence>
+                    <element name="leaf_color">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="Green"/>
+                                <enumeration value="Burgundy"/>
+                                <enumeration value="Pink"/>
+                                <enumeration value="Yellow"/>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+    <complexType name="liana_visual_parameters">
+            <complexContent>
+                <extension base="tns:visual_parameters">
+                    <sequence>
+                        <element name="leaf_type">
+                            <simpleType>
+                                <restriction base="string">
+                                    <enumeration value="Tendrils"/>
+                                    <enumeration value="Ivy"/>
+                                    <enumeration value="Roots"/>
+                                    <enumeration value="Stalks"/>
+                                </restriction>
+                            </simpleType>
+                        </element>
+                    </sequence>
+                </extension>
+            </complexContent>
+
+    </complexType>
+
+    <complexType name="growing_tips">
+        <sequence>
+            <element name="temperature" type="positiveInteger"/>
+            <element name="lighting" type="boolean"/>
+            <element name="watering" type="float"/>
+        </sequence>
+    </complexType>
+
+
+    <complexType name="Flower">
+
+        <sequence>
+            <element name="name" type="string"/>
+            <element name="soil">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="Podzolic"/>
+                        <enumeration value="Ground"/>
+                        <enumeration value="Sod-podzolic"/>
+                    </restriction>
+                </simpleType>
+            </element>
+            <element name="growing_tips" type="tns:growing_tips"/>
+            <element name="multiplying">
+                <simpleType>
+                    <restriction base="string">
+                        <enumeration value="Cuttings"/>
+                        <enumeration value="Spores"/>
+                        <enumeration value="Seeds"/>
+                        <enumeration value="Tubers"/>
+                        <enumeration value="Budding"/>
+                    </restriction>
+                </simpleType>
+            </element>
+        </sequence>
+        <attribute name="id" use="required">
+            <simpleType>
+                <restriction base="ID">
+                    <pattern value="(id)[\d]+"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <attribute name="origin" use="optional" default="USA">
+            <simpleType>
+                <restriction base="string">
+                    <enumeration value="Chine"/>
+                    <enumeration value="USA"/>
+                    <enumeration value="Central America"/>
+                    <enumeration value="Greece"/>
+                    <enumeration value="Spain"/>
+                    <enumeration value="India"/>
+                    <enumeration value="Brazil"/>
+                    <enumeration value="Belarus"/>
+                    <enumeration value="Bolivia"/>
+                    <enumeration value="Argentina"/>
+                </restriction>
+            </simpleType>
+        </attribute>
+        <!--<attribute name="lifetime" use="optional" type="positiveInteger"/>-->
+    </complexType>
+
+    <complexType name="Blossom">
+        <complexContent>
+            <extension base="tns:Flower">
+                <sequence>
+                    <element name="visual_parameters" type="tns:blossom_visual_parameters"></element>
+                    <element name="fruits" type="boolean"/>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="Сactus">
+        <complexContent>
+            <extension base="tns:Flower">
+                <sequence>
+                    <element name="visual_parameters" type="tns:visual_parameters"/>
+                    <element name="subfamily">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="Pereskioideae"/>
+                                <enumeration value="Maihuenioideae"/>
+                                <enumeration value="Opuntioideae"/>
+                                <enumeration value="Cactoideae"/>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+
+    <complexType name="Liana">
+        <complexContent>
+            <extension base="tns:Flower">
+                <sequence>
+                   <element name="visual_parameters" type="tns:liana_visual_parameters"/>
+                    <element name="type">
+                        <simpleType>
+                            <restriction base="string">
+                                <enumeration value="Woody"/>
+                                <enumeration value="Herbaceous"/>
+                            </restriction>
+                        </simpleType>
+                    </element>
+                </sequence>
+            </extension>
+        </complexContent>
+    </complexType>
+</schema>
