@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flowers xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://www.ysenko.by/flowers"
+         xsi:schemaLocation="http://www.ysenko.by/flowers flowers.xsd">
+    <blossom id="id1" origin="Chine">
+        <name>"Rose"</name>
+        <soil>Podzolic</soil>
+        <growing_tips>
+            <temperature>5</temperature>
+            <lighting>true</lighting>
+            <watering>150.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>65.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>false</fruits>
+    </blossom>
+    <blossom id="id2">
+        <name>"Amazonian Lily"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>19</temperature>
+            <lighting>false</lighting>
+            <watering>105.0</watering>
+        </growing_tips>
+        <multiplying>Seeds</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>70.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>false</fruits>
+    </blossom>
+    <liana id="id3"  origin="Greece">
+        <name>"Clematis"</name>
+        <soil>Podzolic</soil>
+        <growing_tips>
+            <temperature>23</temperature>
+            <lighting>true</lighting>
+            <watering>400.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>100.0</size>
+            <leaf_type>Tendrils</leaf_type>
+        </visual_parameters>
+        <type>Herbaceous</type>
+    </liana>
+    <liana id="id4" origin="Central America">
+        <name>"Passionflower"</name>
+        <soil>Sod-podzolic</soil>
+        <growing_tips>
+            <temperature>13</temperature>
+            <lighting>true</lighting>
+            <watering>500.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>1000.0</size>
+            <leaf_type>Roots</leaf_type>
+        </visual_parameters>
+        <type>Woody</type>
+
+    </liana>
+    <liana id="id5" origin="Chine">
+        <name>"Campsis"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>20</temperature>
+            <lighting>true</lighting>
+            <watering>600.0</watering>
+        </growing_tips>
+        <multiplying>Seeds</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>1000.0</size>
+            <leaf_type>Stalks</leaf_type>
+        </visual_parameters>
+        <type>Woody</type>
+    </liana>
+    <blossom id="id6">
+        <name>Lilac</name>
+        <soil>Podzolic</soil>
+        <growing_tips>
+            <temperature>25</temperature>
+            <lighting>true</lighting>
+            <watering>100.0</watering>
+        </growing_tips>
+        <multiplying>Seeds</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>20.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>false</fruits>
+    </blossom>
+    <blossom id="id7" origin="Spain">
+        <name>"Cyclamen"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>20</temperature>
+            <lighting>false</lighting>
+            <watering>200.0</watering>
+        </growing_tips>
+        <multiplying>Tubers</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>20.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>true</fruits>
+
+    </blossom>
+    <blossom id="id8" origin="Chine">
+        <name>"Badan"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>18</temperature>
+            <lighting>false</lighting>
+            <watering>306.0</watering>
+        </growing_tips>
+        <multiplying>Seeds</multiplying>
+        <visual_parameters>
+            <stem_color>Pink</stem_color>
+            <size>70.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+<fruits>true</fruits>
+    </blossom>
+    <blossom id="id9" origin="India">
+        <name>"Ficus Benjamin"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>20</temperature>
+            <lighting>true</lighting>
+            <watering>300.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Brown</stem_color>
+            <size>150.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>false</fruits>
+    </blossom>
+    <blossom id="id10" origin="Brazil">
+        <name>"Begonia"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>20</temperature>
+            <lighting>true</lighting>
+            <watering>350.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>30.0</size>
+            <leaf_color>Burgundy</leaf_color>
+        </visual_parameters>
+        <fruits>false</fruits>
+    </blossom>
+    <blossom id="id11" origin="Belarus">
+        <name>"Blooming Sally"</name>
+        <soil>Podzolic</soil>
+        <growing_tips>
+            <temperature>20</temperature>
+            <lighting>false</lighting>
+            <watering>200.0</watering>
+        </growing_tips>
+        <multiplying>Seeds</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>150.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>true</fruits>
+    </blossom>
+    <cactus id="id12" origin="Bolivia">
+        <name>"Echinopsis"</name>
+        <soil>Sod-podzolic</soil>
+        <growing_tips>
+            <temperature>20</temperature>
+            <lighting>false</lighting>
+            <watering>50.0</watering>
+        </growing_tips>
+        <multiplying>Budding</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>20.0</size>
+        </visual_parameters>
+        <subfamily>Pereskioideae</subfamily>
+    </cactus>
+    <cactus id="id13" origin="Argentina">
+        <name>"Rebucius"</name>
+        <soil>Sod-podzolic</soil>
+        <growing_tips>
+            <temperature>20</temperature>
+            <lighting>false</lighting>
+            <watering>50.0</watering>
+        </growing_tips>
+        <multiplying>Budding</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>10.0</size>
+        </visual_parameters>
+        <subfamily>Opuntioideae</subfamily>
+    </cactus>
+    <blossom id="id14" origin="Brazil">
+        <name>"Stromantha"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>22</temperature>
+            <lighting>false</lighting>
+            <watering>200.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Orange</stem_color>
+            <size>50.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>false</fruits>
+    </blossom>
+    <blossom id="id15" origin="Central America">
+        <name>"Agave"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>25</temperature>
+            <lighting>false</lighting>
+            <watering>100.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>150.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>false</fruits>
+
+    </blossom>
+    <blossom id="id16" origin="India">
+        <name>"Azalea"</name>
+        <soil>Ground</soil>
+        <growing_tips>
+            <temperature>12</temperature>
+            <lighting>true</lighting>
+            <watering>200.0</watering>
+        </growing_tips>
+        <multiplying>Cuttings</multiplying>
+        <visual_parameters>
+            <stem_color>Green</stem_color>
+            <size>210.0</size>
+            <leaf_color>Green</leaf_color>
+        </visual_parameters>
+        <fruits>true</fruits>
+    </blossom>
+</flowers>
+
+
+

@@ -55,6 +55,7 @@ public final class Menu {
                 "properties.text", current);
 
 
+
         menu:
         while (true) {
             System.out.println("1-" + rb.getString("read_text"));
