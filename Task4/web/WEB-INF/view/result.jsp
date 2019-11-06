@@ -1,17 +1,6 @@
-<%@ page import="by.ysenko.task4.bean.Flower" %>
-<%@ page import="java.util.Set" %>
-<%@ page import="by.ysenko.task4.bean.Blossom" %>
-<%@ page import="by.ysenko.task4.bean.visual.BlossomVisualParameters" %>
-<%@ page import="by.ysenko.task4.bean.Liana" %>
-<%@ page import="by.ysenko.task4.bean.visual.LianaVisualParameters" %>
-<%@ page import="by.ysenko.task4.bean.Cactus" %><%--
-  Created by IntelliJ IDEA.
-  User: Zetto
-  Date: 01.11.2019
-  Time: 16:48
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 
@@ -28,6 +17,7 @@
 </head>
 <body>
 <div class="table-responsive">
+    <h1>Blossom's</h1>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -47,37 +37,30 @@
         </thead>
         <tbody>
 
-        <%
-            Set<Flower> flowers = (Set<Flower>) request.getAttribute("list");
-
-            if (flowers != null && !flowers.isEmpty()) {
-                for (Flower flower : flowers) {
-                    if (flower instanceof Blossom) {
-                        out.println("<tr>");
-                        out.println("<td>" + flower.getId() + "</td>");
-                        out.println("<td>" + flower.getName() + "</td>");
-                        out.println("<td>" + flower.getSoil() + "</td>");
-                        out.println("<td>" + flower.getOrigin() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().getTemperature() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().isLighting() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().getWatering() + "</td>");
-                        out.println("<td>" + ((Blossom) flower).getVisualParameters().getStemColor() + "</td>");
-                        out.println("<td>" + ((Blossom) flower).getVisualParameters().getSize() + "</td>");
-                        out.println("<td>" + ((BlossomVisualParameters) ((Blossom) flower).getVisualParameters()).getLeafColor() + "</td>");
-                        out.println("<td>" + ((Blossom) flower).isFruits() + "</td>");
-                        out.println("<td>" + flower.getMultiplying() + "</td>");
-                        out.println("</tr>");
-                    }
-
-
-                }
-            } else out.println("<p>There are no tariffs, List is empty!</p>");
-        %>
+        <c:forEach var="flower" items="${list}">
+            <c:if test="${flower['class'].name eq 'by.ysenko.task4.bean.Blossom'}">
+                <tr>
+                    <td>${flower.id}</td>
+                    <td>${flower.name}</td>
+                    <td>${flower.soil}</td>
+                    <td>${flower.origin}</td>
+                    <td>${flower.grovingTips.temperature}</td>
+                    <td>${flower.grovingTips.lighting}</td>
+                    <td>${flower.grovingTips.watering}</td>
+                    <td>${flower.visualParameters.stemColor}</td>
+                    <td>${flower.visualParameters.size}</td>
+                    <td>${flower.visualParameters.leafColor}</td>
+                    <td>${flower.fruits}</td>
+                    <td>${flower.multiplying}</td>
+                </tr>
+            </c:if>
+        </c:forEach>
         </tbody>
     </table>
 </div>
 
 <div class="table-responsive">
+    <h1>Lian's</h1>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -96,38 +79,37 @@
         </tr>
         </thead>
         <tbody>
+        <td>${flower.id}</td>
+        <td>${flower.name}</td>
+        <td>${flower.soil}</td>
+        <td>${flower.origin}</td>
+        <td>${flower.grovingTips.temperature}</td>
+        <td>${flower.grovingTips.lighting}</td>
+        <c:forEach var="flower" items="${list}">
+            <c:if test="${flower['class'].name eq 'by.ysenko.task4.bean.Liana'}">
+                <tr>
+                    <td>${flower.id}</td>
+                    <td>${flower.name}</td>
+                    <td>${flower.soil}</td>
+                    <td>${flower.origin}</td>
+                    <td>${flower.grovingTips.temperature}</td>
+                    <td>${flower.grovingTips.lighting}</td>
+                    <td>${flower.grovingTips.watering}</td>
+                    <td>${flower.visualParameters.stemColor}</td>
+                    <td>${flower.visualParameters.size}</td>
+                    <td>${flower.visualParameters.leafType}</td>
+                    <td>${flower.type}</td>
+                    <td>${flower.multiplying}</td>
+                </tr>
+            </c:if>
+        </c:forEach>
 
-        <%
-            flowers = (Set<Flower>) request.getAttribute("list");
-
-            if (flowers != null && !flowers.isEmpty()) {
-                for (Flower flower : flowers) {
-                    if (flower instanceof Liana) {
-                        out.println("<tr>");
-                        out.println("<td>" + flower.getId() + "</td>");
-                        out.println("<td>" + flower.getName() + "</td>");
-                        out.println("<td>" + flower.getSoil() + "</td>");
-                        out.println("<td>" + flower.getOrigin() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().getTemperature() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().isLighting() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().getWatering() + "</td>");
-
-                        out.println("<td>" + ((Liana) flower).getVisualParameters().getStemColor() + "</td>");
-                        out.println("<td>" + ((Liana) flower).getVisualParameters().getSize() + "</td>");
-                        out.println("<td>" + ((LianaVisualParameters) ((Liana) flower).getVisualParameters()).getLeafType() + "</td>");
-                        out.println("<td>" + ((Liana) flower).getType() + "</td>");
-                        out.println("<td>" + flower.getMultiplying() + "</td>");
-                        out.println("</tr>");
-                    }
-
-                }
-            } else out.println("<p>There are no tariffs, List is empty!</p>");
-        %>
         </tbody>
     </table>
 </div>
 
 <div class="table-responsive">
+    <h1>Сacti</h1>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -145,32 +127,26 @@
         </tr>
         </thead>
         <tbody>
-
-        <%
-            flowers = (Set<Flower>) request.getAttribute("list");
-
-            if (flowers != null && !flowers.isEmpty()) {
-                for (Flower flower : flowers) {
-                    if (flower instanceof Cactus) {
-                        out.println("<tr>");
-                        out.println("<td>" + flower.getId() + "</td>");
-                        out.println("<td>" + flower.getName() + "</td>");
-                        out.println("<td>" + flower.getSoil() + "</td>");
-                        out.println("<td>" + flower.getOrigin() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().getTemperature() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().isLighting() + "</td>");
-                        out.println("<td>" + flower.getGrovingTips().getWatering() + "</td>");
-                        out.println("<td>" + ((Cactus) flower).getVisualParameters().getStemColor() + "</td>");
-                        out.println("<td>" + ((Cactus) flower).getVisualParameters().getSize() + "</td>");
-                        out.println("<td>" + ((Cactus) flower).getSubfamily() + "</td>");
-                        out.println("<td>" + flower.getMultiplying() + "</td>");
-                        out.println("</tr>");
-                    }
-                }
-            } else out.println("<p>There are no tariffs, List is empty!</p>");
-        %>
+        <c:forEach var="flower" items="${list}">
+            <c:if test="${flower['class'].name eq 'by.ysenko.task4.bean.Cactus'}">
+                <tr>
+                    <td>${flower.id}</td>
+                    <td>${flower.name}</td>
+                    <td>${flower.soil}</td>
+                    <td>${flower.origin}</td>
+                    <td>${flower.grovingTips.temperature}</td>
+                    <td>${flower.grovingTips.lighting}</td>
+                    <td>${flower.grovingTips.watering}</td>
+                    <td>${flower.visualParameters.stemColor}</td>
+                    <td>${flower.visualParameters.size}</td>
+                    <td>${flower.subfamily}</td>
+                    <td>${flower.multiplying}</td>
+                </tr>
+            </c:if>
+        </c:forEach>
         </tbody>
     </table>
 </div>
 </body>
 </html>
+

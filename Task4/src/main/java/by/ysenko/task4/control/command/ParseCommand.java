@@ -9,7 +9,7 @@ import java.util.Set;
 public class ParseCommand {
 
     public static Set<Flower> execute(final String request) {
-        String response = "";
+
 
         String[] tokens = request.split(" ");
         ServiceFactory serviceFactory = ServiceFactory.getInstance();

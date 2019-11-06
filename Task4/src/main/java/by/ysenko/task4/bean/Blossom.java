@@ -10,7 +10,7 @@ public class Blossom extends Flower {
         setVisualParameters(new BlossomVisualParameters());
     }
 
-    public boolean isFruits() {
+    public boolean getFruits() {
         return fruits;
     }
 

@@ -81,9 +81,9 @@ public class UploadServlet extends HttpServlet {
         } catch (Exception ex) {
             request.setAttribute("message", "There was an error: " + ex.getMessage());
         }
-        request.setAttribute("message", ValidateCommand.execute("file:///" + xmlPath + " " + xsdPath));
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/view/wrong_result.jsp");
-        requestDispatcher.forward(request, response);
+        requestDispatcher.forward(request, response)
+        ;
 
     }
 }

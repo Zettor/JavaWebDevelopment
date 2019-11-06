@@ -19,6 +19,8 @@ public abstract class Flower {
 
     private VisualParameters visualParameters;
 
+
+
     Flower() {
         grovingTips = new GrovingTips();
     }
