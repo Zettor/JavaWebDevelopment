@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
 import java.util.Date;
 
-public class EditProfile implements Command {
+public class EditProfile extends UserCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.createUserService();

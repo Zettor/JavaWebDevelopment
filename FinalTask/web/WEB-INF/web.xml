@@ -6,7 +6,14 @@
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
-
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>by.ysenko.finaltask.controller.filters.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
     <filter>
         <filter-name>ActionFilter</filter-name>
         <filter-class>by.ysenko.finaltask.controller.filters.ActionFilter</filter-class>
@@ -17,6 +24,14 @@
     </filter>
     <filter-mapping>
         <filter-name>ActionFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>SecurityFilter</filter-name>
+        <filter-class>by.ysenko.finaltask.controller.filters.SecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>SecurityFilter</filter-name>
         <url-pattern>*.html</url-pattern>
     </filter-mapping>
     <servlet>

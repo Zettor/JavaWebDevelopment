@@ -23,9 +23,10 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
         ResultSet rs = null;
 
         try {
+
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,name,genre_id,exclusivity,release_date FROM games");
+            rs = st.executeQuery("SELECT id,name,genre_id,exclusivity,description,release_date FROM games");
 
             ArrayList<Game> games = new ArrayList<>();
 
@@ -37,7 +38,8 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
                 genre.setId(rs.getInt("genre_id"));
                 game.setGenre(genre);
                 game.setExclusivity(rs.getInt("exclusivity"));
-                game.setReleaseDate(rs.getString("release_date"));
+                game.setReleaseDate(rs.getTimestamp("release_date"));
+                game.setDescription(rs.getString("description"));
                 games.add(game);
             }
             return games;
@@ -60,7 +62,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,name,genre_id,exclusivity,release_date FROM games WHERE id = ?");
+            statement = connection.prepareStatement("SELECT id,name,genre_id,exclusivity,description,release_date FROM games WHERE id = ?");
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             Game game = null;
@@ -72,7 +74,8 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
                 genre.setId(resultSet.getInt("genre_id"));
                 game.setGenre(genre);
                 game.setExclusivity(resultSet.getInt("exclusivity"));
-                game.setReleaseDate(resultSet.getString("release_date"));
+                game.setReleaseDate(resultSet.getTimestamp("release_date"));
+                game.setDescription(resultSet.getString("description"));
 
             }
             return game;
@@ -91,14 +94,27 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM games WHERE id=?");
+    public void delete(int id) throws PersistentException {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("DELETE FROM games WHERE id=?");
 
-        ps.setInt(1, id);
+            ps.setInt(1, id);
 
-        ps.execute();
+            ps.execute();
 
-        return true;
+        } catch (SQLException e) {
+            try {
+                throw new PersistentException(e);
+            } finally {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
 
     }
 
@@ -116,17 +132,18 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     @Override
     public Integer create(Game entity) throws PersistentException {
         PreparedStatement ps = null;
-        ResultSet resultSet=null;
+        ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO games (name,genre_id,exclusivity,release_date) VALUES (?,?,?,?)");
+            ps = connection.prepareStatement("INSERT INTO games (name,genre_id,exclusivity,release_date,description) VALUES (?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
             ps.setInt(2, entity.getGenre().getId());
             ps.setInt(3, entity.getExclusivity());
-            ps.setString(4, entity.getReleaseDate());
+            ps.setTimestamp(4, entity.getReleaseDate());
+            ps.setString(5, entity.getDescription());
             ps.execute();
             resultSet = ps.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
 
@@ -146,11 +163,12 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     public void update(Game entity) throws PersistentException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE games SET name=?,genre_id=?,exclusivity=?,release_date=?, WHERE id=?");
+            ps = connection.prepareStatement("UPDATE games SET name=?,genre_id=?,exclusivity=?,release_date=?,description=? WHERE id=?");
             ps.setString(1, entity.getName());
             ps.setInt(2, entity.getGenre().getId());
             ps.setInt(3, entity.getExclusivity());
-            ps.setString(4, entity.getReleaseDate());
+            ps.setTimestamp(4, entity.getReleaseDate());
+            ps.setString(5,entity.getDescription());
             ps.setInt(5, entity.getId());
 
             ps.execute();

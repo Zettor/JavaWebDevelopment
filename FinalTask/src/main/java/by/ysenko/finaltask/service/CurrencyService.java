@@ -1,0 +1,20 @@
+package by.ysenko.finaltask.service;
+
+import by.ysenko.finaltask.bean.Currency;
+import by.ysenko.finaltask.bean.Genre;
+import by.ysenko.finaltask.dao.CurrencyDao;
+import by.ysenko.finaltask.dao.Transaction;
+import by.ysenko.finaltask.dao.exception.PersistentException;
+
+import java.util.List;
+
+public interface CurrencyService {
+
+    public List<Currency> findAll() throws PersistentException;
+
+
+    public void delete(int id) throws PersistentException;
+
+
+    public void add(Currency currency) throws PersistentException;
+}

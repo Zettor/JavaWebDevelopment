@@ -13,7 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-public class FindAllUsers implements Command {
+public class FindAllUsers extends GuestCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.createUserService();
@@ -24,6 +24,6 @@ public class FindAllUsers implements Command {
             //log
         }
         request.setAttribute("list", users);
-        return "/result.jsp";
+        return "/users.jsp";
     }
 }

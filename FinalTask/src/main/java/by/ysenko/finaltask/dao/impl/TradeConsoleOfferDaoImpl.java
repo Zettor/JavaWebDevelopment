@@ -96,14 +96,26 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM trade_console_offers WHERE id=?");
+    public void delete(int id) throws PersistentException {
+        PreparedStatement ps=null;
+        try{
+        ps = connection.prepareStatement("DELETE FROM trade_console_offers WHERE id=?");
 
         ps.setInt(1, id);
 
         ps.execute();
+        } catch (SQLException e) {
+            try {
+                throw new PersistentException(e);
+            } finally {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    e.printStackTrace();
+                }
+            }
 
-        return true;
+        }
 
     }
 

@@ -7,8 +7,6 @@ public class TradeGameOffer extends Bean{
 
     private User user;
 
-
-
     private String description;
 
     private Timestamp createDate;
@@ -20,15 +18,15 @@ public class TradeGameOffer extends Bean{
 
     private double cost;
 
-    private String currency;
+    private Currency currency;
 
     private Game game;
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
     }
 
-    public void setCurrency(String currency) {
+    public void setCurrency(Currency currency) {
         this.currency = currency;
     }
 

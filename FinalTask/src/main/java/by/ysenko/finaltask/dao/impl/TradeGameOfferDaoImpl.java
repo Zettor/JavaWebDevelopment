@@ -1,5 +1,6 @@
 package by.ysenko.finaltask.dao.impl;
 
+import by.ysenko.finaltask.bean.Currency;
 import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.bean.TradeGameOffer;
 import by.ysenko.finaltask.bean.User;
@@ -23,7 +24,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,game_id,user_id,cost,currency,description,createdAt,closedAt,status FROM trade_game_offers");
+            rs = st.executeQuery("SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers");
 
             ArrayList<TradeGameOffer> offers = new ArrayList<>();
 
@@ -37,7 +38,9 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
                 user.setId(rs.getInt("user_id"));
                 offer.setUser(user);
                 offer.setCost(rs.getDouble("cost"));
-                offer.setCurrency(rs.getString("currency"));
+                Currency currency = new Currency();
+                currency.setId(rs.getInt("currency_id"));
+                offer.setCurrency(currency);
                 offer.setDescription(rs.getString("description"));
                 offer.setCreateDate(rs.getTimestamp("createdAt"));
                 offer.setCreateDate(rs.getTimestamp("closedAt"));
@@ -63,7 +66,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,game_id,user_id,cost,currency,description,createdAt,closedAt,status FROM trade_game_offers WHERE id = ?");
+            statement = connection.prepareStatement("SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers WHERE id = ?");
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             TradeGameOffer offer = null;
@@ -77,7 +80,9 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
                 user.setId(resultSet.getInt("user_id"));
                 offer.setUser(user);
                 offer.setCost(resultSet.getDouble("cost"));
-                offer.setCurrency(resultSet.getString("currency"));
+                Currency currency=new Currency();
+                currency.setId(resultSet.getInt("currency_id"));
+                offer.setCurrency(currency);
                 offer.setDescription(resultSet.getString("description"));
                 offer.setCreateDate(resultSet.getTimestamp("createdAt"));
                 offer.setCreateDate(resultSet.getTimestamp("closedAt"));
@@ -98,14 +103,26 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM trade_game_offers WHERE id=?");
+    public void delete(int id) throws PersistentException {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement("DELETE FROM trade_game_offers WHERE id=?");
 
-        ps.setInt(1, id);
+            ps.setInt(1, id);
 
-        ps.execute();
+            ps.execute();
+        } catch (SQLException e) {
+            try {
+                throw new PersistentException(e);
+            } finally {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    e.printStackTrace();
+                }
+            }
 
-        return true;
+        }
 
     }
 
@@ -123,21 +140,21 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
     @Override
     public Integer create(TradeGameOffer entity) throws PersistentException {
         PreparedStatement ps = null;
-        ResultSet resultSet=null;
+        ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO trade_game_offers (game_id,user_id,cost,currency ,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)");
+            ps = connection.prepareStatement("INSERT INTO trade_game_offers (game_id,user_id,cost,currency_id ,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, entity.getGame().getId());
             ps.setInt(2, entity.getUser().getId());
             ps.setDouble(3, entity.getCost());
-            ps.setString(4, entity.getCurrency());
+            ps.setInt(4, entity.getCurrency().getId());
             ps.setString(5, entity.getDescription());
             ps.setTimestamp(6, entity.getCreateDate());
             ps.setTimestamp(7, entity.getCloseDate());
             ps.setInt(8, entity.getStatus());
             ps.execute();
             resultSet = ps.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
 
@@ -161,7 +178,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
             ps.setInt(1, entity.getGame().getId());
             ps.setInt(2, entity.getUser().getId());
             ps.setDouble(3, entity.getCost());
-            ps.setString(4, entity.getCurrency());
+            ps.setInt(4, entity.getCurrency().getId());
             ps.setString(5, entity.getDescription());
             ps.setTimestamp(6, entity.getCreateDate());
             ps.setTimestamp(7, entity.getCloseDate());

@@ -19,4 +19,5 @@ public interface DaoFactory  {
     public AccessoryCategoryDao createAccessoryCategoryDao() throws PersistentException ;
 
     public ExchangeGameOfferDao createExchangeGameOfferDao() throws PersistentException ;
+    public CurrencyDao createCurrencyDao() throws PersistentException;
 }

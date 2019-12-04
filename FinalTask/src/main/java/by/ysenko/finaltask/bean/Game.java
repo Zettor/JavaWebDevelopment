@@ -1,13 +1,23 @@
 package by.ysenko.finaltask.bean;
 
+import java.sql.Timestamp;
+
 public class Game extends Bean {
 
     private String name;
     private Genre genre;
     private Integer exclusivity;
-    private String releaseDate;
+    private Timestamp releaseDate;
+    private String description;
 
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getName() {
         return name;
@@ -33,11 +43,11 @@ public class Game extends Bean {
         this.exclusivity = exclusivity;
     }
 
-    public String getReleaseDate() {
+    public Timestamp getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Timestamp releaseDate) {
         this.releaseDate = releaseDate;
     }
 }

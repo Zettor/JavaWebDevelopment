@@ -42,4 +42,10 @@ public class DaoFactoryImpl implements DaoFactory {
         ExchangeGameOfferDao dao = new ExchangeGameOfferDaoImpl();
         return dao;
     }
+
+    @Override
+    public CurrencyDao createCurrencyDao() throws PersistentException {
+        CurrencyDao dao = new CurrencyDaoImpl();
+        return dao;
+    }
 }

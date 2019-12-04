@@ -1,5 +1,7 @@
 package by.ysenko.finaltask.bean;
 
+import java.util.Map;
+
 public class Bean {
 
    protected Integer id;
@@ -11,4 +13,6 @@ public class Bean {
     public void setId(int id) {
         this.id = id;
     }
+
+
 }

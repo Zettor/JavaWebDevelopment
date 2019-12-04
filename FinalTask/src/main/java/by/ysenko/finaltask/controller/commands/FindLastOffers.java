@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-public class FindLastOffers implements Command {
+public class FindLastOffers extends GuestCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {

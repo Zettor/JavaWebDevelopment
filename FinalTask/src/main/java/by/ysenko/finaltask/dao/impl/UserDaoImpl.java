@@ -96,14 +96,13 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public User findUser(String login,String password) throws PersistentException {
+    public User findUserByLogin(String login) throws PersistentException {
 
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,login,password,email,phone,country,state,city,createAt,status,role FROM users WHERE login = ? AND password=?");
+            statement = connection.prepareStatement("SELECT id,login,password,email,phone,country,state,city,createAt,status,role FROM users WHERE login = ? ");
             statement.setString(1, login);
-            statement.setString(2, password);
             resultSet = statement.executeQuery();
             User user = null;
             if (resultSet.next()) {
@@ -136,14 +135,66 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM users WHERE id=?");
+    public User findUserByEmail(String email) throws PersistentException {
+
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            statement = connection.prepareStatement("SELECT id,login,password,email,phone,country,state,city,createAt,status,role FROM users WHERE email = ? ");
+            statement.setString(1, email);
+            resultSet = statement.executeQuery();
+            User user = null;
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getInt("id"));
+                user.setLogin(resultSet.getString("login"));
+                user.setPassword(resultSet.getString("password"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setCountry(resultSet.getString("country"));
+                user.setState(resultSet.getString("state"));
+                user.setCity(resultSet.getString("city"));
+                user.setCreateDate(resultSet.getTimestamp("createAt"));
+                user.setStatus(resultSet.getInt("status"));
+                user.setRole(resultSet.getInt("role"));
+            }
+            return user;
+        } catch (SQLException e) {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+            try {
+                statement.close();
+            } catch (SQLException | NullPointerException e) {
+            }
+        }
+    }
+
+    @Override
+    public void delete(int id) throws PersistentException {
+        PreparedStatement ps=null;
+        try{
+         ps = connection.prepareStatement("DELETE FROM users WHERE id=?");
 
         ps.setInt(1, id);
 
         ps.execute();
 
-        return true;
+    } catch (SQLException e) {
+        try {
+            throw new PersistentException(e);
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                e.printStackTrace();
+            }
+        }
+
+    }
 
     }
 

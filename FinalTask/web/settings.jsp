@@ -21,20 +21,19 @@
 <c:import url="header.jsp"/>
 <div class="container" style="background-color:lavender; border-radius: 2rem;
   display: flex;
-
-
-
     width: 600px; height: 350px">
 
 
         <div class="btn-group-vertical" style="margin-left: auto; margin-bottom: auto; margin-top: auto; margin-right: auto" >
-            <button type="button" style="top:20px" class="btn btn-outline-info"> Users</button>
+            <a href="/users.html" class="btn btn-info" role="button">Users</a>
             <br>
-            <button type="button" style="top:20px" class="btn btn-outline-info">Add genre</button>
+            <a role="button" href="/genres.html" class="btn btn-info">Edit genres</a>
             <br>
-            <button type="button" style="top:20px" class="btn btn-outline-info">Add game</button>
+            <a role="button" href="/categories.html" class="btn btn-info">Edit categories of accessory</a>
             <br>
-            <button type="button" style="top:20px" class="btn btn-outline-info">Add category of accessory</button>
+            <a role="button" href="/games.html" class="btn btn-info">Edit games</a>
+            <br>
+            <a role="button" href="/currencies.html" class="btn btn-info">Edit currencies</a>
         </div>
 </div>
 </body>

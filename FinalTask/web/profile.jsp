@@ -45,6 +45,9 @@
             <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
         </form>
     </div>
+<form action="/choose_game.html" method="post">
+    <button class="btn btn-lg btn-primary btn-block" type="submit"  >Games</button>
+</form>
 </main>
 
 

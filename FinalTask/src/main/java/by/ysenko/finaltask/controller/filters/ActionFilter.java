@@ -3,6 +3,7 @@ import java.io.IOException;
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import by.ysenko.finaltask.controller.commands.CommandManager;
 import org.apache.logging.log4j.LogManager;
@@ -35,11 +36,19 @@ public class ActionFilter implements Filter {
             } else {
                 actionName = uri.substring(beginAction);
             }
-            CommandManager commandManager = new CommandManager();
-            commandManager.setCommand(actionName);
-            httpRequest.setAttribute("action", commandManager);
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/result");
-            requestDispatcher.forward(request, response);
+            CommandManager commandManager = new CommandManager(actionName);
+
+            httpRequest.setAttribute("action", commandManager.getCommand());
+
+            HttpSession session = httpRequest.getSession(false);
+            if(session!=null && session.getAttribute("error")!=null){
+                request.setAttribute("error",session.getAttribute("error"));
+                session.removeAttribute("error");
+                request.setAttribute("message",session.getAttribute("message"));
+                session.removeAttribute("message");
+            }
+            chain.doFilter(request, response);
+
         }
     }
     @Override

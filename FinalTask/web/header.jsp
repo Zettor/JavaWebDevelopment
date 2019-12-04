@@ -10,16 +10,23 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/carousel.css"/>
 
-
     <title>Слайдер | Carousel Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
 
     <style>
 
-        body{
-            background: url("images/background.jpg");
-            background-size: cover ;
+        /*body{*/
+        /*    background: url("images/background.jpg");*/
+        /*    background-size: cover ;*/
+        /*}*/
+        body {
+            font-family: Cambria, Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;
+            background: url(https://html5book.ru/wp-content/uploads/2015/07/background46.png) repeat top left;
+            font-weight: 400;
+            font-size: 15px;
+            color: #333;
+            margin: 0;
         }
 
         .form-signin {
@@ -91,7 +98,22 @@
 </head>
 <body>
 
+<script>
+    <c:set var="error"  value="${error}"/>
+    <c:choose>
+    <c:when test="${error==0}">
+    window.onload = function () {
+        document.querySelector('button[data-target="#sign-up"]').click();
+        </c:when>
+        <c:when test="${error==1}">
+        window.onload = function () {
+            document.querySelector('button[data-target="#sign-in"]').click();
+        }
+    </c:when>
+    <c:otherwise></c:otherwise>
+    </c:choose>
 
+</script>
 <script type="text/javascript" async="" src="https://mc.yandex.ru/metrika/watch.js"></script>
 <script async="" src="https://www.google-analytics.com/analytics.js"></script>
 <script>
@@ -167,7 +189,8 @@
                     </button>
                 </form>
                 <form class="form-inline mt-2  mt-md-0" action="/logout.html" method="post">
-                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">Logout
+                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
+                        Logout
                     </button>
                 </form>
 
@@ -178,13 +201,14 @@
                         account
                     </button>
                 </form>
-                    <form class="form-inline mt-2  mt-md-0" action="/settings.html" method="post">
+                <form class="form-inline mt-2  mt-md-0" action="/settings.html" method="post">
                     <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#settings">
                         Settings
                     </button>
                 </form>
                 <form class="form-inline mt-2  mt-md-0" action="/logout.html" method="post">
-                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">Logout
+                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
+                        Logout
                     </button>
                 </form>
 
@@ -205,70 +229,85 @@
 </header>
 
 
+<div class="modal" id="sign-in">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-    <div class="modal" id="sign-in">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <!-- Modal Header -->
-                <div class="modal-header" style="background-color:#87CEFA;">
-                    <h4 class="modal-title">Sign-in</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body clearfix " style="background-color:#87CEFA;">
-                    <form class="form-signin" action="/sign_in.html" method="post">
-                        <input type="login" id="inputLogin" class="form-control" placeholder="Login" required=""
-                               name="login"
-                               oninvalid="this.setCustomValidity('Please enter valid login')"
-                               oninput="setCustomValidity('')" autofocus="">
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" id="inputPassword" class="form-control" placeholder="Password"
-                               name="password"
-                               required="" oninvalid="this.setCustomValidity('Please enter valid password')"
-                               oninput="setCustomValidity('')">
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                    </form>
-                </div>
-
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color:#87CEFA;">
+                <h4 class="modal-title">Sign-in</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+
+            <!-- Modal body -->
+            <div class="modal-body clearfix " style="background-color:#87CEFA;">
+                <form class="form-signin" action="/sign_in.html" method="post">
+                    <c:set var="message" value="${message}"/>
+                    <c:choose>
+                        <c:when test="${message!=null}">
+                            <p class="form-signin">${message}</p>
+                        </c:when>
+                        <c:otherwise></c:otherwise>
+                    </c:choose>
+                    <input type="login" id="inputLogin" class="form-control" placeholder="Login" required=""
+                           name="login"
+                           oninvalid="this.setCustomValidity('Please enter valid login')"
+                           oninput="setCustomValidity('')" autofocus="">
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" id="inputPassword" class="form-control" placeholder="Password"
+                           name="password"
+                           required="" oninvalid="this.setCustomValidity('Please enter valid password')"
+                           oninput="setCustomValidity('')">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <div class="modal" id="sign-up">
-        <div class="modal-dialog">
-            <div class="modal-content">
+<div class="modal" id="sign-up">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-                <!-- Modal Header -->
-                <div class="modal-header" style="background-color:#87CEFA;">
-                    <h4 class="modal-title">Sign-up</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-
-                <!-- Modal body -->
-                <div class="modal-body clearfix " style="background-color:#87CEFA;">
-                    <form class="form-signin" action="/sign_up.html" method="post">
-                        <input type="login" id="login" class="form-control" placeholder="login" required="" name="login"
-                               oninvalid="this.setCustomValidity('Please enter valid login')"
-                               oninput="setCustomValidity('')" autofocus="">
-                        <input type="email" id="email" class="form-control" placeholder="email" required="" name="email"
-                               oninvalid="this.setCustomValidity('Please enter valid email')"
-                               oninput="setCustomValidity('')" autofocus="">
-                        <input type="password" id="password" class="form-control" placeholder="password" name="password"
-                               required="" oninvalid="this.setCustomValidity('Please enter valid password')"
-                               oninput="setCustomValidity('')">
-                        <div class="checkbox mb-3">
-                            <label>
-                                <input type="checkbox" value="remember-me"> Remember me
-                            </label>
-                        </div>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                    </form>
-                </div>
-
+            <!-- Modal Header -->
+            <div class="modal-header" style="background-color:#87CEFA;">
+                <h4 class="modal-title">Sign-up</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
+
+            <!-- Modal body -->
+            <div class="modal-body clearfix " style="background-color:#87CEFA;">
+                <c:set var="message" value="${message}"/>
+                <c:choose>
+                    <c:when test="${message!=null}">
+                        <p class="form-signin">${message}</p>
+                    </c:when>
+                    <c:otherwise></c:otherwise>
+                </c:choose>
+                <form class="form-signin" action="/sign_up.html" method="post">
+                    <input type="login" id="login" class="form-control" placeholder="login" required="" name="login"
+                           oninvalid="this.setCustomValidity('Please enter valid login')"
+                           oninput="setCustomValidity('')" autofocus="">
+                    <input type="email" id="email" class="form-control" placeholder="email" required="" name="email"
+                           oninvalid="this.setCustomValidity('Please enter valid email')"
+                           oninput="setCustomValidity('')" autofocus="">
+                    <input type="password" id="password" class="form-control" placeholder="password" name="password"
+                           required="" oninvalid="this.setCustomValidity('Please enter valid password')"
+                           oninput="setCustomValidity('')">
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" value="remember-me"> Remember me
+                        </label>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                </form>
+            </div>
+
         </div>
     </div>
+</div>
+
+
 </body>
 </html>

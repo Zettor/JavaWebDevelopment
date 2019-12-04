@@ -10,5 +10,8 @@ public interface UserDao extends Dao<User> {
 
     public List<User> findByArgs(String login, String sort) throws SQLException;
 
-    public User findUser(String login,String password) throws PersistentException;
+    public User findUserByEmail(String email) throws PersistentException;
+    public User findUserByLogin(String login) throws PersistentException;
+
+
 }

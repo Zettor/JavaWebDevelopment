@@ -34,4 +34,31 @@ public class TradeGameOfferServiceImpl extends ServiceImpl implements TradeGameO
             return offers.subList(0, 4);
         }
     }
+
+    @Override
+    public List<TradeGameOffer> findOffers() throws PersistentException {
+        Transaction transaction = transactionFactory.createTransaction();
+        TradeGameOfferDao tradeGameOfferDao = daoFactory.createTradeGameOfferDao();
+        GameDao gameDao = daoFactory.createGameDao();
+        UserDao userDao = daoFactory.createUserDao();
+        GenreDao genreDao = daoFactory.createGenreDao();
+        transaction.begin(tradeGameOfferDao, gameDao, genreDao,userDao);
+        List<TradeGameOffer> offers = tradeGameOfferDao.findAll();
+        for (TradeGameOffer offer : offers) {
+            offer.setGame(gameDao.findEntityById(offer.getGame().getId()));
+            offer.getGame().setGenre(genreDao.findEntityById(offer.getGame().getId()));
+            offer.setUser(userDao.findEntityById(offer.getUser().getId()));
+        }
+        transaction.end();
+            return offers;
+    }
+
+    @Override
+    public void add(TradeGameOffer offer) throws PersistentException {
+        Transaction transaction = transactionFactory.createTransaction();
+        TradeGameOfferDao offerDao = daoFactory.createTradeGameOfferDao();
+        transaction.begin(offerDao);
+        offerDao.create(offer);
+        transaction.end();
+    }
 }

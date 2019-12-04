@@ -6,6 +6,8 @@ import by.ysenko.finaltask.dao.Transaction;
 import by.ysenko.finaltask.dao.UserDao;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.UserService;
+import by.ysenko.finaltask.service.exceptions.DataExistsException;
+import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
 
 import javax.crypto.*;
 import java.security.InvalidKeyException;
@@ -37,10 +39,17 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
     }
 
     @Override
-    public Integer signUp(User user) throws PersistentException {
+    public Integer signUp(User user) throws PersistentException, DataExistsException {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
         transaction.begin(userDao);
+        System.out.println(user.getLogin());
+        if (userDao.findUserByLogin(user.getLogin()) != null) {
+            throw new DataExistsException("login");
+        }
+        if (userDao.findUserByEmail(user.getEmail()) != null) {
+            throw new DataExistsException("email");
+        }
 
 //        user.setPassword(aes(user.getPassword().getBytes(), Cipher.ENCRYPT_MODE));
         Integer id = userDao.create(user);
@@ -65,15 +74,20 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
     }
 
     @Override
-    public User signIn(String login,String password) throws PersistentException {
+    public User signIn(String login, String password) throws PersistentException, DataExistsException, IncorrectFormDataException {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
         transaction.begin(userDao);
-
+        User user = userDao.findUserByLogin(login);
+        if (user == null ) {
+            throw new DataExistsException("login");
+        }
+        if (!user.getPassword().equals(password)){
+            throw new IncorrectFormDataException("password");
+        }
 //        user.setPassword(aes(user.getPassword().getBytes(), Cipher.ENCRYPT_MODE));
-        User user = userDao.findUser(login,password);
 
-        transaction.end();
+            transaction.end();
         return user;
 
     }

@@ -78,24 +78,35 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
+    public void delete(int id) throws PersistentException {
+        PreparedStatement ps=null;
+        try{
+         ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
 
         ps.setInt(1, id);
 
         ps.execute();
+    } catch (SQLException e) {
+        try {
+            throw new PersistentException(e);
+        }
+        finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                e.printStackTrace();
+            }
+        }
 
-        return true;
-
-    }
+    }}
 
     @Override
     public boolean delete(Genre entity) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
+        PreparedStatement ps=null;
+            ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
+            ps.setInt(1, entity.getId());
+            ps.execute();
 
-        ps.setInt(1, entity.getId());
-
-        ps.execute();
 
         return true;
     }
@@ -105,13 +116,13 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO genres (name) VALUES (?)");
+            ps = connection.prepareStatement("INSERT INTO genres (name) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
 
             ps.execute();
             resultSet = ps.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
 
@@ -126,8 +137,8 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
             }
         }
     }
-
     @Override
+
     public void update(Genre entity) throws PersistentException {
         PreparedStatement ps = null;
         try {

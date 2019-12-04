@@ -13,7 +13,7 @@ public interface Dao<T extends Bean> {
 
     public abstract T findEntityById(int id) throws PersistentException;
 
-    public abstract boolean delete(int id) throws SQLException;
+    public abstract void delete(int id) throws PersistentException;
 
     public abstract boolean delete(T entity) throws SQLException;
 

@@ -194,11 +194,17 @@
                             </img>
                         </div>
                         <div class="col-sm-5" style="background-color:lavender; padding: unset; text-align: center" >
-
-                                <%--                        <div class="carousel-caption ">--%>
-
                             <h1>${offer.game.name}</h1>
-                            <p>Genre: ${offer.game.genre.name}</p>
+                                    <c:choose>
+                                    <c:when test="${offer.game.genre==null}">
+                                        <p>Genre: Other</p>
+                                    </c:when>
+                            <c:otherwise>
+                                <p>Genre: ${offer.game.genre.name}</p>
+
+                            </c:otherwise>
+                                        </c:choose>
+
                             <p>Cost: ${offer.cost}</p>
                             <p>Release date: ${offer.game.releaseDate}</p>
                             <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>

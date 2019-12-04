@@ -78,14 +78,27 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM accessory_categories WHERE id=?");
+    public void delete(int id) throws PersistentException {
+        PreparedStatement ps=null;
+        try{
+            ps = connection.prepareStatement("DELETE FROM accessory_categories WHERE id=?");
 
         ps.setInt(1, id);
 
         ps.execute();
+    } catch (SQLException e) {
+        try {
+            throw new PersistentException(e);
+        }
+        finally {
+            try {
+                ps.close();
+            } catch (SQLException ex) {
+                e.printStackTrace();
+            }
+        }
 
-        return true;
+    }
 
     }
 
@@ -105,7 +118,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
         ResultSet resultSet = null;
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO accessory_categories (category) VALUES (?)");
+            ps = connection.prepareStatement("INSERT INTO accessory_categories (category) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getCategory());
 
