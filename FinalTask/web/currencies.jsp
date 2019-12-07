@@ -17,19 +17,26 @@
   display: flex;
     width: 800px;">
 
-    <form class="form-inline" action="/add_currency.html" method="post"
+    <form  action="/add_currency.html" method="post"
           style="  margin-left: auto; margin-bottom: auto; margin-top: auto; margin-right: auto; ">
+        <c:set var="message" value="${message}"/>
+        <c:choose>
+            <c:when test="${message!=null}">
+                <p>${message}</p>
+            </c:when>
+            <c:otherwise></c:otherwise>
+        </c:choose>
+
         <input type="text" id="genre" class="form-control" placeholder="currency" required="" name="currency"
                oninvalid="this.setCustomValidity('Please enter valid genre')"
                oninput="setCustomValidity('')" autofocus="">
-        <button class="btn btn-primary  " type="submit">Add genre</button>
     </form>
     <table class="table table-bordered"
            style="margin-left: auto; margin-bottom: auto; margin-top: auto; margin-right: auto; width: 200px">
 
         <thead>
         <tr>
-            <th>Genre</th>
+            <th>Currency</th>
             <th>Delete</th>
         </tr>
         </thead>

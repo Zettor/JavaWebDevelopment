@@ -7,6 +7,7 @@ import by.ysenko.finaltask.dao.UserDao;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.UserService;
 import by.ysenko.finaltask.service.exceptions.DataExistsException;
+import by.ysenko.finaltask.service.exceptions.DataNotException;
 import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
 
 import javax.crypto.*;
@@ -74,13 +75,13 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
     }
 
     @Override
-    public User signIn(String login, String password) throws PersistentException, DataExistsException, IncorrectFormDataException {
+    public User signIn(String login, String password) throws PersistentException, IncorrectFormDataException, DataNotException {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
         transaction.begin(userDao);
         User user = userDao.findUserByLogin(login);
         if (user == null ) {
-            throw new DataExistsException("login");
+            throw new DataNotException("login");
         }
         if (!user.getPassword().equals(password)){
             throw new IncorrectFormDataException("password");

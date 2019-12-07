@@ -3,10 +3,10 @@ package by.ysenko.finaltask.controller.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class GuestCommand implements Command{
+public abstract class GuestCommand implements Command{
 
     private List<Integer> roles;
-    GuestCommand(){
+   public GuestCommand(){
         roles=new ArrayList<>();
         roles=new ArrayList<>();        roles.add(0);
         roles.add(1);

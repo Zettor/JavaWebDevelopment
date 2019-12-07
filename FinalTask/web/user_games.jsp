@@ -15,7 +15,6 @@
 <c:import url="header.jsp"/>
 <div class="container">
 
-
     <div class="row" style="position: relative; ">
         <c:forEach var="game" items="${list}" varStatus="loop">
             <div class="col-sm-8">

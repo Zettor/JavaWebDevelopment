@@ -13,4 +13,6 @@ public interface TradeGameOfferService {
     public List<TradeGameOffer> findOffers() throws PersistentException;
 
     public void add(TradeGameOffer offer) throws PersistentException;
+
+    public TradeGameOffer findById(Integer id) throws PersistentException;
 }

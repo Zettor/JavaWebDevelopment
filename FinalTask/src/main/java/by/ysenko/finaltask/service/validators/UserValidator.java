@@ -13,21 +13,22 @@ public class UserValidator {
         User user = new User();
 
         String parameter = request.getParameter("login");
-        if (parameter != null && !parameter.isEmpty() && parameter.length() <= 16 && parameter.matches("[A-Za-z0-9-]+")) {
+        System.out.println(parameter);
+        if (parameter != null && !parameter.isEmpty() && parameter.length() <= 16 && parameter.matches("[A-Za-z0-9]+")) {
             user.setLogin(parameter);
         } else {
             throw new IncorrectFormDataException("login");
         }
 
         parameter = request.getParameter("password");
-        if (parameter != null && !parameter.isEmpty() && parameter.length() >= 4 && parameter.length() <= 10 && parameter.matches("[A-Za-z0-9-]+")) {
+        if (parameter != null && !parameter.isEmpty() && parameter.length() >= 4 && parameter.length() <= 10 && parameter.matches("[A-Za-z0-9]+")) {
             user.setPassword(parameter);
         } else {
             throw new IncorrectFormDataException("password");
         }
 
         parameter = request.getParameter("email");
-        if (parameter != null && !parameter.isEmpty() && parameter.length() <= 255 && parameter.matches("\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,6}")) {
+        if (parameter != null && !parameter.isEmpty() && parameter.length() <= 255 && parameter.matches("\\w+@[a-zA-Z]+?\\.[a-zA-Z]{2,6}")) {
             user.setEmail(parameter);
         } else {
             throw new IncorrectFormDataException("email");
@@ -60,10 +61,11 @@ public class UserValidator {
             parameter = request.getParameter("phone");
             if (parameter != null)
                 if (!parameter.isEmpty() && parameter.length() <= 13 && parameter.length() >= 7 && parameter.matches("/^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,14}(\\s*)?$/")) {
-                    user.setLogin(parameter);
+                    user.setPhone(parameter);
                 } else {
                     throw new IncorrectFormDataException("phone");
                 }
+
         user.setCreateDate(new Timestamp(new Date().getTime()));
         user.setRole(0);
         user.setStatus(0);

@@ -1,5 +1,7 @@
 package by.ysenko.finaltask.service.impl;
 
+import by.ysenko.finaltask.bean.Currency;
+import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.bean.TradeGameOffer;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.*;
@@ -20,11 +22,13 @@ public class TradeGameOfferServiceImpl extends ServiceImpl implements TradeGameO
         GameDao gameDao = daoFactory.createGameDao();
         UserDao userDao = daoFactory.createUserDao();
         GenreDao genreDao = daoFactory.createGenreDao();
-        transaction.begin(tradeGameOfferDao, gameDao, genreDao,userDao);
+        CurrencyDao currencyDao = daoFactory.createCurrencyDao();
+        transaction.begin(tradeGameOfferDao, gameDao, genreDao,userDao,currencyDao);
         List<TradeGameOffer> offers = tradeGameOfferDao.findAll();
         for (TradeGameOffer offer : offers) {
             offer.setGame(gameDao.findEntityById(offer.getGame().getId()));
             offer.getGame().setGenre(genreDao.findEntityById(offer.getGame().getId()));
+            offer.setCurrency(currencyDao.findEntityById(offer.getCurrency().getId()));
             offer.setUser(userDao.findEntityById(offer.getUser().getId()));
         }
         transaction.end();
@@ -42,11 +46,13 @@ public class TradeGameOfferServiceImpl extends ServiceImpl implements TradeGameO
         GameDao gameDao = daoFactory.createGameDao();
         UserDao userDao = daoFactory.createUserDao();
         GenreDao genreDao = daoFactory.createGenreDao();
-        transaction.begin(tradeGameOfferDao, gameDao, genreDao,userDao);
+        CurrencyDao currencyDao = daoFactory.createCurrencyDao();
+        transaction.begin(tradeGameOfferDao, gameDao, genreDao,userDao,currencyDao);
         List<TradeGameOffer> offers = tradeGameOfferDao.findAll();
         for (TradeGameOffer offer : offers) {
             offer.setGame(gameDao.findEntityById(offer.getGame().getId()));
             offer.getGame().setGenre(genreDao.findEntityById(offer.getGame().getId()));
+            offer.setCurrency(currencyDao.findEntityById(offer.getCurrency().getId()));
             offer.setUser(userDao.findEntityById(offer.getUser().getId()));
         }
         transaction.end();
@@ -60,5 +66,24 @@ public class TradeGameOfferServiceImpl extends ServiceImpl implements TradeGameO
         transaction.begin(offerDao);
         offerDao.create(offer);
         transaction.end();
+    }
+
+    @Override
+    public TradeGameOffer findById(Integer id) throws PersistentException {
+        Transaction transaction = transactionFactory.createTransaction();
+        TradeGameOfferDao offerDao = daoFactory.createTradeGameOfferDao();
+        GameDao gameDao = daoFactory.createGameDao();
+        UserDao userDao=daoFactory.createUserDao();
+        GenreDao genreDao = daoFactory.createGenreDao();
+        CurrencyDao currencyDao = daoFactory.createCurrencyDao();
+        transaction.begin(offerDao,gameDao,genreDao,userDao,currencyDao);
+        TradeGameOffer offer = offerDao.findEntityById(id);
+        offer.setGame(gameDao.findEntityById(offer.getGame().getId()));
+        offer.setUser(userDao.findEntityById(offer.getUser().getId()));
+        offer.setCurrency(currencyDao.findEntityById(offer.getCurrency().getId()));
+        Game game= offer.getGame();
+        game.setGenre(genreDao.findEntityById(game.getGenre().getId()));
+        transaction.end();
+        return offer;
     }
 }

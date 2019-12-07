@@ -193,21 +193,29 @@
                                  height="100%">
                             </img>
                         </div>
-                        <div class="col-sm-5" style="background-color:lavender; padding: unset; text-align: center" >
+                        <div class="col-sm-5" style="background-color:lavender; padding: unset; text-align: center">
                             <h1>${offer.game.name}</h1>
-                                    <c:choose>
-                                    <c:when test="${offer.game.genre==null}">
-                                        <p>Genre: Other</p>
-                                    </c:when>
-                            <c:otherwise>
-                                <p>Genre: ${offer.game.genre.name}</p>
 
-                            </c:otherwise>
-                                        </c:choose>
+                            <p>Genre: ${offer.game.genre.name}</p>
 
-                            <p>Cost: ${offer.cost}</p>
-                            <p>Release date: ${offer.game.releaseDate}</p>
-                            <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                            <c:choose>
+                                <c:when test="${offer.game.exclusivity==0}">
+                                    <p>Exclusivity: PS4 </p>
+                                </c:when>
+                                <c:when test="${offer.game.exclusivity==1}">
+                                    <p>Exclusivity: XBOX ONE X </p>
+                                </c:when>
+                                <c:otherwise>
+                                </c:otherwise>
+                            </c:choose>
+                            <h1>Cost ${offer.cost} ${offer.currency.name}</h1>
+
+
+                            <form action="/game_offer.html" method="post">
+                                <input type="hidden" name="id" value=${offer.id}>
+                                <button class="btn btn-lg btn-primary" type="submit">To offer</button>
+                            </form>
+
 
                                 <%--                    </div>--%>
                         </div>

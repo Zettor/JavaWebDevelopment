@@ -99,13 +99,14 @@
 <body>
 
 <script>
+
     <c:set var="error"  value="${error}"/>
     <c:choose>
-    <c:when test="${error==0}">
+    <c:when test="${error==1}">
     window.onload = function () {
-        document.querySelector('button[data-target="#sign-up"]').click();
+        document.querySelector('button[data-target="#sign-up"]').click();}
         </c:when>
-        <c:when test="${error==1}">
+        <c:when test="${error==0}">
         window.onload = function () {
             document.querySelector('button[data-target="#sign-in"]').click();
         }
@@ -168,63 +169,87 @@
 <header>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top  " style="background-color:#000080;">
 
-        <ul class="navbar-nav mr-auto">
-
-        </ul>
-        <form class="form-inline mt-2  mt-md-0">
-            <a href="/.html" class="form-inline mt-2  mt-md-0" aria-label="Bootstrap">
-                <img src="images/logo.png" alt="Logo" style="width:40px; position:absolute; left:20px" ;>
-            </a>
-        </form>
-        <form class="form-inline mt-2  mt-md-0">
-            <input class="form-control mr-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-primary  mr-2" type="submit">Search</button>
-        </form>
-
-        <c:choose>
-            <c:when test="${sessionScope.user.role==0}">
-                <form class="form-inline mt-2  mt-md-0" action="/profile.html" method="post">
-                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">My
-                        account
-                    </button>
-                </form>
-                <form class="form-inline mt-2  mt-md-0" action="/logout.html" method="post">
-                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
-                        Logout
-                    </button>
-                </form>
-
-            </c:when>
-            <c:when test="${sessionScope.user.role==1}">
-                <form class="form-inline mt-2  mt-md-0" action="/profile.html" method="post">
-                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">My
-                        account
-                    </button>
-                </form>
-                <form class="form-inline mt-2  mt-md-0" action="/settings.html" method="post">
-                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#settings">
-                        Settings
-                    </button>
-                </form>
-                <form class="form-inline mt-2  mt-md-0" action="/logout.html" method="post">
-                    <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
-                        Logout
-                    </button>
-                </form>
+        <%--        <ul class="navbar-nav mr-auto">--%>
+        <%--            <form class="form-inline mt-2  mt-md-0">--%>
 
 
-            </c:when>
-            <c:otherwise>
-                <form class="form-inline mt-2  mt-md-0">
-                    <button type="button" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#sign-in">
-                        Sign-in
-                    </button>
+        <%--            </form>--%>
+        <%--            <li class="nav-item active">--%>
+        <%--                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>--%>
+        <%--            </li>--%>
+        <%--        </ul>--%>
 
-                    <button type="button" class="btn btn-warning " data-toggle="modal" data-target="#sign-up">Sign-up
-                    </button>
-                </form>
-            </c:otherwise>
-        </c:choose>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item ">
+                    <a class="nav-link" href="/.html"><img src="images/logo.png" alt="Logo"
+                                                           style="width:40px; height: 40px "> <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active ">
+                    <a class="nav-link" href="/game_offers.html">Games <span class="sr-only">(current)</span></a>
+                </li>
+
+            </ul>
+            <form class="form-inline mt-2  mt-md-0">
+                <input class="form-control mr-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-primary  mr-2" type="submit">Search</button>
+            </form>
+
+            <c:choose>
+                <c:when test="${sessionScope.user.role==0}">
+                    <form class="form-inline mt-2  mt-md-0" action="/profile.html" method="post">
+                        <input type="hidden" name="id" value=${sessionScope.user.id}>
+                        <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
+                            My
+                            account
+                        </button>
+                    </form>
+                    <form class="form-inline mt-2  mt-md-0" action="/logout.html" method="post">
+                        <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
+                            Logout
+                        </button>
+                    </form>
+
+                </c:when>
+                <c:when test="${sessionScope.user.role==1}">
+                    <form class="form-inline mt-2  mt-md-0" action="/profile.html" method="post">
+                        <input type="hidden" name="id" value=${sessionScope.user.id}>
+                        <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
+                            My
+                            account
+                        </button>
+                    </form>
+                    <form class="form-inline mt-2  mt-md-0" action="/settings.html" method="post">
+                        <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#settings">
+                            Settings
+                        </button>
+                    </form>
+                    <form class="form-inline mt-2  mt-md-0" action="/logout.html" method="post">
+                        <button type="submit" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#account">
+                            Logout
+                        </button>
+                    </form>
+
+
+                </c:when>
+                <c:otherwise>
+                    <form class="form-inline mt-2  mt-md-0">
+                        <button type="button" class="btn btn-warning mr-2 " data-toggle="modal" data-target="#sign-in">
+                            Sign-in
+                        </button>
+
+                        <button type="button" class="btn btn-warning " data-toggle="modal" data-target="#sign-up">
+                            Sign-up
+                        </button>
+                    </form>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+
     </nav>
 </header>
 
@@ -308,6 +333,14 @@
     </div>
 </div>
 
-
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>

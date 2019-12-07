@@ -1,7 +1,8 @@
 package by.ysenko.finaltask.controller.commands;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import by.ysenko.finaltask.controller.commands.admin.*;
+import by.ysenko.finaltask.controller.commands.guest.*;
+import by.ysenko.finaltask.controller.commands.user.*;
 
 public class CommandManager {
 
@@ -31,10 +32,13 @@ public class CommandManager {
                 command =new SignIn();
                 break;
             case"/profile":
-                command =new Profile();
+                command =new ToProfile();
                 break;
             case"/logout":
                 command =new Logout();
+                break;
+            case"/to_edit_profile":
+                command =new Profile();
                 break;
             case"/edit_profile":
                 command =new EditProfile();
@@ -89,6 +93,12 @@ public class CommandManager {
                 break;
             case"/add_game_offer":
                 command=new AddGameOffer();
+                break;
+            case"/game_offers":
+                command=new FindGameOffers();
+                break;
+            case"/game_offer":
+                command=new ToGameOffer();
                 break;
 
             default:

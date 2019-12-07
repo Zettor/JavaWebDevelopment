@@ -58,15 +58,13 @@
                 <input class="form-control" name="cost" placeholder="Cost" required=""> </input>
                 <br>
                 <p>Choose currency of your cost:</p>
-                <c:forEach var="currency" items="${currencies}" varStatus="loop">
-                    <div class="custom-control custom-radio">
-                        <input type="radio" class="custom-control-input" id=${currency.name} name="currency"
-                               value=${currency.id} checked>
-                        <label class="custom-control-label" for=${currency.name}>${currency.name}</label>
-                    </div>
-
-                    <input type="hidden" name="id" value=${game.id}>
-                </c:forEach>
+                <select class="form-control" name="currency">
+                    <c:forEach var="currency" items="${currencies}" varStatus="loop">
+                        <option value=${currency.id}>${currency.name}</option>
+                    </c:forEach>
+                </select>
+                <input type="hidden" name="game_id" value=${game.id}>
+                <input type="hidden" name="genre_id" value=${game.genre.id}>
                 <textarea class="form-control" rows="5" type="text" name="description" placeholder="description"
                           required=""></textarea>
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
