@@ -15,21 +15,30 @@ import java.util.Date;
 public class EditProfile extends UserCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
         UserService service = ServiceFactory.createUserService();
         HttpSession session = request.getSession(false);
 
         User user = (User) session.getAttribute("user");
-        user.setCountry(request.getParameter("country"));
-        user.setState(request.getParameter("state"));
-        user.setCity(request.getParameter("city"));
+        if (request.getParameter("country") != null && !request.getParameter("country").isEmpty()) {
+            user.getCountry().setId(Integer.parseInt(request.getParameter("country")));
+            session.setAttribute("country_id", request.getParameter("country"));
+        }
+        if (request.getParameter("city") != null && !request.getParameter("city").isEmpty()) {
+            System.out.println(request.getParameter("city"));
+            user.getCity().setId(Integer.parseInt(request.getParameter("city")));
+        }
         user.setPhone(request.getParameter("phone"));
-        try {
+
+
             service.editUser(user);
             session.removeAttribute("user");
             session.setAttribute("user", user);
-        } catch (PersistentException e) {
-            System.out.println(e.getMessage());
+
+        if (request.getParameter("save")!=null) {
+            return "/profile.html";
+        } else {
+            return "/to_edit_profile.html";
         }
-        return "/profile.html";
     }
 }

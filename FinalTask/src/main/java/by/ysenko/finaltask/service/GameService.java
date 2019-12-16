@@ -11,10 +11,10 @@ import java.util.List;
 public interface GameService {
 
 
-    public List<Game> findAll() throws PersistentException ;
+    public List<Game> findAll() ;
 
-    public void delete(int id) throws PersistentException ;
+    public void delete(int id)  ;
 
-    public Game findById(Integer id) throws PersistentException;
-    public void add(Game game) throws PersistentException ;
+    public Game findById(Integer id) ;
+    public void add(Game game);
 }

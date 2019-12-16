@@ -16,11 +16,9 @@ public class AddGenre extends AdminCommand {
         Genre genre=new Genre();
         genre.setName((String)request.getParameter("genre"));
         GenreService service = ServiceFactory.createGenreService();
-        try {
+
             service.add(genre);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
+
         return "/genres.html";
     }
 }

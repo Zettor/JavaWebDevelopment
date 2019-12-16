@@ -13,11 +13,7 @@ public class DeleteGenre extends AdminCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Integer id = Integer.parseInt((String) request.getParameter("id"));
         GenreService service = ServiceFactory.createGenreService();
-        try {
             service.delete(id);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return "/genres.html";
     }
 }

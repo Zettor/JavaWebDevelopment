@@ -3,6 +3,7 @@ package by.ysenko.finaltask.dao.impl;
 import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.bean.Genre;
 import by.ysenko.finaltask.dao.GameDao;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 
 import java.sql.*;
@@ -16,7 +17,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     }
 
     @Override
-    public List<Game> findAll() throws PersistentException {
+    public List<Game> findAll() throws DaoException {
 
         Statement st = null;
 
@@ -26,7 +27,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
 
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,name,genre_id,exclusivity,description,release_date FROM games");
+            rs = st.executeQuery("SELECT id,name,img_path,genre_id,exclusivity,description,release_date FROM games");
 
             ArrayList<Game> games = new ArrayList<>();
 
@@ -34,6 +35,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
                 Game game = new Game();
                 game.setId(rs.getInt("id"));
                 game.setName(rs.getString("name"));
+                game.setImgPath(rs.getString("img_path"));
                 Genre genre = new Genre();
                 genre.setId(rs.getInt("genre_id"));
                 game.setGenre(genre);
@@ -44,25 +46,25 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
             }
             return games;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 rs.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
             try {
                 st.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public Game findEntityById(int id) throws PersistentException {
+    public Game findEntityById(int id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,name,genre_id,exclusivity,description,release_date FROM games WHERE id = ?");
+            statement = connection.prepareStatement("SELECT id,name,img_path,genre_id,exclusivity,description,release_date FROM games WHERE id = ?");
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             Game game = null;
@@ -70,6 +72,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
                 game = new Game();
                 game.setId(resultSet.getInt("id"));
                 game.setName(resultSet.getString("name"));
+                game.setImgPath(resultSet.getString("img_path"));
                 Genre genre = new Genre();
                 genre.setId(resultSet.getInt("genre_id"));
                 game.setGenre(genre);
@@ -80,21 +83,21 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
             }
             return game;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
             try {
                 statement.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public void delete(int id) throws PersistentException {
+    public void delete(int id) throws DaoException {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("DELETE FROM games WHERE id=?");
@@ -105,7 +108,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
 
         } catch (SQLException e) {
             try {
-                throw new PersistentException(e);
+                throw new DaoException(e);
             } finally {
                 try {
                     ps.close();
@@ -119,65 +122,71 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     }
 
     @Override
-    public boolean delete(Game entity) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM games WHERE id=?");
+    public boolean delete(Game entity) throws DaoException{
+        PreparedStatement ps=null;
+        try {
+         ps = connection.prepareStatement("DELETE FROM games WHERE id=?");
 
-        ps.setInt(1, entity.getId());
+            ps.setInt(1, entity.getId());
 
-        ps.execute();
-
+            ps.execute();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
         return true;
     }
 
     @Override
-    public Integer create(Game entity) throws PersistentException {
+    public Integer create(Game entity) throws DaoException{
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO games (name,genre_id,exclusivity,release_date,description) VALUES (?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement("INSERT INTO games (name,img_path,genre_id,exclusivity,release_date,description) VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
-            ps.setInt(2, entity.getGenre().getId());
-            ps.setInt(3, entity.getExclusivity());
-            ps.setTimestamp(4, entity.getReleaseDate());
-            ps.setString(5, entity.getDescription());
+            ps.setString(2, entity.getImgPath());
+            ps.setInt(3, entity.getGenre().getId());
+            ps.setInt(4, entity.getExclusivity());
+            ps.setTimestamp(5, entity.getReleaseDate());
+            ps.setString(6, entity.getDescription());
             ps.execute();
             resultSet = ps.getGeneratedKeys();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
 
-                throw new PersistentException();
+                throw new DaoException();
             }
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public void update(Game entity) throws PersistentException {
+    public void update(Game entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE games SET name=?,genre_id=?,exclusivity=?,release_date=?,description=? WHERE id=?");
+            ps = connection.prepareStatement("UPDATE games SET name=?,img_path=?,genre_id=?,exclusivity=?,release_date=?,description=? WHERE id=?");
             ps.setString(1, entity.getName());
-            ps.setInt(2, entity.getGenre().getId());
-            ps.setInt(3, entity.getExclusivity());
-            ps.setTimestamp(4, entity.getReleaseDate());
-            ps.setString(5,entity.getDescription());
-            ps.setInt(5, entity.getId());
+            ps.setString(2, entity.getImgPath());
+            ps.setInt(3, entity.getGenre().getId());
+            ps.setInt(4, entity.getExclusivity());
+            ps.setTimestamp(5, entity.getReleaseDate());
+            ps.setString(6,entity.getDescription());
+            ps.setInt(7, entity.getId());
 
             ps.execute();
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
 

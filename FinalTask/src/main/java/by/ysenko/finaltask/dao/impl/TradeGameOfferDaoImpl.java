@@ -5,6 +5,7 @@ import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.bean.TradeGameOffer;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.TradeGameOfferDao;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 
 import java.sql.*;
@@ -18,7 +19,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
     }
 
     @Override
-    public List<TradeGameOffer> findAll() throws PersistentException {
+    public List<TradeGameOffer> findAll() throws DaoException {
         Statement st = null;
         ResultSet rs = null;
         try {
@@ -43,26 +44,70 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
                 offer.setCurrency(currency);
                 offer.setDescription(rs.getString("description"));
                 offer.setCreateDate(rs.getTimestamp("createdAt"));
-                offer.setCreateDate(rs.getTimestamp("closedAt"));
+                offer.setCloseDate(rs.getTimestamp("closedAt"));
                 offers.add(offer);
             }
             return offers;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 rs.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
             try {
                 st.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public TradeGameOffer findEntityById(int id) throws PersistentException {
+    public List<TradeGameOffer> findLastOffers() throws DaoException {
+        Statement st = null;
+        ResultSet rs = null;
+        try {
+            st = connection.createStatement();
+
+            rs = st.executeQuery("SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers LIMIT 5");
+
+            ArrayList<TradeGameOffer> offers = new ArrayList<>();
+
+            while (rs.next()) {
+                TradeGameOffer offer = new TradeGameOffer();
+                offer.setId(rs.getInt("id"));
+                Game game = new Game();
+                game.setId(rs.getInt("game_id"));
+                offer.setGame(game);
+                User user = new User();
+                user.setId(rs.getInt("user_id"));
+                offer.setUser(user);
+                offer.setCost(rs.getDouble("cost"));
+                Currency currency = new Currency();
+                currency.setId(rs.getInt("currency_id"));
+                offer.setCurrency(currency);
+                offer.setDescription(rs.getString("description"));
+                offer.setCreateDate(rs.getTimestamp("createdAt"));
+                offer.setCloseDate(rs.getTimestamp("closedAt"));
+                offers.add(offer);
+            }
+            return offers;
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException  e) {
+            }
+            try {
+                st.close();
+            } catch (SQLException  e) {
+            }
+        }
+    }
+
+    @Override
+    public TradeGameOffer findEntityById(int id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -89,21 +134,21 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
             }
             return offer;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
             try {
                 statement.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public void delete(int id) throws PersistentException {
+    public void delete(int id) throws DaoException {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("DELETE FROM trade_game_offers WHERE id=?");
@@ -113,7 +158,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
             ps.execute();
         } catch (SQLException e) {
             try {
-                throw new PersistentException(e);
+                throw new DaoException(e);
             } finally {
                 try {
                     ps.close();
@@ -127,18 +172,22 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
     }
 
     @Override
-    public boolean delete(TradeGameOffer entity) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM trade_game_offers WHERE id=?");
+    public boolean delete(TradeGameOffer entity) throws DaoException {
+        PreparedStatement ps = null;
+try {
+     ps = connection.prepareStatement("DELETE FROM trade_game_offers WHERE id=?");
 
-        ps.setInt(1, entity.getId());
+    ps.setInt(1, entity.getId());
 
-        ps.execute();
-
+    ps.execute();
+} catch (SQLException e) {
+    throw new DaoException(e);
+}
         return true;
     }
 
     @Override
-    public Integer create(TradeGameOffer entity) throws PersistentException {
+    public Integer create(TradeGameOffer entity) throws DaoException  {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
@@ -158,23 +207,23 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
                 return resultSet.getInt(1);
             } else {
 
-                throw new PersistentException();
+                throw new DaoException();
             }
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public void update(TradeGameOffer entity) throws PersistentException {
+    public void update(TradeGameOffer entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE trade_game_offers SET game_id=?,user_id=?,cost=?,currency=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?");
+            ps = connection.prepareStatement("UPDATE trade_game_offers SET game_id=?,user_id=?,cost=?,currency_id=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?");
             ps.setInt(1, entity.getGame().getId());
             ps.setInt(2, entity.getUser().getId());
             ps.setDouble(3, entity.getCost());
@@ -187,11 +236,11 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
 
             ps.execute();
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
 

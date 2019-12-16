@@ -16,7 +16,7 @@ public class ToProfile extends GuestCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Integer id=null;
 
-        if (request.getParameter("id") != null) {
+        if (request.getParameter("id") != null && !request.getParameter("id").isEmpty() ) {
             id = Integer.parseInt(request.getParameter("id"));
         }else{
             HttpSession session = request.getSession(false);
@@ -24,13 +24,10 @@ public class ToProfile extends GuestCommand {
 
         }
         UserService service = ServiceFactory.createUserService();
-        System.out.println(request.getParameter("id"));
-        try {
+
             User user = service.findById(id);
             request.setAttribute("user",user  );
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
+
         return "/profile.jsp";
     }
 }

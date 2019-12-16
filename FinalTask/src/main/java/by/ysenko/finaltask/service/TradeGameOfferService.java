@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface TradeGameOfferService {
 
-    public List<TradeGameOffer> findLastOffers() throws PersistentException;
+    public List<TradeGameOffer> findLastOffers() ;
 
-    public List<TradeGameOffer> findOffers() throws PersistentException;
+    public List<TradeGameOffer> findOffers();
 
-    public void add(TradeGameOffer offer) throws PersistentException;
+    public void add(TradeGameOffer offer) ;
 
-    public TradeGameOffer findById(Integer id) throws PersistentException;
+    public TradeGameOffer findById(Integer id);
 }

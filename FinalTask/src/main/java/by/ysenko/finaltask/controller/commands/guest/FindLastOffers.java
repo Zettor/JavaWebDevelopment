@@ -16,14 +16,14 @@ public class FindLastOffers extends GuestCommand {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
+
         TradeGameOfferService service = ServiceFactory.createTradeGameOfferService();
         List<TradeGameOffer> offers = null;
-        try {
+
+
             offers = service.findLastOffers();
-        } catch (PersistentException e) {
-            //log
-        }
+
         request.setAttribute("list", offers);
-        return "/result.jsp";
+        return "result.jsp";
     }
 }

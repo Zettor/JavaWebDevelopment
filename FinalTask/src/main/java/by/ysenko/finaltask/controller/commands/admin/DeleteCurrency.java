@@ -14,11 +14,7 @@ public class DeleteCurrency extends AdminCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Integer id = Integer.parseInt((String) request.getParameter("id"));
         CurrencyService service = ServiceFactory.createCurrencyService();
-        try {
             service.delete(id);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return "/currencies.html";
     }
 }

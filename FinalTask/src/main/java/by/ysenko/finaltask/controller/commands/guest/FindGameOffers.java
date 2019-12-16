@@ -19,11 +19,8 @@ public class FindGameOffers extends GuestCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         TradeGameOfferService service = ServiceFactory.createTradeGameOfferService();
         List<TradeGameOffer> offers = null;
-        try {
+
             offers = service.findOffers();
-        } catch (PersistentException e) {
-            //log
-        }
         request.setAttribute("offers", offers);
         return "/game_offers.jsp";
     }

@@ -7,6 +7,7 @@ import by.ysenko.finaltask.dao.GameDao;
 import by.ysenko.finaltask.dao.GenreDao;
 import by.ysenko.finaltask.dao.Transaction;
 import by.ysenko.finaltask.dao.UserDao;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.GameService;
 import by.ysenko.finaltask.service.Service;
@@ -16,46 +17,68 @@ import java.util.List;
 public class GameServiceImpl extends ServiceImpl implements GameService {
 
     @Override
-    public List<Game> findAll() throws PersistentException {
+    public List<Game> findAll()  {
         Transaction transaction = transactionFactory.createTransaction();
         GameDao gameDao = daoFactory.createGameDao();
         GenreDao genreDao = daoFactory.createGenreDao();
-        transaction.begin(gameDao,genreDao);
-        List<Game> games = gameDao.findAll();
-        for(Game game:games){
-            game.setGenre(genreDao.findEntityById(game.getGenre().getId()));
+        transaction.begin(gameDao, genreDao);
+        List<Game> games = null;
+        try {
+            games = gameDao.findAll();
+            for (Game game : games) {
+                game.setGenre(genreDao.findEntityById(game.getGenre().getId()));
+            }
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
         }
         transaction.end();
         return games;
     }
 
     @Override
-    public Game findById(Integer id) throws PersistentException {
+    public Game findById(Integer id)  {
         Transaction transaction = transactionFactory.createTransaction();
         GameDao gameDao = daoFactory.createGameDao();
         GenreDao genreDao = daoFactory.createGenreDao();
-        transaction.begin(gameDao,genreDao);
-        Game game = gameDao.findEntityById(id);
+        transaction.begin(gameDao, genreDao);
+        Game game = null;
+        try {
+            game = gameDao.findEntityById(id);
             game.setGenre(genreDao.findEntityById(game.getGenre().getId()));
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+        }
         transaction.end();
         return game;
     }
 
     @Override
-    public void delete(int id) throws PersistentException {
+    public void delete(int id)  {
         Transaction transaction = transactionFactory.createTransaction();
         GameDao gameDao = daoFactory.createGameDao();
         transaction.begin(gameDao);
-        gameDao.delete(id);
+        try {
+            gameDao.delete(id);
+            transaction.commit();
+        }catch (DaoException e){
+            transaction.rollback();
+        }
         transaction.end();
     }
 
     @Override
-    public void add(Game game) throws PersistentException {
+    public void add(Game game)  {
         Transaction transaction = transactionFactory.createTransaction();
         GameDao gameDao = daoFactory.createGameDao();
         transaction.begin(gameDao);
-        gameDao.create(game);
+        try {
+            gameDao.create(game);
+            transaction.rollback();
+        }catch (DaoException e){
+            transaction.rollback();
+        }
         transaction.end();
 
     }

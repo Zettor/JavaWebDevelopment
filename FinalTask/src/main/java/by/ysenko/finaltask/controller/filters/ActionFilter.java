@@ -30,6 +30,7 @@ public class ActionFilter implements Filter {
             int beginAction = contextPath.length();
             int endAction = uri.lastIndexOf('.');
             String actionName;
+
             if (endAction >= 0) {
                 actionName = uri.substring(beginAction, endAction);
 
@@ -39,7 +40,6 @@ public class ActionFilter implements Filter {
             CommandManager commandManager = new CommandManager(actionName);
 
             httpRequest.setAttribute("action", commandManager.getCommand());
-
             HttpSession session = httpRequest.getSession(false);
             if(session!=null && session.getAttribute("error")!=null){
                 request.setAttribute("error",session.getAttribute("error"));
@@ -47,6 +47,7 @@ public class ActionFilter implements Filter {
                 request.setAttribute("message",session.getAttribute("message"));
                 session.removeAttribute("message");
             }
+
             chain.doFilter(request, response);
 
         }

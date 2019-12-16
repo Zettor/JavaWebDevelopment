@@ -4,6 +4,7 @@ import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.controller.commands.GuestCommand;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.UserService;
+import by.ysenko.finaltask.service.exceptions.BlockException;
 import by.ysenko.finaltask.service.exceptions.DataExistsException;
 import by.ysenko.finaltask.service.exceptions.DataNotException;
 import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
@@ -28,13 +29,12 @@ public class SignIn extends GuestCommand {
             User user = service.signIn(login, password);
             session.setAttribute("user", user);
 
-        } catch (IncorrectFormDataException  | DataNotException e) {
+        } catch (IncorrectFormDataException  | DataNotException | BlockException e) {
             session.setAttribute("error", 0);
             session.setAttribute("message", e.getMessage());
-        } catch (PersistentException e) {
-            System.out.println(e.getMessage());
-        }
-        return "/.html";
+
+
+        }       return "/.html";
     }
 }
 

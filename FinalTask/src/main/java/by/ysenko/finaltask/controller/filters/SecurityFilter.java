@@ -42,16 +42,17 @@ public class SecurityFilter implements Filter {
                 canExecute = roles.contains(null);
             }
             if (canExecute) {
-
                 RequestDispatcher requestDispatcher = request.getRequestDispatcher("/result");
                 requestDispatcher.forward(request, response);
             } else {
                 if (session != null) {
                     session.setAttribute("SecurityFilterMessage", "Доступ запрещён");
                 }
+
                 httpResponse.sendRedirect(httpRequest.getContextPath() + "/.html");
             }
         } else {
+
             request.getServletContext().getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
         }
 

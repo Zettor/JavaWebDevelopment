@@ -24,17 +24,43 @@ public class SignUp extends GuestCommand {
         UserValidator validator = new UserValidator();
         HttpSession session = request.getSession(false);
         try {
-            user = validator.validate(request);
-            try {
-                service.signUp(user);
-                session.setAttribute("user", user);
-            } catch (PersistentException e) {
-                System.out.println(e.getMessage());
-            }
+            user = checkUser(request);
+            validator.validate(user);
+            service.signUp(user);
+            session.setAttribute("user", user);
         } catch (IncorrectFormDataException | DataExistsException e) {
             session.setAttribute("error", 1);
             session.setAttribute("message", e.getMessage());
         }
         return "/.html";
+    }
+
+    public User checkUser(HttpServletRequest request) throws IncorrectFormDataException {
+        User user = new User();
+
+        String parameter = request.getParameter("login");
+        if (parameter != null && !parameter.isEmpty()) {
+            user.setLogin(parameter);
+        } else {
+            throw new IncorrectFormDataException("login");
+        }
+
+        parameter = request.getParameter("password");
+        if (parameter != null && !parameter.isEmpty()) {
+            user.setPassword(parameter);
+        } else {
+            throw new IncorrectFormDataException("password");
+        }
+
+        parameter = request.getParameter("email");
+        if (parameter != null && !parameter.isEmpty()) {
+            user.setEmail(parameter);
+        } else {
+            throw new IncorrectFormDataException("email");
+        }
+        user.setCreateDate(new Timestamp(new Date().getTime()));
+        user.setRole(0);
+        user.setStatus(0);
+        return user;
     }
 }

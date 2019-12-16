@@ -6,18 +6,21 @@ import by.ysenko.finaltask.dao.impl.*;
 
 public interface DaoFactory  {
 
-    public UserDao createUserDao() throws PersistentException;
+    public UserDao createUserDao() ;
 
-    public GameDao createGameDao() throws PersistentException ;
+    public GameDao createGameDao() ;
 
-    public GenreDao createGenreDao() throws PersistentException ;
+    public GenreDao createGenreDao() ;
 
-    public TradeGameOfferDao createTradeGameOfferDao() throws PersistentException ;
+    public TradeGameOfferDao createTradeGameOfferDao() ;
 
-    public TradeConsoleOfferDao createTradeConsoleOfferDao() throws PersistentException ;
+    public TradeConsoleOfferDao createTradeConsoleOfferDao() ;
 
-    public AccessoryCategoryDao createAccessoryCategoryDao() throws PersistentException ;
+    public AccessoryCategoryDao createAccessoryCategoryDao() ;
 
-    public ExchangeGameOfferDao createExchangeGameOfferDao() throws PersistentException ;
-    public CurrencyDao createCurrencyDao() throws PersistentException;
+    public CurrencyDao createCurrencyDao() ;
+
+    public CountryDao createCountryDao() ;
+
+    public CityDao createCityDao() ;
 }

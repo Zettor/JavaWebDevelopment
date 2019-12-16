@@ -28,8 +28,6 @@ public class AddCurrency extends AdminCommand {
         } catch (IncorrectFormDataException e) {
             session.setAttribute("error", 2);
             session.setAttribute("message", e.getMessage());
-        } catch (PersistentException e) {
-            e.printStackTrace();
         }
         return "/currencies.html";
     }

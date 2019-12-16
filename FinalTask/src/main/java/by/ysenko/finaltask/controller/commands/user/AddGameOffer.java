@@ -32,11 +32,7 @@ public class AddGameOffer extends UserCommand {
         offer.setCreateDate(new Timestamp(new Date().getTime()));
         offer.setStatus(0);
         TradeGameOfferService service = ServiceFactory.createTradeGameOfferService();
-        try {
             service.add(offer);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return "/profile.html";
     }
 

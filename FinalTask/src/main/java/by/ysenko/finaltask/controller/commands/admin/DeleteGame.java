@@ -14,11 +14,7 @@ public class DeleteGame extends AdminCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Integer id = Integer.parseInt((String) request.getParameter("id"));
         GameService service = ServiceFactory.createGameService();
-        try {
             service.delete(id);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return "/games.html";
     }
 }

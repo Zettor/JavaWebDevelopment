@@ -20,7 +20,6 @@ public class CommandManager {
     }
 
     public CommandManager(String strCommand) {
-
         switch (strCommand) {
             case "/":
                 command = new FindLastOffers();
@@ -100,7 +99,31 @@ public class CommandManager {
             case"/game_offer":
                 command=new ToGameOffer();
                 break;
-
+            case "/countries":
+                command=new FindCountries();
+                break;
+            case"/add_country":
+                command=new AddCountry();
+                break;
+            case"/delete_country":
+                command=new DeleteCountry();
+                break;
+            case"/cities":
+                command=new FindCity();
+                break;
+            case"/add_city":
+                System.out.println("KVD");
+                command=new AddCity();
+                break;
+            case"/delete_city":
+                command=new DeleteCity();
+                break;
+            case"/set_user_role":
+                command=new SetUserRole();
+                break;
+            case"/set_user_status":
+                command=new SetUserStatus();
+                break;
             default:
         }
 

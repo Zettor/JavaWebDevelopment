@@ -5,6 +5,7 @@ import by.ysenko.finaltask.bean.Genre;
 import by.ysenko.finaltask.dao.AccessoryCategoryDao;
 import by.ysenko.finaltask.dao.GenreDao;
 import by.ysenko.finaltask.dao.Transaction;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.AccessoryCategoryService;
 
@@ -13,31 +14,47 @@ import java.util.List;
 public class AccessoryCategoryServiceImpl extends ServiceImpl implements AccessoryCategoryService {
 
     @Override
-    public List<AccessoryCategory> findAll() throws PersistentException {
+    public List<AccessoryCategory> findAll()  {
         Transaction transaction = transactionFactory.createTransaction();
         AccessoryCategoryDao accessoryCategoryDao = daoFactory.createAccessoryCategoryDao();
         transaction.begin(accessoryCategoryDao);
-        List<AccessoryCategory> categories = accessoryCategoryDao.findAll();
+        List<AccessoryCategory> categories=null;
+        try {
+            categories = accessoryCategoryDao.findAll();
+            transaction.commit();
+        }catch (DaoException e){
+            transaction.rollback();
+        }
         transaction.end();
         return categories;
     }
 
     @Override
-    public void delete(int id) throws PersistentException {
+    public void delete(int id)  {
         Transaction transaction = transactionFactory.createTransaction();
         AccessoryCategoryDao accessoryCategoryDao = daoFactory.createAccessoryCategoryDao();
         transaction.begin(accessoryCategoryDao);
-        accessoryCategoryDao.delete(id);
+        try {
+            accessoryCategoryDao.delete(id);
+            transaction.commit();
+        }catch (DaoException e){
+            transaction.rollback();
+        }
         transaction.end();
 
     }
 
     @Override
-    public void add(AccessoryCategory category) throws PersistentException {
+    public void add(AccessoryCategory category)  {
         Transaction transaction = transactionFactory.createTransaction();
         AccessoryCategoryDao accessoryCategoryDao = daoFactory.createAccessoryCategoryDao();
         transaction.begin(accessoryCategoryDao);
+        try{
         accessoryCategoryDao.create(category);
+        transaction.commit();
+    }catch (DaoException e){
+        transaction.rollback();
+    }
         transaction.end();
 
     }

@@ -2,113 +2,211 @@ package by.ysenko.finaltask.service.impl;
 
 
 import by.ysenko.finaltask.bean.User;
-import by.ysenko.finaltask.dao.Transaction;
-import by.ysenko.finaltask.dao.UserDao;
+import by.ysenko.finaltask.dao.*;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.UserService;
+import by.ysenko.finaltask.service.exceptions.BlockException;
 import by.ysenko.finaltask.service.exceptions.DataExistsException;
 import by.ysenko.finaltask.service.exceptions.DataNotException;
 import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
 
 import javax.crypto.*;
+import javax.crypto.spec.PBEKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.List;
 
 public class UserServiceImpl extends ServiceImpl implements UserService {
 
 
     @Override
-    public List<User> findAll() throws PersistentException {
+    public List<User> findAll()  {
+
+
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
-        transaction.begin(userDao);
-        List<User> users = userDao.findAll();
+        CountryDao countryDao = daoFactory.createCountryDao();
+        CityDao cityDao = daoFactory.createCityDao();
+        transaction.begin(userDao, countryDao, cityDao);
+        List<User> users = null;
+        try {
+            users = userDao.findAll();
+            for (User user : users) {
+                user.setCountry(countryDao.findEntityById(user.getCountry().getId()));
+                user.setCity(cityDao.findEntityById(user.getCity().getId()));
+            }
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+        }
         transaction.end();
         return users;
     }
 
     @Override
-    public User findById(Integer id) throws PersistentException {
+    public User findById(Integer id) {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
-        transaction.begin(userDao);
-        User user = userDao.findEntityById(id);
+        CountryDao countryDao = daoFactory.createCountryDao();
+        CityDao cityDao = daoFactory.createCityDao();
+        transaction.begin(userDao, countryDao, cityDao);
+        User user = null;
+        try {
+            user = userDao.findEntityById(id);
+            user.setCountry(countryDao.findEntityById(user.getCountry().getId()));
+            user.setCity(cityDao.findEntityById(user.getCity().getId()));
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+        }
         transaction.end();
         return user;
     }
 
     @Override
-    public Integer signUp(User user) throws PersistentException, DataExistsException {
+    public Integer signUp(User user) throws DataExistsException {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
         transaction.begin(userDao);
-        System.out.println(user.getLogin());
-        if (userDao.findUserByLogin(user.getLogin()) != null) {
-            throw new DataExistsException("login");
-        }
-        if (userDao.findUserByEmail(user.getEmail()) != null) {
-            throw new DataExistsException("email");
-        }
+        Integer id = null;
+        try {
+            String salt = generateSalt();
+            user.setSalt(salt);
+            user.setPassword(generateHash(salt, user.getPassword()));
 
-//        user.setPassword(aes(user.getPassword().getBytes(), Cipher.ENCRYPT_MODE));
-        Integer id = userDao.create(user);
-
+            if (userDao.findUserByLogin(user.getLogin()) != null) {
+                throw new DataExistsException("login");
+            }
+            if (userDao.findUserByEmail(user.getEmail()) != null) {
+                throw new DataExistsException("email");
+            }
+            id = userDao.create(user);
+        } catch (DaoException e) {
+            transaction.commit();
+        }
         transaction.end();
         return id;
 
     }
 
     @Override
-    public void editUser(User user) throws PersistentException {
+    public void editUser(User user)  {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
         transaction.begin(userDao);
-
+        try {
 //        user.setPassword(aes(user.getPassword().getBytes(), Cipher.ENCRYPT_MODE));
-        userDao.update(user);
-
+            userDao.update(user);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+        }
         transaction.end();
 
 
     }
 
     @Override
-    public User signIn(String login, String password) throws PersistentException, IncorrectFormDataException, DataNotException {
+    public void setRole(Integer id, Integer role)  {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
         transaction.begin(userDao);
-        User user = userDao.findUserByLogin(login);
-        if (user == null ) {
-            throw new DataNotException("login");
+        try {
+            User user = userDao.findEntityById(id);
+            user.setRole(role);
+//
+            userDao.update(user);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
         }
-        if (!user.getPassword().equals(password)){
-            throw new IncorrectFormDataException("password");
-        }
-//        user.setPassword(aes(user.getPassword().getBytes(), Cipher.ENCRYPT_MODE));
+        transaction.end();
+    }
 
-            transaction.end();
+    @Override
+    public void setStatus(Integer id, Integer status)  {
+        Transaction transaction = transactionFactory.createTransaction();
+        UserDao userDao = daoFactory.createUserDao();
+        transaction.begin(userDao);
+        try {
+            User user = userDao.findEntityById(id);
+            user.setStatus(status);
+//
+            userDao.update(user);
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+        }
+        transaction.end();
+    }
+
+    @Override
+    public User signIn(String login, String password) throws IncorrectFormDataException, DataNotException, BlockException {
+        Transaction transaction = transactionFactory.createTransaction();
+        UserDao userDao = daoFactory.createUserDao();
+        transaction.begin(userDao);
+        User user = null;
+        try {
+            user = userDao.findUserByLogin(login);
+            if (user == null) {
+                throw new DataNotException("login");
+            }
+            if (user.getStatus() != 0) {
+                throw new BlockException();
+            }
+            String hashPassword = generateHash(user.getSalt(), password);
+
+            if (!user.getPassword().equals(hashPassword)) {
+                throw new IncorrectFormDataException("password");
+            }
+            transaction.commit();
+        } catch (DaoException e) {
+            transaction.rollback();
+        }
+        transaction.end();
         return user;
 
     }
 
-    @Override
-    public void delete(Integer identity) throws PersistentException {
+    private String generateSalt() {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
 
-    }
-
-    public String aes(byte[] rawMessage, int cipherMode) {
-        try {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(256);
-            SecretKey secretKey = keyGenerator.generateKey();
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(cipherMode, secretKey);
-            byte[] output = cipher.doFinal(rawMessage);
-            return new String(output);
-        } catch (Exception e) {
-            return null;
+        Formatter formatter = new Formatter();
+        for (int i = 0; i < salt.length; i++) {
+            formatter.format("%02X", salt[i]);
         }
+        return formatter.toString();
     }
+
+    private String generateHash(String strSalt, String password) {
+        byte[] salt = new byte[strSalt.length() / 2];
+        for (int i = 0; i < salt.length; i++) {
+            int index = i * 2;
+            int j = Integer.parseInt(strSalt.substring(index, index + 2), 16);
+            salt[i] = (byte) j;
+        }
+        byte[] hash = null;
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+        try {
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            hash = factory.generateSecret(spec).getEncoded();
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            e.printStackTrace();
+        }
+        Formatter formatter = new Formatter();
+        for (int i = 0; i < hash.length; i++) {
+            formatter.format("%02X", hash[i]);
+        }
+        return formatter.toString();
+    }
+
+
 }

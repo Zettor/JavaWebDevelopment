@@ -17,11 +17,7 @@ public class AddCategory extends AdminCommand {
         AccessoryCategory category=new AccessoryCategory();
         category.setName((String)request.getParameter("category"));
         AccessoryCategoryService service = ServiceFactory.createAccessoryCategoryService();
-        try {
             service.add(category);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return "/categories.html";
     }
 }

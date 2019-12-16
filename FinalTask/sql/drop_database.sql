@@ -1,0 +1,1 @@
+drop database ps4_shop;

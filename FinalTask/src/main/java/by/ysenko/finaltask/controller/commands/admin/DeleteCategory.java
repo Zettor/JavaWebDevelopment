@@ -15,11 +15,7 @@ public class DeleteCategory extends AdminCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Integer id = Integer.parseInt((String) request.getParameter("id"));
         AccessoryCategoryService service = ServiceFactory.createAccessoryCategoryService();
-        try {
             service.delete(id);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return "/categories.html";
     }
 }

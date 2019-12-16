@@ -15,7 +15,7 @@ public class Logout extends UserCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session = request.getSession(false);
-        session.removeAttribute("user");
+        session.invalidate();
 
         return "/.html";
     }

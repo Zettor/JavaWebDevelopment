@@ -5,11 +5,11 @@ import by.ysenko.finaltask.dao.impl.*;
 
 public interface Transaction {
 
-    void begin(Dao dao, Dao... daos) throws PersistentException;
-    void end()throws PersistentException;
+    void begin(Dao dao, Dao... daos) ;
+    void end();
 
 
-    void commit() throws PersistentException;
+    void commit() ;
 
-    void rollback() throws PersistentException;
+    void rollback() ;
 }

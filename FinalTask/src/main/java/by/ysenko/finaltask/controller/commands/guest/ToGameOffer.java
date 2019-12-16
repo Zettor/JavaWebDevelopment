@@ -21,13 +21,9 @@ public class ToGameOffer extends GuestCommand {
         Integer id = Integer.parseInt((String) request.getParameter("id"));
         TradeGameOfferService offerService = ServiceFactory.createTradeGameOfferService();
 
-        try {
             TradeGameOffer offer = offerService.findById(id);
             request.setAttribute("offer", offer);
-            System.out.println(offer.getCurrency().getName());
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
+
         return "game_offer.jsp";
     }
 }

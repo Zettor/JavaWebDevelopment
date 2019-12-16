@@ -4,6 +4,7 @@ import by.ysenko.finaltask.bean.Genre;
 import by.ysenko.finaltask.bean.TradeConsoleOffer;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.GenreDao;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
     }
 
     @Override
-    public List<Genre> findAll() throws PersistentException {
+    public List<Genre> findAll() throws DaoException {
         Statement st = null;
         ResultSet rs = null;
         try {
@@ -35,21 +36,21 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
             }
             return genres;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 rs.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
             try {
                 st.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public Genre findEntityById(int id) throws PersistentException {
+    public Genre findEntityById(int id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -64,21 +65,21 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
             }
             return genre;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
             try {
                 statement.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public void delete(int id) throws PersistentException {
+    public void delete(int id) throws DaoException {
         PreparedStatement ps=null;
         try{
          ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
@@ -88,7 +89,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
         ps.execute();
     } catch (SQLException e) {
         try {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         }
         finally {
             try {
@@ -101,18 +102,21 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
     }}
 
     @Override
-    public boolean delete(Genre entity) throws SQLException {
+    public boolean delete(Genre entity) throws DaoException {
         PreparedStatement ps=null;
+        try {
             ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
             ps.setInt(1, entity.getId());
             ps.execute();
-
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
 
         return true;
     }
 
     @Override
-    public Integer create(Genre entity) throws PersistentException {
+    public Integer create(Genre entity) throws DaoException {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
@@ -126,10 +130,10 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
                 return resultSet.getInt(1);
             } else {
 
-                throw new PersistentException();
+                throw new DaoException();
             }
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
@@ -139,7 +143,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
     }
     @Override
 
-    public void update(Genre entity) throws PersistentException {
+    public void update(Genre entity) throws DaoException {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("UPDATE genres SET name=? WHERE id=?");
@@ -149,11 +153,11 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
 
             ps.execute();
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }

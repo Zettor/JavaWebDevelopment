@@ -7,45 +7,52 @@ import by.ysenko.finaltask.dao.impl.*;
 
 public class DaoFactoryImpl implements DaoFactory {
     @Override
-    public UserDao createUserDao() throws PersistentException {
+    public UserDao createUserDao()  {
 
         UserDao dao = new UserDaoImpl();
         return dao;
     }
     @Override
-    public GameDao createGameDao() throws PersistentException {
+    public GameDao createGameDao()  {
         GameDao dao = new GameDaoImpl();
         return dao;
     }
     @Override
-    public GenreDao createGenreDao() throws PersistentException {
+    public GenreDao createGenreDao()  {
         GenreDao dao = new GenreDaoImpl();
         return dao;
     }
     @Override
-    public TradeGameOfferDao createTradeGameOfferDao() throws PersistentException {
+    public TradeGameOfferDao createTradeGameOfferDao()  {
         TradeGameOfferDao dao = new TradeGameOfferDaoImpl();
         return dao;
     }
     @Override
-    public TradeConsoleOfferDao createTradeConsoleOfferDao() throws PersistentException {
+    public TradeConsoleOfferDao createTradeConsoleOfferDao()  {
         TradeConsoleOfferDao dao = new TradeConsoleOfferDaoImpl();
         return dao;
     }
     @Override
-    public AccessoryCategoryDao createAccessoryCategoryDao() throws PersistentException {
+    public AccessoryCategoryDao createAccessoryCategoryDao()  {
         AccessoryCategoryDao dao = new AccessoryCategoryDaoImpl();
         return dao;
     }
+
+
     @Override
-    public ExchangeGameOfferDao createExchangeGameOfferDao() throws PersistentException {
-        ExchangeGameOfferDao dao = new ExchangeGameOfferDaoImpl();
+    public CurrencyDao createCurrencyDao()  {
+        CurrencyDao dao = new CurrencyDaoImpl();
+        return dao;
+    }
+    @Override
+    public CountryDao createCountryDao()  {
+        CountryDao dao = new CountryDaoImpl();
         return dao;
     }
 
     @Override
-    public CurrencyDao createCurrencyDao() throws PersistentException {
-        CurrencyDao dao = new CurrencyDaoImpl();
+    public CityDao createCityDao()  {
+        CityDao dao = new CityDaoImpl();
         return dao;
     }
 }

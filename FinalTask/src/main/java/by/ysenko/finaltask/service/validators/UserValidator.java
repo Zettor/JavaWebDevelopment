@@ -9,67 +9,69 @@ import java.util.Date;
 
 public class UserValidator {
 
-    public User validate(HttpServletRequest request) throws IncorrectFormDataException {
-        User user = new User();
+    public void validate(User user) throws IncorrectFormDataException {
 
-        String parameter = request.getParameter("login");
-        System.out.println(parameter);
-        if (parameter != null && !parameter.isEmpty() && parameter.length() <= 16 && parameter.matches("[A-Za-z0-9]+")) {
-            user.setLogin(parameter);
-        } else {
+
+        Integer intParameter = user.getId();
+        if (intParameter != null)
+            if (intParameter<0) {
+                throw new IncorrectFormDataException("id");
+            }
+
+        String parameter = user.getLogin();
+        if (parameter.length() > 16 && !parameter.matches("[A-Za-z0-9]+")) {
+
             throw new IncorrectFormDataException("login");
         }
 
-        parameter = request.getParameter("password");
-        if (parameter != null && !parameter.isEmpty() && parameter.length() >= 4 && parameter.length() <= 10 && parameter.matches("[A-Za-z0-9]+")) {
-            user.setPassword(parameter);
-        } else {
+        parameter = user.getPassword();
+        if (parameter.length() < 4 && parameter.length() > 10 && !parameter.matches("[A-Za-z0-9]+")) {
+
             throw new IncorrectFormDataException("password");
         }
 
-        parameter = request.getParameter("email");
-        if (parameter != null && !parameter.isEmpty() && parameter.length() <= 255 && parameter.matches("\\w+@[a-zA-Z]+?\\.[a-zA-Z]{2,6}")) {
-            user.setEmail(parameter);
-        } else {
+        parameter = user.getEmail();
+        if ( parameter.length() > 255 && !parameter.matches("\\w+@[a-zA-Z]+?\\.[a-zA-Z]{2,6}")) {
             throw new IncorrectFormDataException("email");
         }
 
-        parameter = request.getParameter("country");
-        if (parameter != null) {
-            if (!parameter.isEmpty() && parameter.matches("[A-Za-z]+")) {
-                user.setCountry(parameter);
-            } else {
-                throw new IncorrectFormDataException("country");
-            }
-        }
-        parameter = request.getParameter("state");
-        if (parameter != null) {
-            if (!parameter.isEmpty() && parameter.matches("[A-Za-z]+")) {
-                user.setState(parameter);
-            } else {
-                throw new IncorrectFormDataException("state");
-            }
-        }
-        parameter = request.getParameter("city");
-        if (parameter != null) {
-            if (!parameter.isEmpty() && parameter.matches("[A-Za-z]+")) {
-                user.setCity(parameter);
-            } else {
-                throw new IncorrectFormDataException("city");
-            }
-        }
-            parameter = request.getParameter("phone");
+            parameter = user.getPhone();
             if (parameter != null)
-                if (!parameter.isEmpty() && parameter.length() <= 13 && parameter.length() >= 7 && parameter.matches("/^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,14}(\\s*)?$/")) {
+                if ( parameter.length() > 13 && parameter.length() < 7 && !parameter.matches("/^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,14}(\\s*)?$/")) {
                     user.setPhone(parameter);
                 } else {
                     throw new IncorrectFormDataException("phone");
                 }
 
-        user.setCreateDate(new Timestamp(new Date().getTime()));
-        user.setRole(0);
-        user.setStatus(0);
-        return user;
+        parameter = user.getPhone();
+        if (parameter != null)
+            if ( parameter.length() > 13 && parameter.length() <7 && !parameter.matches("/^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,14}(\\s*)?$/")) {
+                throw new IncorrectFormDataException("phone");
+            }
+
+        intParameter = user.getCountry().getId();
+        if (intParameter != null)
+            if (intParameter<0) {
+                throw new IncorrectFormDataException("country");
+            }
+
+         intParameter = user.getCity().getId();
+        if (intParameter != null)
+            if (intParameter<0) {
+                throw new IncorrectFormDataException("city");
+            }
+
+        intParameter = user.getRole();
+        if (intParameter != null)
+            if (intParameter<0 && intParameter>1) {
+                throw new IncorrectFormDataException("role");
+            }
+
+        intParameter = user.getStatus();
+        if (intParameter != null)
+            if (intParameter<0 && intParameter>1) {
+                throw new IncorrectFormDataException("status");
+            }
     }
 }
 

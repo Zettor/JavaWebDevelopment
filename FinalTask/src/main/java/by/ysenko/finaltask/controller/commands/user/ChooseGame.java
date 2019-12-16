@@ -19,12 +19,12 @@ public class ChooseGame extends UserCommand {
         List<Game> games = null;
         GenreService genreService = ServiceFactory.createGenreService();
         List<Genre> genres = null;
-        try {
             games = gameService.findAll();
+            for(Game game: games){
+                System.out.println(game.getImgPath());
+            }
             genres = genreService.findAll();
-        } catch (PersistentException e) {
-            //log
-        }
+
         request.setAttribute("list",games);
         request.setAttribute("genres",genres);
         return "/user_games.jsp";

@@ -10,11 +10,11 @@ import java.util.List;
 
 public interface CurrencyService {
 
-    public List<Currency> findAll() throws PersistentException;
+    public List<Currency> findAll();
 
 
-    public void delete(int id) throws PersistentException;
+    public void delete(int id);
 
 
-    public void add(Currency currency) throws PersistentException;
+    public void add(Currency currency);
 }

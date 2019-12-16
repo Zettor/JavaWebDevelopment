@@ -19,12 +19,10 @@ public class FindGames extends GuestCommand {
         List<Game> games = null;
         GenreService genreService = ServiceFactory.createGenreService();
         List<Genre> genres = null;
-        try {
+
             games = gameService.findAll();
             genres = genreService.findAll();
-        } catch (PersistentException e) {
-            //log
-        }
+
         request.setAttribute("list",games);
         request.setAttribute("genres",genres);
         return "/games.jsp";

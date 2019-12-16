@@ -21,14 +21,10 @@ public class ToAddingGameOffer extends UserCommand {
         GameService gameService = ServiceFactory.createGameService();
         CurrencyService currencyService = ServiceFactory.createCurrencyService();
         List<Currency> currencies = null;
-        try {
             Game game = gameService.findById(id);
             currencies = currencyService.findAll();
             request.setAttribute("game", game);
             request.setAttribute("currencies",currencies);
-        } catch (PersistentException e) {
-            e.printStackTrace();
-        }
         return "add_game_offer.jsp";
     }
 }

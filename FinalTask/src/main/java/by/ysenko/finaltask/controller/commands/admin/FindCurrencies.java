@@ -17,11 +17,7 @@ public class FindCurrencies extends AdminCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         CurrencyService service = ServiceFactory.createCurrencyService();
         List<Currency> currencies = null;
-        try {
             currencies = service.findAll();
-        } catch (PersistentException e) {
-            //log
-        }
         request.setAttribute("currencies",currencies);
         return "/currencies.jsp";
     }

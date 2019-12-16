@@ -3,6 +3,7 @@ package by.ysenko.finaltask.dao.impl;
 import by.ysenko.finaltask.bean.AccessoryCategory;
 import by.ysenko.finaltask.bean.ExchangeGameOffer;
 import by.ysenko.finaltask.dao.AccessoryCategoryDao;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 
 import java.sql.*;
@@ -16,7 +17,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
     }
 
     @Override
-    public List<AccessoryCategory> findAll() throws PersistentException {
+    public List<AccessoryCategory> findAll() throws DaoException {
         Statement st = null;
         ResultSet rs = null;
         try {
@@ -34,21 +35,21 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
             }
             return categories;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 rs.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
             try {
                 st.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
         }
     }
 
     @Override
-    public AccessoryCategory findEntityById(int id) throws PersistentException {
+    public AccessoryCategory findEntityById(int id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -64,84 +65,86 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
             }
             return accessoryCategory;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
             try {
                 statement.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
         }
     }
 
     @Override
-    public void delete(int id) throws PersistentException {
-        PreparedStatement ps=null;
-        try{
+    public void delete(int id) throws DaoException {
+        PreparedStatement ps = null;
+        try {
             ps = connection.prepareStatement("DELETE FROM accessory_categories WHERE id=?");
 
-        ps.setInt(1, id);
+            ps.setInt(1, id);
 
-        ps.execute();
-    } catch (SQLException e) {
-        try {
-            throw new PersistentException(e);
-        }
-        finally {
+            ps.execute();
+        } catch (SQLException e) {
             try {
-                ps.close();
-            } catch (SQLException ex) {
-                e.printStackTrace();
+                throw new DaoException(e);
+            } finally {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    e.printStackTrace();
+                }
             }
-        }
 
-    }
+        }
 
     }
 
     @Override
-    public boolean delete(AccessoryCategory entity) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM accessory_categories WHERE id=?");
+    public boolean delete(AccessoryCategory entity) throws DaoException {
+        PreparedStatement ps = null;
 
-        ps.setInt(1, entity.getId());
-
-        ps.execute();
-
+        try {
+            ps = connection.prepareStatement("DELETE FROM accessory_categories WHERE id=?");
+            ps.setInt(1, entity.getId());
+            ps.execute();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
         return true;
     }
 
     @Override
-    public Integer create(AccessoryCategory entity) throws PersistentException {
+    public Integer create(AccessoryCategory entity) throws DaoException {
         ResultSet resultSet = null;
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO accessory_categories (category) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement("INSERT INTO accessory_categories (category) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getCategory());
 
             ps.execute();
             resultSet = ps.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
 
-                throw new PersistentException();
+                throw new DaoException();
             }
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
         }
     }
 
     @Override
-    public void update(AccessoryCategory entity) throws PersistentException {
+    public void update(AccessoryCategory entity) throws DaoException {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("UPDATE accessory_categories SET category=? WHERE id=?");
@@ -151,11 +154,11 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
 
             ps.execute();
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
@@ -168,6 +171,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
                 st.close();
             }
         } catch (SQLException e) {
+
         }
 
     }

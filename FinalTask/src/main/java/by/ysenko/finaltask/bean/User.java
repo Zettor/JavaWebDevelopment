@@ -6,41 +6,53 @@ public class User extends Bean {
 
     private String login;
     private String password;
+    private String salt;
     private String email;
     private String phone;
     private Timestamp createDate;
     private int status;
     private Integer role;
-    private String country;
-    private String state;
-    private String city;
+    private Country country;
+    private City city;
 
+    public User() {
+    }
+
+    public User(String login, String password, String salt, String email, Timestamp createDate, int status, Integer role) {
+        this.login = login;
+        this.password = password;
+        this.salt = salt;
+        this.email = email;
+        this.createDate = createDate;
+        this.status = status;
+        this.role = role;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 
     public void setRole(Integer role) {
         this.role = role;
     }
 
-    public String getCountry() {
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getCity() {
+    public City getCity() {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(City city) {
         this.city = city;
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AccessoryCategoryService {
 
-    public List<AccessoryCategory> findAll() throws PersistentException;
-    public void delete(int id) throws PersistentException;
-    public void add(AccessoryCategory category) throws PersistentException;
+    public List<AccessoryCategory> findAll() ;
+    public void delete(int id) ;
+    public void add(AccessoryCategory category);
 }

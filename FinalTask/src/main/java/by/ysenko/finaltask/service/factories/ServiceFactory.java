@@ -30,4 +30,15 @@ public abstract class ServiceFactory {
     public static GameService createGameService() {
         return new GameServiceImpl();
     }
+
+    public static CountryService createCountryService() {
+        return new CountryServiceImpl();
+    }
+
+    public static CityService createCityService() {
+        return new CityServiceImpl();
+    }
+    public static ConnectionService createConnectionService() {
+        return new ConnectionServiceImpl();
+    }
 }

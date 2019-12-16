@@ -19,11 +19,7 @@ public class FindAllUsers extends GuestCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.createUserService();
         List<User> users = null;
-        try {
             users = service.findAll();
-        } catch (PersistentException e) {
-            //log
-        }
         request.setAttribute("list", users);
         return "/users.jsp";
     }

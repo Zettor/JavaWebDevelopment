@@ -4,6 +4,7 @@ import by.ysenko.finaltask.bean.TradeConsoleOffer;
 import by.ysenko.finaltask.bean.TradeGameOffer;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.TradeConsoleOfferDao;
+import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.dao.exception.PersistentException;
 
 import java.sql.*;
@@ -17,7 +18,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
     }
 
     @Override
-    public List<TradeConsoleOffer> findAll() throws PersistentException {
+    public List<TradeConsoleOffer> findAll() throws DaoException {
 
         Statement st = null;
         ResultSet rs = null;
@@ -45,21 +46,21 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
             }
             return offers;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 rs.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
             try {
                 st.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
             }
         }
     }
 
     @Override
-    public TradeConsoleOffer findEntityById(int id) throws PersistentException {
+    public TradeConsoleOffer findEntityById(int id) throws DaoException {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -82,21 +83,21 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
             }
             return offer;
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
             try {
                 statement.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public void delete(int id) throws PersistentException {
+    public void delete(int id) throws DaoException{
         PreparedStatement ps=null;
         try{
         ps = connection.prepareStatement("DELETE FROM trade_console_offers WHERE id=?");
@@ -106,7 +107,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
         ps.execute();
         } catch (SQLException e) {
             try {
-                throw new PersistentException(e);
+                throw new DaoException(e);
             } finally {
                 try {
                     ps.close();
@@ -120,18 +121,23 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
     }
 
     @Override
-    public boolean delete(TradeConsoleOffer entity) throws SQLException {
-        PreparedStatement ps = connection.prepareStatement("DELETE FROM trade_console_offers WHERE id=?");
+    public boolean delete(TradeConsoleOffer entity) throws DaoException {
+        PreparedStatement ps =null;
+        try {
+            ps = connection.prepareStatement("DELETE FROM trade_console_offers WHERE id=?");
 
-        ps.setInt(1, entity.getId());
+            ps.setInt(1, entity.getId());
 
-        ps.execute();
-
+            ps.execute();
+        } catch (SQLException e) {
+            throw new DaoException(e);
+        }
         return true;
-    }
+}
+
 
     @Override
-    public Integer create(TradeConsoleOffer entity) throws PersistentException {
+    public Integer create(TradeConsoleOffer entity) throws DaoException {
         PreparedStatement ps = null;
         ResultSet resultSet=null;
         try {
@@ -152,21 +158,21 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
                 return resultSet.getInt(1);
             } else {
 
-                throw new PersistentException();
+                throw new DaoException();
             }
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
 
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }
 
     @Override
-    public void update(TradeConsoleOffer entity) throws PersistentException {
+    public void update(TradeConsoleOffer entity) throws DaoException {
         PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement("UPDATE trade_console_offers SET user_id=?,name=?,cost=?,currency=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?");
@@ -183,12 +189,12 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
 
             ps.execute();
         } catch (SQLException e) {
-            throw new PersistentException(e);
+            throw new DaoException(e);
         } finally {
 
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
             }
         }
     }

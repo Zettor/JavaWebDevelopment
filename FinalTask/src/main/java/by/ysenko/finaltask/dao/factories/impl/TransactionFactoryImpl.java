@@ -11,12 +11,21 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Connection;
 
 public class TransactionFactoryImpl implements TransactionFactory {
-    private static Logger logger = LogManager.getLogger(TransactionFactoryImpl.class);
+
 
     @Override
-    public Transaction createTransaction() throws PersistentException {
+    public Transaction createTransaction() {
         return new TransactionImpl();
     }
 
+    @Override
+    public void init() {
+        ConnectionPool.getInstance().init();
+    }
+
+    @Override
+    public void close() {
+        ConnectionPool.getInstance().destroy();
+    }
 
 }

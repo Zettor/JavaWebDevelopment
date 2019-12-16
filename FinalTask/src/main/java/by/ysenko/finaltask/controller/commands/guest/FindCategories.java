@@ -17,11 +17,7 @@ public class FindCategories extends GuestCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         AccessoryCategoryService service = ServiceFactory.createAccessoryCategoryService();
         List<AccessoryCategory> categories = null;
-        try {
             categories = service.findAll();
-        } catch (PersistentException e) {
-            //log
-        }
         request.setAttribute("list",categories);
         return "/categories.jsp";
     }

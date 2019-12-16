@@ -17,11 +17,9 @@ public class FindGenres extends GuestCommand {
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         GenreService service = ServiceFactory.createGenreService();
         List<Genre> genres = null;
-        try {
+
             genres = service.findAll();
-        } catch (PersistentException e) {
-            //log
-        }
+
         request.setAttribute("list",genres);
         return "/genres.jsp";
     }

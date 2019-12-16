@@ -5,11 +5,19 @@ import java.sql.Timestamp;
 public class Game extends Bean {
 
     private String name;
+    private String imgPath;
     private Genre genre;
     private Integer exclusivity;
     private Timestamp releaseDate;
     private String description;
 
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
 
     public String getDescription() {
         return description;
