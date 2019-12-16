@@ -13,21 +13,50 @@ import java.util.List;
 
 public class Main {
 
+    static void method1(int... i){
+        System.out.println("int");
+    }
+    static void method1(Integer... i){
+        System.out.println("Integer");
+    }
+    static void method1(Number... i){
+        System.out.println("Number");
+    }
+    static void method1(Object... i){
+        System.out.println("Object");
+    }
+
     public static void main(String[] args) {
+
+
+
 
         String password="sayan2013";
         SecureRandom random = new SecureRandom();
         byte[] salt = new byte[16];
         random.nextBytes(salt);
-        [B@6e1567f1
+
+        Formatter formatter = new Formatter();
+        for (int i = 0; i < salt.length; i++) {
+            formatter.format("%02X", salt[i]);
+        }
+
+        System.out.println(formatter.toString());
+
+//        System.out.println(formatter.toString());
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
         try {
             SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             byte[] hash = factory.generateSecret(spec).getEncoded();
             System.out.println(hash);
+            formatter = new Formatter();
+            for (int i = 0; i < hash.length; i++) {
+                formatter.format("%02X", hash[i]);
+            }
+            System.out.println(formatter.toString());
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
-        System.out.println();
+
     }
 }
