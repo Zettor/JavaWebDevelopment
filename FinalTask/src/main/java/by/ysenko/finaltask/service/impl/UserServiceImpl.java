@@ -10,6 +10,7 @@ import by.ysenko.finaltask.service.exceptions.BlockException;
 import by.ysenko.finaltask.service.exceptions.DataExistsException;
 import by.ysenko.finaltask.service.exceptions.DataNotException;
 import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
+import by.ysenko.finaltask.service.validators.UserValidator;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
@@ -70,12 +71,15 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
     }
 
     @Override
-    public Integer signUp(User user) throws DataExistsException {
+    public Integer signUp(User user) throws DataExistsException, IncorrectFormDataException {
         Transaction transaction = transactionFactory.createTransaction();
         UserDao userDao = daoFactory.createUserDao();
         transaction.begin(userDao);
         Integer id = null;
         try {
+
+            UserValidator validator = new UserValidator();
+            validator.validate(user);
             String salt = generateSalt();
             user.setSalt(salt);
             user.setPassword(generateHash(salt, user.getPassword()));
@@ -87,8 +91,9 @@ public class UserServiceImpl extends ServiceImpl implements UserService {
                 throw new DataExistsException("email");
             }
             id = userDao.create(user);
-        } catch (DaoException e) {
             transaction.commit();
+        } catch (DaoException e) {
+           transaction.rollback();
         }
         transaction.end();
         return id;

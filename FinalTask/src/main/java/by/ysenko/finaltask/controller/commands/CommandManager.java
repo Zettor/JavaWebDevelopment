@@ -112,7 +112,6 @@ public class CommandManager {
                 command=new FindCity();
                 break;
             case"/add_city":
-                System.out.println("KVD");
                 command=new AddCity();
                 break;
             case"/delete_city":

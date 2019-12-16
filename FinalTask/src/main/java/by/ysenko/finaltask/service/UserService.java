@@ -16,7 +16,7 @@ public interface UserService {
 
     User findById(Integer id);
 
-    Integer signUp(User user)throws DataExistsException;
+    Integer signUp(User user) throws DataExistsException, IncorrectFormDataException;
 
     public User signIn(String login, String password) throws  IncorrectFormDataException, DataNotException, BlockException;
 
