@@ -2,10 +2,10 @@ package by.ysenko.finaltask.dao.impl;
 
 
 import by.ysenko.finaltask.bean.Country;
-import by.ysenko.finaltask.bean.Currency;
 import by.ysenko.finaltask.dao.CountryDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,12 +13,14 @@ import java.util.List;
 
 public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
 
-    private final static String FIND_ALL_REQUEST="SELECT id,name FROM countries";
-    private final static String FIND_BY_ID_REQUEST="SELECT id,name FROM countries WHERE id = ?";
-    private final static String DELETE_BY_ID_REQUEST="DELETE FROM countries WHERE id=?";
-    private final static String DELETE_BY_ENTITY_REQUEST= "DELETE FROM countries WHERE id=?";
-    private final static String CREATE_REQUEST= "INSERT INTO countries (name) VALUES (?)";
-    private final static String UPDATE_REQUEST= "UPDATE countries SET name=? WHERE id=?";
+    private final Logger logger = LogManager.getLogger(getClass().getName());
+
+    private final static String FIND_ALL_REQUEST = "SELECT id,name FROM countries";
+    private final static String FIND_BY_ID_REQUEST = "SELECT id,name FROM countries WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST = "DELETE FROM countries WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST = "DELETE FROM countries WHERE id=?";
+    private final static String CREATE_REQUEST = "INSERT INTO countries (name) VALUES (?)";
+    private final static String UPDATE_REQUEST = "UPDATE countries SET name=? WHERE id=?";
 
     public void setConnection(Connection connection) {
         super.setConnection(connection);
@@ -48,11 +50,11 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
         } finally {
             try {
                 rs.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
             }
             try {
                 st.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
             }
         }
     }
@@ -73,23 +75,27 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
             }
             return country;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 statement.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+
+                logger.error(e);
             }
         }
     }
 
     @Override
     public void delete(int id) throws DaoException {
-        PreparedStatement ps=null;
-        try{
+        PreparedStatement ps = null;
+        try {
             ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
             ps.setInt(1, id);
@@ -97,13 +103,13 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
             ps.execute();
         } catch (SQLException e) {
             try {
+                logger.error(e);
                 throw new DaoException(e);
-            }
-            finally {
+            } finally {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    e.printStackTrace();
+                    logger.error(e);
                 }
             }
 
@@ -118,7 +124,8 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
-        throw new DaoException(e);
+            logger.error(e);
+            throw new DaoException(e);
         }
 
         return true;
@@ -138,15 +145,17 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
-
+                logger.error("There is no id");
                 throw new DaoException();
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -162,11 +171,13 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
 
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -178,8 +189,9 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
                 st.close();
             }
         } catch (SQLException e) {
+            logger.error(e);
         }
 
     }
-    }
+}
 

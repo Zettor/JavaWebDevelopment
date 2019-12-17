@@ -6,13 +6,16 @@ import by.ysenko.finaltask.bean.TradeGameOffer;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.TradeGameOfferDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOfferDao {
+
+    private final Logger logger = LogManager.getLogger(getClass().getName());
 
     private final static String FIND_ALL_REQUEST="SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers";
     private final static String FIND_LAST_REQUEST="SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers LIMIT 5";
@@ -58,15 +61,18 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
             }
             return offers;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 rs.close();
             } catch (SQLException  e) {
+                logger.error(e);
             }
             try {
                 st.close();
             } catch (SQLException  e) {
+                logger.error(e);
             }
         }
     }
@@ -102,15 +108,18 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
             }
             return offers;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 rs.close();
             } catch (SQLException  e) {
+                logger.error(e);
             }
             try {
                 st.close();
             } catch (SQLException  e) {
+                logger.error(e);
             }
         }
     }
@@ -143,15 +152,18 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
             }
             return offer;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
             } catch (SQLException  e) {
+                logger.error(e);
             }
             try {
                 statement.close();
             } catch (SQLException  e) {
+                logger.error(e);
             }
         }
     }
@@ -250,6 +262,7 @@ try {
             try {
                 ps.close();
             } catch (SQLException  e) {
+                logger.error(e);
             }
         }
 
@@ -263,6 +276,7 @@ try {
                 st.close();
             }
         } catch (SQLException e) {
+            logger.error(e);
         }
 
     }

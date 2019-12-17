@@ -3,15 +3,11 @@ package by.ysenko.finaltask.controller.commands.user;
 import by.ysenko.finaltask.bean.Currency;
 import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.controller.commands.UserCommand;
-import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.CurrencyService;
 import by.ysenko.finaltask.service.GameService;
-import by.ysenko.finaltask.service.UserService;
 import by.ysenko.finaltask.service.factories.ServiceFactory;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ToAddingGameOffer extends UserCommand {

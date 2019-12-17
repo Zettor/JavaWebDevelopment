@@ -1,11 +1,11 @@
 package by.ysenko.finaltask.dao.impl;
 
 import by.ysenko.finaltask.bean.TradeConsoleOffer;
-import by.ysenko.finaltask.bean.TradeGameOffer;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.TradeConsoleOfferDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,12 +13,14 @@ import java.util.List;
 
 public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsoleOfferDao {
 
-    private final static String FIND_ALL_REQUEST="SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers";
-    private final static String FIND_BY_ID_REQUEST="SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers WHERE id = ?";
-    private final static String DELETE_BY_ID_REQUEST="DELETE FROM trade_console_offers WHERE id=?";
-    private final static String DELETE_BY_ENTITY_REQUEST="DELETE FROM trade_console_offers WHERE id=?";
-    private final static String CREATE_REQUEST= "INSERT INTO trade_console_offers (user_id,name,cost,currency,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)";
-    private final static String UPDATE_REQUEST= "UPDATE trade_console_offers SET user_id=?,name=?,cost=?,currency=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?";
+    private final Logger logger = LogManager.getLogger(getClass().getName());
+
+    private final static String FIND_ALL_REQUEST = "SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers";
+    private final static String FIND_BY_ID_REQUEST = "SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST = "DELETE FROM trade_console_offers WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST = "DELETE FROM trade_console_offers WHERE id=?";
+    private final static String CREATE_REQUEST = "INSERT INTO trade_console_offers (user_id,name,cost,currency,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)";
+    private final static String UPDATE_REQUEST = "UPDATE trade_console_offers SET user_id=?,name=?,cost=?,currency=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?";
 
 
     public void setConnection(Connection connection) {
@@ -54,15 +56,18 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
             }
             return offers;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 rs.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 st.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -91,36 +96,40 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
             }
             return offer;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 statement.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
 
     @Override
-    public void delete(int id) throws DaoException{
-        PreparedStatement ps=null;
-        try{
-        ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
+    public void delete(int id) throws DaoException {
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
-        ps.setInt(1, id);
+            ps.setInt(1, id);
 
-        ps.execute();
+            ps.execute();
         } catch (SQLException e) {
             try {
+                logger.error(e);
                 throw new DaoException(e);
             } finally {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    e.printStackTrace();
+                    logger.error(e);
                 }
             }
 
@@ -130,7 +139,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
 
     @Override
     public boolean delete(TradeConsoleOffer entity) throws DaoException {
-        PreparedStatement ps =null;
+        PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
 
@@ -138,16 +147,17 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
 
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
         return true;
-}
+    }
 
 
     @Override
     public Integer create(TradeConsoleOffer entity) throws DaoException {
         PreparedStatement ps = null;
-        ResultSet resultSet=null;
+        ResultSet resultSet = null;
         try {
             ps = connection.prepareStatement(CREATE_REQUEST);
 
@@ -162,19 +172,21 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
             ps.setInt(8, entity.getStatus());
             ps.execute();
             resultSet = ps.getGeneratedKeys();
-            if(resultSet.next()) {
+            if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
-
+                logger.error("There is not id");
                 throw new DaoException();
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
 
             try {
                 ps.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -197,12 +209,14 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
 
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
 
             try {
                 ps.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -215,6 +229,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
                 st.close();
             }
         } catch (SQLException e) {
+            logger.error(e);
         }
 
     }

@@ -3,6 +3,8 @@ package by.ysenko.finaltask.dao.impl;
 import by.ysenko.finaltask.bean.AccessoryCategory;
 import by.ysenko.finaltask.dao.AccessoryCategoryDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import java.sql.*;
@@ -11,12 +13,14 @@ import java.util.List;
 
 public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCategoryDao {
 
-    private final static String FIND_ALL_REQUEST="SELECT id,category FROM accessory_categories";
-    private final static String FIND_BY_ID_REQUEST="SELECT id,category FROM accessory_categories WHERE id = ?";
-    private final static String DELETE_BY_ID_REQUEST="DELETE FROM accessory_categories WHERE id=?";
-    private final static String DELETE_BY_ENTITY_REQUEST= "DELETE FROM accessory_categories WHERE id=?";
-    private final static String CREATE_REQUEST= "INSERT INTO accessory_categories (category) VALUES (?)";
-    private final static String UPDATE_REQUEST= "UPDATE accessory_categories SET category=? WHERE id=?";
+    private final Logger logger = LogManager.getLogger(getClass().getName());
+
+    private final static String FIND_ALL_REQUEST = "SELECT id,category FROM accessory_categories";
+    private final static String FIND_BY_ID_REQUEST = "SELECT id,category FROM accessory_categories WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST = "DELETE FROM accessory_categories WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST = "DELETE FROM accessory_categories WHERE id=?";
+    private final static String CREATE_REQUEST = "INSERT INTO accessory_categories (category) VALUES (?)";
+    private final static String UPDATE_REQUEST = "UPDATE accessory_categories SET category=? WHERE id=?";
 
     public void setConnection(Connection connection) {
         super.setConnection(connection);
@@ -41,15 +45,18 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
             }
             return categories;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 rs.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 st.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -71,15 +78,18 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
             }
             return accessoryCategory;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 statement.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -95,12 +105,13 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
             ps.execute();
         } catch (SQLException e) {
             try {
+                logger.error(e);
                 throw new DaoException(e);
             } finally {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    e.printStackTrace();
+                    logger.error(e);
                 }
             }
 
@@ -117,6 +128,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
         return true;
@@ -136,15 +148,17 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
-
+                logger.error("There is no id");
                 throw new DaoException();
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -160,11 +174,13 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
 
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -177,7 +193,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
                 st.close();
             }
         } catch (SQLException e) {
-
+            logger.error(e);
         }
 
     }

@@ -1,13 +1,9 @@
 package by.ysenko.finaltask.service.impl;
 
 import by.ysenko.finaltask.bean.Currency;
-import by.ysenko.finaltask.bean.Genre;
 import by.ysenko.finaltask.dao.CurrencyDao;
-import by.ysenko.finaltask.dao.GenreDao;
 import by.ysenko.finaltask.dao.Transaction;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
-import by.ysenko.finaltask.service.AccessoryCategoryService;
 import by.ysenko.finaltask.service.CurrencyService;
 
 import java.util.List;

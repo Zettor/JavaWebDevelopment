@@ -4,7 +4,6 @@ package by.ysenko.finaltask.service.impl;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.*;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.UserService;
 import by.ysenko.finaltask.service.exceptions.BlockException;
 import by.ysenko.finaltask.service.exceptions.DataExistsException;
@@ -14,12 +13,10 @@ import by.ysenko.finaltask.service.validators.UserValidator;
 
 import javax.crypto.*;
 import javax.crypto.spec.PBEKeySpec;
-import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 

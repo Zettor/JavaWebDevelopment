@@ -1,15 +1,10 @@
 package by.ysenko.finaltask.service.impl;
 
-import by.ysenko.finaltask.bean.Currency;
+
 import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.bean.TradeGameOffer;
-import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.*;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
-import by.ysenko.finaltask.dao.factories.impl.DaoFactoryImpl;
-import by.ysenko.finaltask.dao.factories.impl.TransactionFactoryImpl;
-import by.ysenko.finaltask.service.Service;
 import by.ysenko.finaltask.service.TradeGameOfferService;
 
 import java.util.List;

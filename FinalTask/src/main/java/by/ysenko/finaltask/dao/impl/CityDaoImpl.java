@@ -1,26 +1,25 @@
 package by.ysenko.finaltask.dao.impl;
 
 import by.ysenko.finaltask.bean.City;
-import by.ysenko.finaltask.bean.Country;
-import by.ysenko.finaltask.bean.User;
-import by.ysenko.finaltask.dao.AccessoryCategoryDao;
 import by.ysenko.finaltask.dao.CityDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CityDaoImpl extends BaseDaoImpl implements CityDao {
 
-    private final static String FIND_ALL_REQUEST="SELECT id,country_id,name FROM cities";
-    private final static String FIND_BY_COUNTRY_ID_REQUEST="SELECT id,country_id,name FROM cities WHERE country_id=";
-    private final static String FIND_BY_ID_REQUEST="SELECT id,country_id,name FROM cities WHERE id = ?";
-    private final static String DELETE_BY_ID_REQUEST="DELETE FROM cities WHERE id=?";
-    private final static String DELETE_BY_ENTITY_REQUEST= "DELETE FROM cities WHERE id=?";
-    private final static String CREATE_REQUEST= "INSERT INTO cities (country_id,name) VALUES (?,?)";
-    private final static String UPDATE_REQUEST= "UPDATE cities SET country_id=?,name=? WHERE id=?";
+    private final Logger logger = LogManager.getLogger(getClass().getName());
+
+    private final static String FIND_ALL_REQUEST = "SELECT id,country_id,name FROM cities";
+    private final static String FIND_BY_COUNTRY_ID_REQUEST = "SELECT id,country_id,name FROM cities WHERE country_id=";
+    private final static String FIND_BY_ID_REQUEST = "SELECT id,country_id,name FROM cities WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST = "DELETE FROM cities WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST = "DELETE FROM cities WHERE id=?";
+    private final static String CREATE_REQUEST = "INSERT INTO cities (country_id,name) VALUES (?,?)";
+    private final static String UPDATE_REQUEST = "UPDATE cities SET country_id=?,name=? WHERE id=?";
 
 
     public void setConnection(Connection connection) {
@@ -47,15 +46,18 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
             }
             return cities;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 rs.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 st.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -79,15 +81,18 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
             }
             return cities;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 rs.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 st.close();
             } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -109,15 +114,18 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
             }
             return city;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 statement.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -133,12 +141,13 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
             ps.execute();
         } catch (SQLException e) {
             try {
+                logger.error(e);
                 throw new DaoException(e);
             } finally {
                 try {
                     ps.close();
                 } catch (SQLException ex) {
-                    e.printStackTrace();
+                    logger.error(e);
                 }
             }
 
@@ -153,6 +162,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
         return true;
@@ -172,15 +182,17 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
-
+                logger.error("There is no id");
                 throw new DaoException();
             }
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException  e) {
+                logger.error(e);
             }
         }
     }
@@ -198,11 +210,13 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
 
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -214,6 +228,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
                 st.close();
             }
         } catch (SQLException e) {
+            logger.error(e);
         }
 
     }

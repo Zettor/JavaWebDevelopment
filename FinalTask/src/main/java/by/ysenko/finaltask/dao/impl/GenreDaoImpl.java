@@ -1,24 +1,24 @@
 package by.ysenko.finaltask.dao.impl;
 
 import by.ysenko.finaltask.bean.Genre;
-import by.ysenko.finaltask.bean.TradeConsoleOffer;
-import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.GenreDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
 
-    private final static String FIND_ALL_REQUEST="SELECT id,name FROM genres";
-    private final static String FIND_BY_ID_REQUEST="SELECT id,name FROM genres WHERE id = ?";
-    private final static String DELETE_BY_ID_REQUEST="DELETE FROM genres WHERE id=?";
-    private final static String DELETE_BY_ENTITY_REQUEST="DELETE FROM genres WHERE id=?";
-    private final static String CREATE_REQUEST= "INSERT INTO genres (name) VALUES (?)";
-    private final static String UPDATE_REQUEST= "UPDATE genres SET name=? WHERE id=?";
+    private final Logger logger = LogManager.getLogger(getClass().getName());
+
+    private final static String FIND_ALL_REQUEST = "SELECT id,name FROM genres";
+    private final static String FIND_BY_ID_REQUEST = "SELECT id,name FROM genres WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST = "DELETE FROM genres WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST = "DELETE FROM genres WHERE id=?";
+    private final static String CREATE_REQUEST = "INSERT INTO genres (name) VALUES (?)";
+    private final static String UPDATE_REQUEST = "UPDATE genres SET name=? WHERE id=?";
 
     public void setConnection(Connection connection) {
         super.setConnection(connection);
@@ -43,15 +43,18 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
             }
             return genres;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 rs.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 st.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -72,53 +75,57 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
             }
             return genre;
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 resultSet.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
             try {
                 statement.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
 
     @Override
     public void delete(int id) throws DaoException {
-        PreparedStatement ps=null;
-        try{
-         ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
-
-        ps.setInt(1, id);
-
-        ps.execute();
-    } catch (SQLException e) {
+        PreparedStatement ps = null;
         try {
-            throw new DaoException(e);
-        }
-        finally {
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                e.printStackTrace();
-            }
-        }
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
-    }}
+            ps.setInt(1, id);
+
+            ps.execute();
+        } catch (SQLException e) {
+            try {
+                logger.error(e);
+                throw new DaoException(e);
+            } finally {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    logger.error(e);
+                }
+            }
+
+        }
+    }
 
     @Override
     public boolean delete(Genre entity) throws DaoException {
-        PreparedStatement ps=null;
+        PreparedStatement ps = null;
         try {
             ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         }
-
         return true;
     }
 
@@ -127,7 +134,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement(CREATE_REQUEST,Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
 
@@ -136,18 +143,21 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
             if (resultSet.next()) {
                 return resultSet.getInt(1);
             } else {
-
+                logger.error("There is no id");
                 throw new DaoException();
             }
         } catch (SQLException e) {
+            logger.error(entity);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException | NullPointerException e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
+
     @Override
 
     public void update(Genre entity) throws DaoException {
@@ -160,11 +170,13 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
 
             ps.execute();
         } catch (SQLException e) {
+            logger.error(e);
             throw new DaoException(e);
         } finally {
             try {
                 ps.close();
-            } catch (SQLException  e) {
+            } catch (SQLException e) {
+                logger.error(e);
             }
         }
     }
@@ -177,6 +189,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
                 st.close();
             }
         } catch (SQLException e) {
+            logger.error(e);
         }
 
     }

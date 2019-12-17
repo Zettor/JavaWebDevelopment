@@ -1,8 +1,6 @@
 package by.ysenko.finaltask.dao.connection;
 
-import by.ysenko.finaltask.dao.exception.PersistentException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;

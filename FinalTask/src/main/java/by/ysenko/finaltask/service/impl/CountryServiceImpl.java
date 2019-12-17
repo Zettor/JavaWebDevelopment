@@ -1,12 +1,9 @@
 package by.ysenko.finaltask.service.impl;
 
 import by.ysenko.finaltask.bean.Country;
-import by.ysenko.finaltask.bean.Currency;
 import by.ysenko.finaltask.dao.CountryDao;
-import by.ysenko.finaltask.dao.CurrencyDao;
 import by.ysenko.finaltask.dao.Transaction;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.CountryService;
 
 import java.util.List;

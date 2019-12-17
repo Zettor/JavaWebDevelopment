@@ -3,29 +3,18 @@ package by.ysenko.finaltask.controller.commands.admin;
 import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.bean.Genre;
 import by.ysenko.finaltask.controller.commands.AdminCommand;
-import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.GameService;
-import by.ysenko.finaltask.service.GenreService;
 import by.ysenko.finaltask.service.factories.ServiceFactory;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Timestamp;
 import java.util.List;
-
-import static sun.font.CreatedFontTracker.MAX_FILE_SIZE;
 
 @MultipartConfig
 public class AddGame extends AdminCommand {

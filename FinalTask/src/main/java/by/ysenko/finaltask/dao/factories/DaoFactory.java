@@ -1,8 +1,7 @@
 package by.ysenko.finaltask.dao.factories;
 
 import by.ysenko.finaltask.dao.*;
-import by.ysenko.finaltask.dao.exception.PersistentException;
-import by.ysenko.finaltask.dao.impl.*;
+
 
 public interface DaoFactory  {
 

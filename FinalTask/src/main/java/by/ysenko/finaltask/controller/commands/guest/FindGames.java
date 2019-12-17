@@ -3,7 +3,6 @@ package by.ysenko.finaltask.controller.commands.guest;
 import by.ysenko.finaltask.bean.Game;
 import by.ysenko.finaltask.bean.Genre;
 import by.ysenko.finaltask.controller.commands.GuestCommand;
-import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.GameService;
 import by.ysenko.finaltask.service.GenreService;
 import by.ysenko.finaltask.service.factories.ServiceFactory;

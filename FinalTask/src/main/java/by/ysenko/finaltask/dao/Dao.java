@@ -2,10 +2,7 @@ package by.ysenko.finaltask.dao;
 
 import by.ysenko.finaltask.bean.Bean;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
-
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 

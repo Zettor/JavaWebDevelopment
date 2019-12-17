@@ -1,9 +1,6 @@
 package by.ysenko.finaltask.service;
 
 import by.ysenko.finaltask.bean.User;
-import by.ysenko.finaltask.dao.Transaction;
-import by.ysenko.finaltask.dao.UserDao;
-import by.ysenko.finaltask.dao.exception.PersistentException;
 import by.ysenko.finaltask.service.exceptions.BlockException;
 import by.ysenko.finaltask.service.exceptions.DataExistsException;
 import by.ysenko.finaltask.service.exceptions.DataNotException;

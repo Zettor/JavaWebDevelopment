@@ -5,7 +5,6 @@ import by.ysenko.finaltask.bean.Country;
 import by.ysenko.finaltask.bean.User;
 import by.ysenko.finaltask.dao.UserDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +35,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
         Statement st = null;
         ResultSet rs = null;
         try {
+
             st = connection.createStatement();
 
             rs = st.executeQuery(FIND_ALL_REQUEST);
@@ -82,6 +82,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     @Override
     public User findEntityById(int id) throws DaoException {
 
+
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
@@ -113,11 +114,14 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             throw new DaoException(e);
         } finally {
             try {
+                logger.debug("ResultSet close");
                 resultSet.close();
             } catch (SQLException e) {
+
                 logger.error(e);
             }
             try {
+                logger.debug("Statement close");
                 statement.close();
             } catch (SQLException e) {
                 logger.error(e);
@@ -159,11 +163,13 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             throw new DaoException(e);
         } finally {
             try {
+                logger.debug("ResultSet close");
                 resultSet.close();
             } catch (SQLException e) {
                 logger.error(e);
             }
             try {
+                logger.debug("Statement close");
                 statement.close();
             } catch (SQLException e) {
                 logger.error(e);
