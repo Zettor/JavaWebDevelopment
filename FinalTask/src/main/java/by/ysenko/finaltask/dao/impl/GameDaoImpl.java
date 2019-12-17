@@ -12,6 +12,13 @@ import java.util.List;
 
 public class GameDaoImpl extends BaseDaoImpl implements GameDao {
 
+    private final static String FIND_ALL_REQUEST="SELECT id,name,img_path,genre_id,exclusivity,description,release_date FROM games";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,name,img_path,genre_id,exclusivity,description,release_date FROM games WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM games WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST="DELETE FROM games WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO games (name,img_path,genre_id,exclusivity,release_date,description) VALUES (?,?,?,?,?,?)";
+    private final static String UPDATE_REQUEST= "UPDATE games SET name=?,img_path=?,genre_id=?,exclusivity=?,release_date=?,description=? WHERE id=?";
+
     public void setConnection(Connection connection) {
         super.setConnection(connection);
     }
@@ -27,7 +34,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
 
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,name,img_path,genre_id,exclusivity,description,release_date FROM games");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<Game> games = new ArrayList<>();
 
@@ -64,7 +71,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,name,img_path,genre_id,exclusivity,description,release_date FROM games WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             Game game = null;
@@ -100,7 +107,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     public void delete(int id) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM games WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
             ps.setInt(1, id);
 
@@ -125,7 +132,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     public boolean delete(Game entity) throws DaoException{
         PreparedStatement ps=null;
         try {
-         ps = connection.prepareStatement("DELETE FROM games WHERE id=?");
+         ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
 
             ps.setInt(1, entity.getId());
 
@@ -141,7 +148,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO games (name,img_path,genre_id,exclusivity,release_date,description) VALUES (?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST,Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
             ps.setString(2, entity.getImgPath());
@@ -171,7 +178,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
     public void update(Game entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE games SET name=?,img_path=?,genre_id=?,exclusivity=?,release_date=?,description=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
             ps.setString(1, entity.getName());
             ps.setString(2, entity.getImgPath());
             ps.setInt(3, entity.getGenre().getId());

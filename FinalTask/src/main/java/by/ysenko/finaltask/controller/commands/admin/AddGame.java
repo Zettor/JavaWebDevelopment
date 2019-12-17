@@ -35,6 +35,13 @@ public class AddGame extends AdminCommand {
     public static final int MAX_FILE_SIZE = 1024 * 1024 * 40;
     public static final int MAX_REQUEST_SIZE = 1024 * 1024 * 50;
 
+
+    private final static String NAME_ATTRIBUTE = "name";
+    private final static String GENRE_ATTRIBUTE = "genre";
+    private final static String EXCLUSIVITY_ATTRIBUTE = "exclusivity";
+    private final static String DATE_ATTRIBUTE = "date";
+    private final static String TO_HTML = "/games.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -44,7 +51,7 @@ public class AddGame extends AdminCommand {
 
         GameService service = ServiceFactory.createGameService();
             service.add(game);
-        return "/games.html";
+        return TO_HTML;
     }
 
     private void uploadFile(HttpServletRequest request, Game game) {
@@ -90,18 +97,18 @@ public class AddGame extends AdminCommand {
     private void setGameField(FileItem item, Game game)  {
         String parameter = item.getString();
         switch (item.getFieldName()) {
-            case "name":
+            case NAME_ATTRIBUTE:
                 game.setName(parameter);
                 break;
-            case "genre":
+            case GENRE_ATTRIBUTE:
                 Genre genre = new Genre();
                 genre.setId(Integer.parseInt(parameter));
                 game.setGenre(genre);
                 break;
-            case "exclusivity":
+            case EXCLUSIVITY_ATTRIBUTE:
                 game.setExclusivity(Integer.parseInt(parameter));
                 break;
-            case "date":
+            case DATE_ATTRIBUTE:
                 System.out.println(parameter);
                 game.setReleaseDate((Timestamp.valueOf(parameter + " 00:00:00.0")));
                 break;

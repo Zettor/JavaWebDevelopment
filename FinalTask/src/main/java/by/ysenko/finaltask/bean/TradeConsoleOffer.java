@@ -2,7 +2,11 @@ package by.ysenko.finaltask.bean;
 
 import java.sql.Timestamp;
 
+
 public class TradeConsoleOffer extends Bean {
+
+    public TradeConsoleOffer() {
+    }
 
     private String name;
 
@@ -84,5 +88,55 @@ public class TradeConsoleOffer extends Bean {
         this.cost = cost;
     }
 
+    public TradeConsoleOffer(String name, double cost, User user, String currency, String description, Timestamp createDate, Timestamp closeDate, int status) {
+        this.name = name;
+        this.cost = cost;
+        this.user = user;
+        this.currency = currency;
+        this.description = description;
+        this.createDate = createDate;
+        this.closeDate = closeDate;
+        this.status = status;
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof TradeConsoleOffer)) return false;
+        TradeConsoleOffer that = (TradeConsoleOffer) o;
+        return Double.compare(that.getCost(), getCost()) == 0 &&
+                getStatus() == that.getStatus() &&
+                getName().equals(that.getName()) &&
+                getUser().equals(that.getUser()) &&
+                getCurrency().equals(that.getCurrency()) &&
+                getDescription().equals(that.getDescription()) &&
+                getCreateDate().equals(that.getCreateDate()) &&
+                getCloseDate().equals(that.getCloseDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode()
+                + (int) getCost()
+                + getUser().hashCode()
+                + getCurrency().hashCode()
+                + getDescription().hashCode()
+                + getCreateDate().hashCode()
+                + getCloseDate().hashCode()
+                + getStatus();
+    }
+
+    @Override
+    public String toString() {
+        return "TradeConsoleOffer{" +
+                "name='" + name + '\'' +
+                ", cost=" + cost +
+                ", user=" + user +
+                ", currency='" + currency + '\'' +
+                ", description='" + description + '\'' +
+                ", createDate=" + createDate +
+                ", closeDate=" + closeDate +
+                ", status=" + status +
+                '}';
+    }
 }

@@ -1,16 +1,22 @@
 package by.ysenko.finaltask.dao.impl;
 
 import by.ysenko.finaltask.bean.AccessoryCategory;
-import by.ysenko.finaltask.bean.ExchangeGameOffer;
 import by.ysenko.finaltask.dao.AccessoryCategoryDao;
 import by.ysenko.finaltask.dao.exception.DaoException;
-import by.ysenko.finaltask.dao.exception.PersistentException;
+
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCategoryDao {
+
+    private final static String FIND_ALL_REQUEST="SELECT id,category FROM accessory_categories";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,category FROM accessory_categories WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM accessory_categories WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST= "DELETE FROM accessory_categories WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO accessory_categories (category) VALUES (?)";
+    private final static String UPDATE_REQUEST= "UPDATE accessory_categories SET category=? WHERE id=?";
 
     public void setConnection(Connection connection) {
         super.setConnection(connection);
@@ -23,7 +29,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,category FROM accessory_categories");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<AccessoryCategory> categories = new ArrayList<>();
 
@@ -53,7 +59,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,category FROM accessory_categories WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             AccessoryCategory accessoryCategory = null;
@@ -82,7 +88,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
     public void delete(int id) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM accessory_categories WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
             ps.setInt(1, id);
 
@@ -107,7 +113,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
         PreparedStatement ps = null;
 
         try {
-            ps = connection.prepareStatement("DELETE FROM accessory_categories WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
@@ -121,7 +127,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
         ResultSet resultSet = null;
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO accessory_categories (category) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getCategory());
 
@@ -147,7 +153,7 @@ public class AccessoryCategoryDaoImpl extends BaseDaoImpl implements AccessoryCa
     public void update(AccessoryCategory entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE accessory_categories SET category=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
             ps.setString(1, entity.getCategory());
 
             ps.setInt(2, entity.getId());

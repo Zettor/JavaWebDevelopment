@@ -16,14 +16,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ToGameOffer extends GuestCommand {
+
+    private final static String OFFER_ATTRIBUTE = "offer";
+    private final static String TO_JSP = "game_offer.jsp";
+
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         Integer id = Integer.parseInt((String) request.getParameter("id"));
         TradeGameOfferService offerService = ServiceFactory.createTradeGameOfferService();
 
             TradeGameOffer offer = offerService.findById(id);
-            request.setAttribute("offer", offer);
+            request.setAttribute(OFFER_ATTRIBUTE, offer);
 
-        return "game_offer.jsp";
+        return TO_JSP;
     }
 }

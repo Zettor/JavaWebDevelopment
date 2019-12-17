@@ -12,6 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CurrencyDaoImpl extends BaseDaoImpl implements CurrencyDao {
+
+    private final static String FIND_ALL_REQUEST="SELECT id,name FROM currencies";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,name FROM currencies WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM currencies WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST="DELETE FROM currencies WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO currencies (name) VALUES (?)";
+    private final static String UPDATE_REQUEST= "UPDATE currencies SET name=? WHERE id=?";
+
     public void setConnection(Connection connection) {
         super.setConnection(connection);
     }
@@ -23,7 +31,7 @@ public class CurrencyDaoImpl extends BaseDaoImpl implements CurrencyDao {
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,name FROM currencies");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<Currency> currencies = new ArrayList<>();
 
@@ -53,7 +61,7 @@ public class CurrencyDaoImpl extends BaseDaoImpl implements CurrencyDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,name FROM currencies WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             Currency currency = null;
@@ -81,7 +89,7 @@ public class CurrencyDaoImpl extends BaseDaoImpl implements CurrencyDao {
     public void delete(int id) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM currencies WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
             ps.setInt(1, id);
 
@@ -104,7 +112,7 @@ public class CurrencyDaoImpl extends BaseDaoImpl implements CurrencyDao {
     public boolean delete(Currency entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM currencies WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
@@ -118,7 +126,7 @@ public class CurrencyDaoImpl extends BaseDaoImpl implements CurrencyDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO currencies (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
 
@@ -145,7 +153,7 @@ public class CurrencyDaoImpl extends BaseDaoImpl implements CurrencyDao {
     public void update(Currency entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE currencies SET name=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
             ps.setString(1, entity.getName());
 
             ps.setInt(2, entity.getId());

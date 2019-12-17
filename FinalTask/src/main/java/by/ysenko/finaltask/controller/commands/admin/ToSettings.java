@@ -7,8 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ToSettings extends AdminCommand {
 
+    private final static String TO_JSP = "/settings.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        return "/settings.jsp";
+        return TO_JSP;
     }
 }

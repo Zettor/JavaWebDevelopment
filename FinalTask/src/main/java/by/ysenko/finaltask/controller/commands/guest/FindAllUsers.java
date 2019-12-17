@@ -14,13 +14,17 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.List;
 
-public class FindAllUsers extends GuestCommand {
+public class  FindAllUsers extends GuestCommand {
+
+    private final static String LIST_ATTRIBUTE = "list";
+    private final static String TO_JSP = "/users.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.createUserService();
         List<User> users = null;
             users = service.findAll();
-        request.setAttribute("list", users);
-        return "/users.jsp";
+        request.setAttribute(LIST_ATTRIBUTE, users);
+        return TO_JSP;
     }
 }

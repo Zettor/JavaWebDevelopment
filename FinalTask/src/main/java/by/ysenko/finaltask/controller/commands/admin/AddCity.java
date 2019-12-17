@@ -13,16 +13,20 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class AddCity extends AdminCommand {
+
+    private final  static String CITY_ATTRIBUTE="city";
+    private final  static String ID_ATTRIBUTE="id";
+    private final  static String TO_HTML="/cities.html";
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session=request.getSession(false);
 
         City city = new City();
-        city.setName(request.getParameter("city"));
-        city.setCountryId(Integer.parseInt(request.getParameter("id")));
-        session.setAttribute("id",request.getParameter("id"));
+        city.setName(request.getParameter(CITY_ATTRIBUTE));
+        city.setCountryId(Integer.parseInt(request.getParameter(ID_ATTRIBUTE)));
+        session.setAttribute(ID_ATTRIBUTE,request.getParameter(ID_ATTRIBUTE));
         CityService service = ServiceFactory.createCityService();
             service.add(city);
-        return "/cities.html";
+        return TO_HTML;
     }
 }

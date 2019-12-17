@@ -13,6 +13,13 @@ import java.util.List;
 
 public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
 
+    private final static String FIND_ALL_REQUEST="SELECT id,name FROM countries";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,name FROM countries WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM countries WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST= "DELETE FROM countries WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO countries (name) VALUES (?)";
+    private final static String UPDATE_REQUEST= "UPDATE countries SET name=? WHERE id=?";
+
     public void setConnection(Connection connection) {
         super.setConnection(connection);
     }
@@ -25,7 +32,7 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,name FROM countries");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<Country> countries = new ArrayList<>();
 
@@ -55,7 +62,7 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,name FROM countries WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             Country country = null;
@@ -83,7 +90,7 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
     public void delete(int id) throws DaoException {
         PreparedStatement ps=null;
         try{
-            ps = connection.prepareStatement("DELETE FROM countries WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
             ps.setInt(1, id);
 
@@ -107,7 +114,7 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
     public boolean delete(Country entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM countries WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
@@ -122,7 +129,7 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO countries (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST, Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
 
@@ -148,7 +155,7 @@ public class CountryDaoImpl extends BaseDaoImpl implements CountryDao {
     public void update(Country entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE countries SET name=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
             ps.setString(1, entity.getName());
 
             ps.setInt(2, entity.getId());

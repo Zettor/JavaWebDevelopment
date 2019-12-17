@@ -13,6 +13,13 @@ import java.util.List;
 
 public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
 
+    private final static String FIND_ALL_REQUEST="SELECT id,name FROM genres";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,name FROM genres WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM genres WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST="DELETE FROM genres WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO genres (name) VALUES (?)";
+    private final static String UPDATE_REQUEST= "UPDATE genres SET name=? WHERE id=?";
+
     public void setConnection(Connection connection) {
         super.setConnection(connection);
     }
@@ -24,7 +31,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,name FROM genres");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<Genre> genres = new ArrayList<>();
 
@@ -54,7 +61,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,name FROM genres WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             Genre genre = null;
@@ -82,7 +89,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
     public void delete(int id) throws DaoException {
         PreparedStatement ps=null;
         try{
-         ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
+         ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
         ps.setInt(1, id);
 
@@ -105,7 +112,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
     public boolean delete(Genre entity) throws DaoException {
         PreparedStatement ps=null;
         try {
-            ps = connection.prepareStatement("DELETE FROM genres WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
@@ -120,7 +127,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO genres (name) VALUES (?)",Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST,Statement.RETURN_GENERATED_KEYS);
 
             ps.setString(1, entity.getName());
 
@@ -146,7 +153,7 @@ public class GenreDaoImpl extends BaseDaoImpl implements GenreDao {
     public void update(Genre entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE genres SET name=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
             ps.setString(1, entity.getName());
 
             ps.setInt(2, entity.getId());

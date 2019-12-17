@@ -12,13 +12,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+
+
 public class FindCategories extends GuestCommand {
+
+    private final static String LIST_ATTRIBUTE = "list";
+    private final static String TO_JSP = "/categories.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         AccessoryCategoryService service = ServiceFactory.createAccessoryCategoryService();
         List<AccessoryCategory> categories = null;
             categories = service.findAll();
-        request.setAttribute("list",categories);
-        return "/categories.jsp";
+        request.setAttribute(LIST_ATTRIBUTE,categories);
+        return TO_JSP;
     }
 }

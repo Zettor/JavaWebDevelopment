@@ -13,6 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CityDaoImpl extends BaseDaoImpl implements CityDao {
+
+    private final static String FIND_ALL_REQUEST="SELECT id,country_id,name FROM cities";
+    private final static String FIND_BY_COUNTRY_ID_REQUEST="SELECT id,country_id,name FROM cities WHERE country_id=";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,country_id,name FROM cities WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM cities WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST= "DELETE FROM cities WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO cities (country_id,name) VALUES (?,?)";
+    private final static String UPDATE_REQUEST= "UPDATE cities SET country_id=?,name=? WHERE id=?";
+
+
     public void setConnection(Connection connection) {
         super.setConnection(connection);
     }
@@ -24,7 +34,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,country_id,name FROM cities");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<City> cities = new ArrayList<>();
 
@@ -57,7 +67,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
         ResultSet rs = null;
         try {
             st = connection.createStatement();
-            rs = st.executeQuery("SELECT id,country_id,name FROM cities WHERE country_id=" + countryId);
+            rs = st.executeQuery(FIND_BY_COUNTRY_ID_REQUEST + countryId);
 
             ArrayList<City> cities = new ArrayList();
             while (rs.next()) {
@@ -87,7 +97,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,country_id,name FROM cities WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             City city = null;
@@ -116,7 +126,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
     public void delete(int id) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM cities WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
             ps.setInt(1, id);
 
@@ -139,7 +149,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
     public boolean delete(City entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM cities WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
             ps.setInt(1, entity.getId());
             ps.execute();
         } catch (SQLException e) {
@@ -153,7 +163,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO cities (country_id,name) VALUES (?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST, Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, entity.getCountryId());
             ps.setString(2, entity.getName());
@@ -179,7 +189,7 @@ public class CityDaoImpl extends BaseDaoImpl implements CityDao {
     public void update(City entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE cities SET country_id=?,name=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
 
             ps.setInt(1, entity.getCountryId());
             ps.setString(2, entity.getName());

@@ -10,11 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteCurrency extends AdminCommand {
+
+    private final static String ID_ATTRIBUTE = "id";
+    private final static String TO_HTML = "/currencies.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Integer id = Integer.parseInt((String) request.getParameter("id"));
+        Integer id = Integer.parseInt((String) request.getParameter(ID_ATTRIBUTE));
         CurrencyService service = ServiceFactory.createCurrencyService();
             service.delete(id);
-        return "/currencies.html";
+        return TO_HTML;
     }
 }

@@ -17,24 +17,33 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class SignIn extends GuestCommand {
+
+    private final static String LOGIN_ATTRIBUTE = "login";
+    private final static String PASSWORD_ATTRIBUTE = "password";
+    private final static String USER_ATTRIBUTE = "user";
+    private final static String ERROR_ATTRIBUTE = "error";
+    private final static int ERROR_TYPE = 0;
+    private final static String MESSAGE_ATTRIBUTE = "message";
+    private final static String TO_HTML = "/.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         UserService service = ServiceFactory.createUserService();
         HttpSession session = request.getSession(false);
         try {
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
+            String login = request.getParameter(LOGIN_ATTRIBUTE);
+            String password = request.getParameter(PASSWORD_ATTRIBUTE);
 
 
             User user = service.signIn(login, password);
-            session.setAttribute("user", user);
+            session.setAttribute(USER_ATTRIBUTE, user);
 
         } catch (IncorrectFormDataException  | DataNotException | BlockException e) {
-            session.setAttribute("error", 0);
-            session.setAttribute("message", e.getMessage());
+            session.setAttribute(ERROR_ATTRIBUTE, ERROR_TYPE);
+            session.setAttribute(MESSAGE_ATTRIBUTE, e.getMessage());
 
 
-        }       return "/.html";
+        }       return TO_HTML;
     }
 }
 

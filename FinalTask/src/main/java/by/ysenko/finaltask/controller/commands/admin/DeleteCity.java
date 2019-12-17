@@ -12,16 +12,21 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class DeleteCity extends AdminCommand {
+
+    private final static String COUNTRY_ID_ATTRIBUTE = "countryId";
+    private final static String ID_ATTRIBUTE = "id";
+    private final static String TO_HTML = "/cities.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         HttpSession session=request.getSession(false);
 
-        session.setAttribute("id",request.getParameter("countryId"));
-            Integer id = Integer.parseInt((String) request.getParameter("id"));
+        session.setAttribute(ID_ATTRIBUTE,request.getParameter(COUNTRY_ID_ATTRIBUTE));
+            Integer id = Integer.parseInt((String) request.getParameter(ID_ATTRIBUTE));
             CityService service = ServiceFactory.createCityService();
                 service.delete(id);
-            return "/cities.html";
+            return TO_HTML;
 
     }
 }

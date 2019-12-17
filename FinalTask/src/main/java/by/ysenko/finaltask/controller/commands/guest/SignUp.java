@@ -15,6 +15,16 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class SignUp extends GuestCommand {
+
+    private final static String LOGIN_ATTRIBUTE = "login";
+    private final static String PASSWORD_ATTRIBUTE = "password";
+    private final static String EMAIL_ATTRIBUTE = "email";
+    private final static String USER_ATTRIBUTE = "user";
+    private final static String ERROR_ATTRIBUTE = "error";
+    private final static int ERROR_TYPE = 1;
+    private final static String MESSAGE_ATTRIBUTE = "message";
+    private final static String TO_HTML = "/.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -24,37 +34,37 @@ public class SignUp extends GuestCommand {
         try {
             user = checkUser(request);
             service.signUp(user);
-            session.setAttribute("user", user);
+            session.setAttribute(USER_ATTRIBUTE, user);
         } catch (IncorrectFormDataException | DataExistsException e) {
-            session.setAttribute("error", 1);
-            session.setAttribute("message", e.getMessage());
+            session.setAttribute(ERROR_ATTRIBUTE, ERROR_TYPE);
+            session.setAttribute(MESSAGE_ATTRIBUTE, e.getMessage());
         }
-        return "/.html";
+        return TO_HTML;
     }
 
     public User checkUser(HttpServletRequest request) throws IncorrectFormDataException {
         User user = new User();
 
 
-        String parameter = request.getParameter("login");
+        String parameter = request.getParameter(LOGIN_ATTRIBUTE);
         if (parameter != null && !parameter.isEmpty()) {
             user.setLogin(parameter);
         } else {
-            throw new IncorrectFormDataException("login");
+            throw new IncorrectFormDataException(LOGIN_ATTRIBUTE);
         }
 
-        parameter = request.getParameter("password");
+        parameter = request.getParameter(PASSWORD_ATTRIBUTE);
         if (parameter != null && !parameter.isEmpty()) {
             user.setPassword(parameter);
         } else {
-            throw new IncorrectFormDataException("password");
+            throw new IncorrectFormDataException(PASSWORD_ATTRIBUTE);
         }
 
-        parameter = request.getParameter("email");
+        parameter = request.getParameter(EMAIL_ATTRIBUTE);
         if (parameter != null && !parameter.isEmpty()) {
             user.setEmail(parameter);
         } else {
-            throw new IncorrectFormDataException("email");
+            throw new IncorrectFormDataException(EMAIL_ATTRIBUTE);
         }
         user.setCreateDate(new Timestamp(new Date().getTime()));
         user.setRole(0);

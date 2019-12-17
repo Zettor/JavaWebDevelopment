@@ -10,15 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class AddGenre extends AdminCommand {
+    private final static String GENRE_ATTRIBUTE = "genre";
+    private final static String TO_HTML = "/genres.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         Genre genre=new Genre();
-        genre.setName((String)request.getParameter("genre"));
+        genre.setName((String)request.getParameter(GENRE_ATTRIBUTE));
         GenreService service = ServiceFactory.createGenreService();
 
             service.add(genre);
 
-        return "/genres.html";
+        return TO_HTML;
     }
 }

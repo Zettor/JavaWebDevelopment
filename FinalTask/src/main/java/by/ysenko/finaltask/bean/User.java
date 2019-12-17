@@ -1,8 +1,11 @@
 package by.ysenko.finaltask.bean;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class User extends Bean {
+
+
 
     private String login;
     private String password;
@@ -54,19 +57,6 @@ public class User extends Bean {
 
     public void setCity(City city) {
         this.city = city;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", status=" + status +
-                ", role=" + role +
-                '}';
     }
 
     public Timestamp getCreateDate() {
@@ -123,5 +113,48 @@ public class User extends Bean {
 
     public void setRole(int role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getStatus() == user.getStatus() &&
+                getLogin().equals(user.getLogin()) &&
+                getPassword().equals(user.getPassword()) &&
+                getSalt().equals(user.getSalt()) &&
+                getEmail().equals(user.getEmail()) &&
+                getPhone().equals(user.getPhone()) &&
+                getCreateDate().equals(user.getCreateDate()) &&
+                getRole().equals(user.getRole()) &&
+                getCountry().equals(user.getCountry()) &&
+                getCity().equals(user.getCity());
+    }
+
+    @Override
+    public int hashCode() {
+        return getLogin().hashCode()
+                + getPassword().hashCode()
+                + getEmail().hashCode()
+                + getCreateDate().hashCode()
+                + getStatus()
+                + getRole();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", createDate=" + createDate +
+                ", status=" + status +
+                ", role=" + role +
+                ", country=" + country +
+                ", city=" + city +
+                '}';
     }
 }

@@ -17,12 +17,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class AddCountry extends AdminCommand {
+
+    private final static String COUNTRY_ATTRIBUTE = "country";
+    private final static String TO_HTML = "/countries.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-       Country country=new Country();
-        country.setName((String)request.getParameter("country"));
+        Country country = new Country();
+        country.setName((String) request.getParameter(COUNTRY_ATTRIBUTE));
         CountryService service = ServiceFactory.createCountryService();
-            service.add(country);
-        return "/countries.html";
+        service.add(country);
+        return TO_HTML;
     }
 }

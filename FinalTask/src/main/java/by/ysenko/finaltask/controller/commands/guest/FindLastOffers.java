@@ -14,6 +14,9 @@ import java.util.List;
 
 public class FindLastOffers extends GuestCommand {
 
+    private final static String LIST_ATTRIBUTE = "list";
+    private final static String TO_JSP = "result.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
@@ -23,7 +26,7 @@ public class FindLastOffers extends GuestCommand {
 
             offers = service.findLastOffers();
 
-        request.setAttribute("list", offers);
-        return "result.jsp";
+        request.setAttribute(LIST_ATTRIBUTE, offers);
+        return TO_JSP;
     }
 }

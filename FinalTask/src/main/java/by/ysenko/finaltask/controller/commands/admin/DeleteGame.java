@@ -10,11 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteGame extends AdminCommand {
+
+    private final static String ID_ATTRIBUTE = "id";
+    private final static String TO_HTML = "/games.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Integer id = Integer.parseInt((String) request.getParameter("id"));
+        Integer id = Integer.parseInt((String) request.getParameter(ID_ATTRIBUTE));
         GameService service = ServiceFactory.createGameService();
             service.delete(id);
-        return "/games.html";
+        return TO_HTML;
     }
 }

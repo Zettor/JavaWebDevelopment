@@ -13,32 +13,42 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 public class EditProfile extends UserCommand {
+
+    private final static String USER_ATTRIBUTE = "user";
+    private final static String COUNTRY_ATTRIBUTE = "country";
+    private final static String CITY_ATTRIBUTE = "city";
+    private final static String PHONE_ATTRIBUTE = "phone";
+
+    private final static String COUNTRY_ID_ATTRIBUTE = "country_id";
+    private final static String TO_HTML = "/profile.html";
+    private final static String TO_EDIT_HTML = "/to_edit_profile.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         UserService service = ServiceFactory.createUserService();
         HttpSession session = request.getSession(false);
 
-        User user = (User) session.getAttribute("user");
-        if (request.getParameter("country") != null && !request.getParameter("country").isEmpty()) {
-            user.getCountry().setId(Integer.parseInt(request.getParameter("country")));
-            session.setAttribute("country_id", request.getParameter("country"));
+        User user = (User) session.getAttribute(USER_ATTRIBUTE);
+        if (request.getParameter(COUNTRY_ATTRIBUTE) != null && !request.getParameter("country").isEmpty()) {
+            user.getCountry().setId(Integer.parseInt(request.getParameter(COUNTRY_ATTRIBUTE)));
+            session.setAttribute(COUNTRY_ID_ATTRIBUTE, request.getParameter(COUNTRY_ATTRIBUTE));
         }
-        if (request.getParameter("city") != null && !request.getParameter("city").isEmpty()) {
-            System.out.println(request.getParameter("city"));
-            user.getCity().setId(Integer.parseInt(request.getParameter("city")));
+        if (request.getParameter(CITY_ATTRIBUTE) != null && !request.getParameter(CITY_ATTRIBUTE).isEmpty()) {
+            System.out.println(request.getParameter(CITY_ATTRIBUTE));
+            user.getCity().setId(Integer.parseInt(request.getParameter(CITY_ATTRIBUTE)));
         }
-        user.setPhone(request.getParameter("phone"));
+        user.setPhone(request.getParameter(PHONE_ATTRIBUTE));
 
 
             service.editUser(user);
-            session.removeAttribute("user");
-            session.setAttribute("user", user);
+            session.removeAttribute(USER_ATTRIBUTE);
+            session.setAttribute(USER_ATTRIBUTE, user);
 
         if (request.getParameter("save")!=null) {
-            return "/profile.html";
+            return TO_HTML;
         } else {
-            return "/to_edit_profile.html";
+            return TO_EDIT_HTML;
         }
     }
 }

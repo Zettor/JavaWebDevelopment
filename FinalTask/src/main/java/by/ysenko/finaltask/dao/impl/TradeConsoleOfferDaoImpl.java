@@ -13,6 +13,14 @@ import java.util.List;
 
 public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsoleOfferDao {
 
+    private final static String FIND_ALL_REQUEST="SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM trade_console_offers WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST="DELETE FROM trade_console_offers WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO trade_console_offers (user_id,name,cost,currency,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)";
+    private final static String UPDATE_REQUEST= "UPDATE trade_console_offers SET user_id=?,name=?,cost=?,currency=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?";
+
+
     public void setConnection(Connection connection) {
         super.setConnection(connection);
     }
@@ -26,7 +34,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<TradeConsoleOffer> offers = new ArrayList<>();
 
@@ -64,7 +72,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,user_id,name,cost,currency,description,createdAt,closedAt,status FROM trade_console_offers WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             TradeConsoleOffer offer = null;
@@ -100,7 +108,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
     public void delete(int id) throws DaoException{
         PreparedStatement ps=null;
         try{
-        ps = connection.prepareStatement("DELETE FROM trade_console_offers WHERE id=?");
+        ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
         ps.setInt(1, id);
 
@@ -124,7 +132,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
     public boolean delete(TradeConsoleOffer entity) throws DaoException {
         PreparedStatement ps =null;
         try {
-            ps = connection.prepareStatement("DELETE FROM trade_console_offers WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
 
             ps.setInt(1, entity.getId());
 
@@ -141,7 +149,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
         PreparedStatement ps = null;
         ResultSet resultSet=null;
         try {
-            ps = connection.prepareStatement("INSERT INTO trade_console_offers (user_id,name,cost,currency,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)");
+            ps = connection.prepareStatement(CREATE_REQUEST);
 
 
             ps.setInt(1, entity.getUser().getId());
@@ -175,7 +183,7 @@ public class TradeConsoleOfferDaoImpl extends BaseDaoImpl implements TradeConsol
     public void update(TradeConsoleOffer entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE trade_console_offers SET user_id=?,name=?,cost=?,currency=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
 
             ps.setInt(1, entity.getUser().getId());
             ps.setString(2, entity.getName());

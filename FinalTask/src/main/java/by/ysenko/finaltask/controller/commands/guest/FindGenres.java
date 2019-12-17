@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class FindGenres extends GuestCommand {
+
+    private final static String LIST_ATTRIBUTE = "list";
+    private final static String TO_JSP = "/genres.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         GenreService service = ServiceFactory.createGenreService();
@@ -20,7 +24,7 @@ public class FindGenres extends GuestCommand {
 
             genres = service.findAll();
 
-        request.setAttribute("list",genres);
-        return "/genres.jsp";
+        request.setAttribute(LIST_ATTRIBUTE,genres);
+        return TO_JSP;
     }
 }

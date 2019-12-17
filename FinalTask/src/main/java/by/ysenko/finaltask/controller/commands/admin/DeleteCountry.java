@@ -10,11 +10,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class DeleteCountry extends AdminCommand {
+
+    private final static String ID_ATTRIBUTE = "id";
+    private final static String TO_HTML = "/countries.html";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Integer id = Integer.parseInt((String) request.getParameter("id"));
+        Integer id = Integer.parseInt((String) request.getParameter(ID_ATTRIBUTE));
         CountryService service = ServiceFactory.createCountryService();
             service.delete(id);
-        return "/countries.html";
+        return TO_HTML;
     }
 }

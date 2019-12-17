@@ -15,16 +15,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ToAddingGameOffer extends UserCommand {
+
+    private final static String ID_ATTRIBUTE = "id";
+    private final static String GAME_ATTRIBUTE = "game";
+    private final static String CURRENCIES_ATTRIBUTE = "currencies";
+    private final static String TO_JSP = "add_game_offer.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        Integer id = Integer.parseInt((String) request.getParameter("id"));
+        Integer id = Integer.parseInt((String) request.getParameter(ID_ATTRIBUTE));
         GameService gameService = ServiceFactory.createGameService();
         CurrencyService currencyService = ServiceFactory.createCurrencyService();
         List<Currency> currencies = null;
             Game game = gameService.findById(id);
             currencies = currencyService.findAll();
-            request.setAttribute("game", game);
-            request.setAttribute("currencies",currencies);
-        return "add_game_offer.jsp";
+            request.setAttribute(GAME_ATTRIBUTE, game);
+            request.setAttribute(CURRENCIES_ATTRIBUTE,currencies);
+        return TO_JSP;
     }
 }

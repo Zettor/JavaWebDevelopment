@@ -2,7 +2,11 @@ package by.ysenko.finaltask.bean;
 
 import java.sql.Timestamp;
 
+
 public class Game extends Bean {
+
+    public Game() {
+    }
 
     private String name;
     private String imgPath;
@@ -57,5 +61,49 @@ public class Game extends Bean {
 
     public void setReleaseDate(Timestamp releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Game)) return false;
+        Game game = (Game) o;
+        return getName().equals(game.getName()) &&
+                getImgPath().equals(game.getImgPath()) &&
+                getGenre().equals(game.getGenre()) &&
+                getExclusivity().equals(game.getExclusivity()) &&
+                getReleaseDate().equals(game.getReleaseDate()) &&
+                getDescription().equals(game.getDescription());
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode()
+                + getImgPath().hashCode()
+                + getGenre().hashCode()
+                + getExclusivity()
+                + getReleaseDate().hashCode()
+                + getDescription().hashCode();
+    }
+
+    public Game(String name, String imgPath, Genre genre, Integer exclusivity, Timestamp releaseDate, String description) {
+        this.name = name;
+        this.imgPath = imgPath;
+        this.genre = genre;
+        this.exclusivity = exclusivity;
+        this.releaseDate = releaseDate;
+        this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "name='" + name + '\'' +
+                ", imgPath='" + imgPath + '\'' +
+                ", genre=" + genre +
+                ", exclusivity=" + exclusivity +
+                ", releaseDate=" + releaseDate +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

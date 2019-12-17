@@ -14,6 +14,15 @@ import java.util.List;
 
 public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOfferDao {
 
+    private final static String FIND_ALL_REQUEST="SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers";
+    private final static String FIND_LAST_REQUEST="SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers LIMIT 5";
+    private final static String FIND_BY_ID_REQUEST="SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers WHERE id = ?";
+    private final static String DELETE_BY_ID_REQUEST="DELETE FROM trade_game_offers WHERE id=?";
+    private final static String DELETE_BY_ENTITY_REQUEST="DELETE FROM trade_game_offers WHERE id=?";
+    private final static String CREATE_REQUEST= "INSERT INTO trade_game_offers (game_id,user_id,cost,currency_id ,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)";
+    private final static String UPDATE_REQUEST= "UPDATE trade_game_offers SET game_id=?,user_id=?,cost=?,currency_id=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?";
+
+
     public void setConnection(Connection connection) {
         super.setConnection(connection);
     }
@@ -25,7 +34,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers");
+            rs = st.executeQuery(FIND_ALL_REQUEST);
 
             ArrayList<TradeGameOffer> offers = new ArrayList<>();
 
@@ -69,7 +78,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
         try {
             st = connection.createStatement();
 
-            rs = st.executeQuery("SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers LIMIT 5");
+            rs = st.executeQuery(FIND_LAST_REQUEST);
 
             ArrayList<TradeGameOffer> offers = new ArrayList<>();
 
@@ -111,7 +120,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            statement = connection.prepareStatement("SELECT id,game_id,user_id,cost,currency_id,description,createdAt,closedAt,status FROM trade_game_offers WHERE id = ?");
+            statement = connection.prepareStatement(FIND_BY_ID_REQUEST);
             statement.setInt(1, id);
             resultSet = statement.executeQuery();
             TradeGameOffer offer = null;
@@ -151,7 +160,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
     public void delete(int id) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("DELETE FROM trade_game_offers WHERE id=?");
+            ps = connection.prepareStatement(DELETE_BY_ID_REQUEST);
 
             ps.setInt(1, id);
 
@@ -175,7 +184,7 @@ public class TradeGameOfferDaoImpl extends BaseDaoImpl implements TradeGameOffer
     public boolean delete(TradeGameOffer entity) throws DaoException {
         PreparedStatement ps = null;
 try {
-     ps = connection.prepareStatement("DELETE FROM trade_game_offers WHERE id=?");
+     ps = connection.prepareStatement(DELETE_BY_ENTITY_REQUEST);
 
     ps.setInt(1, entity.getId());
 
@@ -191,7 +200,7 @@ try {
         PreparedStatement ps = null;
         ResultSet resultSet = null;
         try {
-            ps = connection.prepareStatement("INSERT INTO trade_game_offers (game_id,user_id,cost,currency_id ,description,createdAt,closedAt,status) VALUES (?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+            ps = connection.prepareStatement(CREATE_REQUEST,Statement.RETURN_GENERATED_KEYS);
 
             ps.setInt(1, entity.getGame().getId());
             ps.setInt(2, entity.getUser().getId());
@@ -223,7 +232,7 @@ try {
     public void update(TradeGameOffer entity) throws DaoException {
         PreparedStatement ps = null;
         try {
-            ps = connection.prepareStatement("UPDATE trade_game_offers SET game_id=?,user_id=?,cost=?,currency_id=?,description=?,createdAt=?,closedAt=?,status=? WHERE id=?");
+            ps = connection.prepareStatement(UPDATE_REQUEST);
             ps.setInt(1, entity.getGame().getId());
             ps.setInt(2, entity.getUser().getId());
             ps.setDouble(3, entity.getCost());

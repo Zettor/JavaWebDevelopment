@@ -13,6 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class ChooseGame extends UserCommand {
+
+    private final static String LIST_ATTRIBUTE = "list";
+    private final static String GENRES_ATTRIBUTE = "genres";
+    private final static String TO_JSP = "/user_games.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         GameService gameService = ServiceFactory.createGameService();
@@ -25,8 +30,8 @@ public class ChooseGame extends UserCommand {
             }
             genres = genreService.findAll();
 
-        request.setAttribute("list",games);
-        request.setAttribute("genres",genres);
-        return "/user_games.jsp";
+        request.setAttribute(LIST_ATTRIBUTE,games);
+        request.setAttribute(GENRES_ATTRIBUTE,genres);
+        return TO_JSP;
     }
 }

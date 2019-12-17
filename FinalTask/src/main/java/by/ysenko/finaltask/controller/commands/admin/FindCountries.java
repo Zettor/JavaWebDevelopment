@@ -15,12 +15,15 @@ import java.util.List;
 
 public class FindCountries extends AdminCommand {
 
+    private final static String LIST_ATTRIBUTE = "list";
+    private final static String TO_JSP = "/countries.jsp";
+
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         CountryService service = ServiceFactory.createCountryService();
         List<Country> countries = null;
             countries = service.findAll();
-        request.setAttribute("list",countries);
-        return "/countries.jsp";
+        request.setAttribute(LIST_ATTRIBUTE,countries);
+        return TO_JSP;
     }
 }
