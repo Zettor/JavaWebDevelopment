@@ -4,11 +4,16 @@ import by.ysenko.finaltask.bean.TradeGameOffer;
 import by.ysenko.finaltask.controller.commands.GuestCommand;
 import by.ysenko.finaltask.service.TradeGameOfferService;
 import by.ysenko.finaltask.service.factories.ServiceFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class FindLastOffers extends GuestCommand {
+
+
 
     private final static String LIST_ATTRIBUTE = "list";
     private final static String TO_JSP = "result.jsp";

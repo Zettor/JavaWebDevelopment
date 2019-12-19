@@ -10,16 +10,15 @@ import java.util.Date;
 
 public class CurrencyValidator {
 
-    public Currency validate(HttpServletRequest request) throws IncorrectFormDataException {
-        Currency currency = new Currency();
+    public Currency validate(Currency currency) throws IncorrectFormDataException {
 
-        String parameter = request.getParameter("currency");
-        if (parameter != null && !parameter.isEmpty() && parameter.length() <= 3 && parameter.matches("[A-Z]+")) {
+        String parameter = currency.getName();
+        if (parameter.length() <= 3 && parameter.matches("[A-Z]+")) {
             currency.setName(parameter);
         } else {
             throw new IncorrectFormDataException("currency");
         }
 
-      return currency;
+        return currency;
     }
 }

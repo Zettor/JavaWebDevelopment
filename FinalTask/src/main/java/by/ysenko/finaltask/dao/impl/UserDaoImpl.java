@@ -22,7 +22,7 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
     private final static String FIND_BY_EMAIL_REQUEST = "SELECT id,login,password,salt,email,phone,country_id,city_id,createAt,status,role FROM users WHERE email = ? ";
     private final static String DELETE_BY_ID_REQUEST = "DELETE FROM users WHERE id=?";
     private final static String DELETE_BY_ENTITY_REQUEST = "DELETE FROM users WHERE id=?";
-    private final static String CREATE_REQUEST = "INSERT INTO users (login,password,salt,email,phone,createAt,status,role) VALUES (?,?,?,?,?,?,?,?)";
+    private final static String CREATE_REQUEST = "INSERT INTO users (login,password,salt,email,phone) VALUES (?,?,?,?,?)";
     private final static String UPDATE_REQUEST = "UPDATE users SET login=?,password=?,salt=?,email=?,phone=?,country_id=?,city_id=?,createAt=?,status=?,role=? WHERE id=?";
 
 
@@ -276,10 +276,6 @@ public class UserDaoImpl extends BaseDaoImpl implements UserDao {
             ps.setString(3, entity.getSalt());
             ps.setString(4, entity.getEmail());
             ps.setString(5, entity.getPhone());
-            ps.setTimestamp(6, entity.getCreateDate());
-            ps.setInt(7, entity.getStatus());
-            ps.setInt(8, entity.getRole());
-
             ps.execute();
             resultSet = ps.getGeneratedKeys();
             if (resultSet.next()) {

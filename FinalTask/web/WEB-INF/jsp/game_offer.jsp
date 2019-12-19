@@ -34,8 +34,8 @@
 <table width="720" border="0" cellspacing="0" cellpadding="0">
 <tbody>
 <tr>
-<td width="10" valign="top"><img alt="Grand Theft Auto V" width="200" height="200" class="ramka"
-                                 src="../../images/doom.jpg"></td>
+<td width="10" valign="top"><img alt="Game" width="200" height="200" class="ramka"
+                                 src=${offer.game.imgPath}></td>
 <td>
 <p class="font12">
 <h1>${offer.game.name}</h1>

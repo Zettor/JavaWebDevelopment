@@ -56,6 +56,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
             }
             return games;
         } catch (SQLException e) {
+
             logger.error(e);
             throw new DaoException(e);
         } finally {
@@ -168,6 +169,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
             ps.setTimestamp(5, entity.getReleaseDate());
             ps.setString(6, entity.getDescription());
             ps.execute();
+
             resultSet = ps.getGeneratedKeys();
             if (resultSet.next()) {
                 return resultSet.getInt(1);
@@ -176,6 +178,7 @@ public class GameDaoImpl extends BaseDaoImpl implements GameDao {
                 throw new DaoException();
             }
         } catch (SQLException e) {
+
             logger.error(e);
             throw new DaoException(e);
         } finally {

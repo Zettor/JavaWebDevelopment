@@ -36,10 +36,9 @@ public class AddGameOffer extends UserCommand {
         offer.getCurrency().setId(Integer.parseInt(request.getParameter(CURRENCY_ATTRIBUTE)));
         offer.setDescription(request.getParameter(DESCRIPTION_ATTRIBUTE));;
         offer.setCreateDate(new Timestamp(new Date().getTime()));
-        offer.setStatus(0);
         TradeGameOfferService service = ServiceFactory.createTradeGameOfferService();
             service.add(offer);
-        return TO_HTML;
+        return "profile.html";
     }
 
 

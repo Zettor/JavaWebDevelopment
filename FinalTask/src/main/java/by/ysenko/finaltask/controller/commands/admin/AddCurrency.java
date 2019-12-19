@@ -10,6 +10,7 @@ import by.ysenko.finaltask.service.validators.CurrencyValidator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.http.HttpRequest;
 
 public class AddCurrency extends AdminCommand {
 
@@ -26,13 +27,23 @@ public class AddCurrency extends AdminCommand {
         CurrencyService service = ServiceFactory.createCurrencyService();
         HttpSession session = request.getSession(false);
         try {
-            currency = validator.validate(request);
-
+            currency = checkData(request);
             service.add(currency);
         } catch (IncorrectFormDataException e) {
             session.setAttribute(ERROR_ATTRIBUTE, ERROR_TYPE);
             session.setAttribute(MESSAGE_ATTRIBUTE, e.getMessage());
         }
         return TO_HTML;
+    }
+
+    private Currency checkData(HttpServletRequest request) throws IncorrectFormDataException {
+        Currency currency=new Currency();
+   String     parameter = request.getParameter("name");
+        if (parameter != null && !parameter.isEmpty()) {
+            currency.setName(parameter);
+        } else {
+            throw new IncorrectFormDataException("currency");
+        }
+        return currency;
     }
 }

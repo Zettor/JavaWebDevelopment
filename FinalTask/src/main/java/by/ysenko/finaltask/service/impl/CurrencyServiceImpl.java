@@ -5,6 +5,8 @@ import by.ysenko.finaltask.dao.CurrencyDao;
 import by.ysenko.finaltask.dao.Transaction;
 import by.ysenko.finaltask.dao.exception.DaoException;
 import by.ysenko.finaltask.service.CurrencyService;
+import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
+import by.ysenko.finaltask.service.validators.CurrencyValidator;
 
 import java.util.List;
 
@@ -42,9 +44,11 @@ public class CurrencyServiceImpl extends ServiceImpl implements CurrencyService 
     }
 
     @Override
-    public void add(Currency currency)  {
+    public void add(Currency currency) throws IncorrectFormDataException {
         Transaction transaction = transactionFactory.createTransaction();
         CurrencyDao currencyDao = daoFactory.createCurrencyDao();
+        CurrencyValidator validator=new CurrencyValidator();
+        validator.validate(currency);
         transaction.begin(currencyDao);
         try {
             currencyDao.create(currency);

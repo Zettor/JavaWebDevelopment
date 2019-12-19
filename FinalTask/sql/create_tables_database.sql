@@ -10,9 +10,9 @@ CREATE TABLE users
     phone    VARCHAR(15),
     country_id  VARCHAR(50),
     city_id     VARCHAR(50),
-    createAt TIMESTAMP NOT NULL,
-    status   TINYINT      NOT NULL CHECK (status IN (0, 1)),
-    role     TINYINT      NOT NULL CHECK (role IN (0, 1)),
+    createAt TIMESTAMP NOT NULL DEFAULT NOW(),
+    status   TINYINT      NOT NULL CHECK (status IN (0, 1)) DEFAULT 0,
+    role     TINYINT      NOT NULL CHECK (role IN (0, 1)) DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE = INNODB
   DEFAULT CHARACTER SET utf8;
@@ -84,9 +84,7 @@ CREATE TABLE trade_game_offers
     cost        DOUBLE,
     currency_id INTEGER   NOT NULL,
     description TEXT,
-    createdAt   TIMESTAMP NOT NULL,
-    closedAt    DATE,
-    status      TINYINT   NOT NULL CHECK (status IN (0, 1, 2)),
+    createdAt   TIMESTAMP NOT NULL DEFAULT NOW(),
     PRIMARY KEY (id),
     FOREIGN KEY (game_id)
         REFERENCES games (id)

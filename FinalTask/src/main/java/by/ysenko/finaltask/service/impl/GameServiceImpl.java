@@ -23,6 +23,7 @@ public class GameServiceImpl extends ServiceImpl implements GameService {
             games = gameDao.findAll();
             for (Game game : games) {
                 game.setGenre(genreDao.findEntityById(game.getGenre().getId()));
+
             }
             transaction.commit();
         } catch (DaoException e) {
@@ -71,7 +72,7 @@ public class GameServiceImpl extends ServiceImpl implements GameService {
         transaction.begin(gameDao);
         try {
             gameDao.create(game);
-            transaction.rollback();
+            transaction.commit();
         }catch (DaoException e){
             transaction.rollback();
         }

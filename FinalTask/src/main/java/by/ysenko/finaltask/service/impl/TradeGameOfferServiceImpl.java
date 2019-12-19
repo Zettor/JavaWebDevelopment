@@ -64,6 +64,32 @@ public class TradeGameOfferServiceImpl extends ServiceImpl implements TradeGameO
     }
 
     @Override
+    public List<TradeGameOffer> findUserOffers(int user_id)  {
+        Transaction transaction = transactionFactory.createTransaction();
+        TradeGameOfferDao tradeGameOfferDao = daoFactory.createTradeGameOfferDao();
+        GameDao gameDao = daoFactory.createGameDao();
+        UserDao userDao = daoFactory.createUserDao();
+        GenreDao genreDao = daoFactory.createGenreDao();
+        CurrencyDao currencyDao = daoFactory.createCurrencyDao();
+        transaction.begin(tradeGameOfferDao, gameDao, genreDao, userDao, currencyDao);
+        List<TradeGameOffer> offers = null;
+        try {
+            offers = tradeGameOfferDao.findByUser(user_id);
+            for (TradeGameOffer offer : offers) {
+                offer.setGame(gameDao.findEntityById(offer.getGame().getId()));
+                offer.getGame().setGenre(genreDao.findEntityById(offer.getGame().getId()));
+                offer.setCurrency(currencyDao.findEntityById(offer.getCurrency().getId()));
+                offer.setUser(userDao.findEntityById(offer.getUser().getId()));
+                transaction.commit();
+            }
+        } catch (DaoException e) {
+            transaction.rollback();
+        }
+        transaction.end();
+        return offers;
+    }
+
+    @Override
     public void add(TradeGameOffer offer)  {
         Transaction transaction = transactionFactory.createTransaction();
         TradeGameOfferDao offerDao = daoFactory.createTradeGameOfferDao();
@@ -101,4 +127,19 @@ public class TradeGameOfferServiceImpl extends ServiceImpl implements TradeGameO
         transaction.end();
         return offer;
     }
+
+    @Override
+    public void delete(int id)  {
+        Transaction transaction = transactionFactory.createTransaction();
+        TradeGameOfferDao offerDao = daoFactory.createTradeGameOfferDao();
+        transaction.begin(offerDao);
+        try {
+            offerDao.delete(id);
+            transaction.commit();
+        }catch (DaoException e){
+            transaction.rollback();
+        }
+        transaction.end();
+    }
+
 }

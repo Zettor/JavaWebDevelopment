@@ -1,7 +1,7 @@
-package by.ysenko.finaltask.controller.commands.guest;
+package by.ysenko.finaltask.controller.commands.admin;
 
 import by.ysenko.finaltask.bean.AccessoryCategory;
-import by.ysenko.finaltask.controller.commands.GuestCommand;
+import by.ysenko.finaltask.controller.commands.AdminCommand;
 import by.ysenko.finaltask.service.AccessoryCategoryService;
 import by.ysenko.finaltask.service.factories.ServiceFactory;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 
 
-public class FindCategories extends GuestCommand {
+public class FindCategories extends AdminCommand {
 
     private final static String LIST_ATTRIBUTE = "list";
     private final static String TO_JSP = "/categories.jsp";

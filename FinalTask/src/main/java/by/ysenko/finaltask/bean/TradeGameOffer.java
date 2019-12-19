@@ -14,11 +14,6 @@ public class TradeGameOffer extends Bean{
 
     private Timestamp createDate;
 
-    private Timestamp closeDate;
-
-    private int status;
-
-
     private double cost;
 
     private Currency currency;
@@ -73,28 +68,12 @@ public class TradeGameOffer extends Bean{
         this.createDate = createDate;
     }
 
-    public Timestamp getCloseDate() {
-        return closeDate;
-    }
 
-    public void setCloseDate(Timestamp closeDate) {
-        this.closeDate = closeDate;
-    }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public TradeGameOffer(User user, String description, Timestamp createDate, Timestamp closeDate, int status, double cost, Currency currency, Game game) {
+    public TradeGameOffer(User user, String description, Timestamp createDate, double cost, Currency currency, Game game) {
         this.user = user;
         this.description = description;
         this.createDate = createDate;
-        this.closeDate = closeDate;
-        this.status = status;
         this.cost = cost;
         this.currency = currency;
         this.game = game;
@@ -105,12 +84,10 @@ public class TradeGameOffer extends Bean{
         if (this == o) return true;
         if (!(o instanceof TradeGameOffer)) return false;
         TradeGameOffer offer = (TradeGameOffer) o;
-        return getStatus() == offer.getStatus() &&
-                Double.compare(offer.getCost(), getCost()) == 0 &&
+        return Double.compare(offer.getCost(), getCost()) == 0 &&
                 getUser().equals(offer.getUser()) &&
                 getDescription().equals(offer.getDescription()) &&
                 getCreateDate().equals(offer.getCreateDate()) &&
-                getCloseDate().equals(offer.getCloseDate()) &&
                 getCurrency().equals(offer.getCurrency()) &&
                 getGame().equals(offer.getGame());
     }
@@ -120,7 +97,7 @@ public class TradeGameOffer extends Bean{
         return getUser().hashCode()
                 + getDescription().hashCode()
                 + getCreateDate().hashCode()
-                + getStatus()+ (int)getCost()+ getCurrency().hashCode()
+                + (int)getCost()+ getCurrency().hashCode()
                 + getGame().hashCode();
     }
 
@@ -130,8 +107,6 @@ public class TradeGameOffer extends Bean{
                 "user=" + user +
                 ", description='" + description + '\'' +
                 ", createDate=" + createDate +
-                ", closeDate=" + closeDate +
-                ", status=" + status +
                 ", cost=" + cost +
                 ", currency=" + currency +
                 ", game=" + game +

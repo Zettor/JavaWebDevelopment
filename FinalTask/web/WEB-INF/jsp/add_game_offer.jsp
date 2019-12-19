@@ -24,15 +24,15 @@
   align-items: center;
   justify-content: center;  margin-left: 215px;  ">
             <div class="row" style="position: absolute; top: 0; bottom: 0 ; left: 0; ">
-
+                <c:set var="game" value="${game}"/>
                 <div class="col-sm-6" style="padding: unset">
-                    <img src="../../images/doom.jpg" alt="Games"
+                    <img src=${game.imgPath} alt="Games"
                          preserveAspectRatio="xMidYMid slice" focusable="false" role="img" width="100%"
                          height="100%">
                     </img>
                 </div>
                 <div class="col-sm-5" style="background-color:lavender; padding: unset; text-align: center">
-                    <c:set var="game" value="${game}"/>
+
                     <h1>${game.name}</h1>
                     <p><fmt:message key="genre"/>: ${game.genre.name}</p>
                     <p><fmt:message key="release_date"/>: <fmt:formatDate

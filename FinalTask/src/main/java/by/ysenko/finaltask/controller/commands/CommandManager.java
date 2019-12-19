@@ -6,7 +6,7 @@ import by.ysenko.finaltask.controller.commands.user.*;
 
 public class CommandManager {
 
-//    private String command;
+    //    private String command;
     private Command command;
 
 
@@ -24,106 +24,114 @@ public class CommandManager {
             case "/":
                 command = new FindLastOffers();
                 break;
-            case"/sign_up":
-                command =new SignUp();
+            case "/sign_up":
+                command = new SignUp();
                 break;
-            case"/sign_in":
-                command =new SignIn();
+            case "/sign_in":
+                command = new SignIn();
                 break;
-            case"/profile":
-                command =new ToProfile();
+            case "/profile":
+                command = new ToProfile();
                 break;
-            case"/logout":
-                command =new Logout();
+            case "/logout":
+                command = new Logout();
                 break;
-            case"/to_edit_profile":
-                command =new Profile();
+            case "/to_edit_profile":
+                command = new Profile();
                 break;
-            case"/edit_profile":
-                command =new EditProfile();
+            case "/edit_profile":
+                command = new EditProfile();
                 break;
-            case"/settings":
-               command =new ToSettings();
+            case "/settings":
+                command = new ToSettings();
                 break;
-            case"/users":
-                command=new FindAllUsers();
+            case "/users":
+                command = new FindAllUsers();
                 break;
-            case"/genres":
-                command=new FindGenres();
+            case "/genres":
+                command = new FindGenres();
                 break;
-            case"/add_genre":
-                command=new AddGenre();
+            case "/add_genre":
+                command = new AddGenre();
                 break;
-            case"/delete_genre":
-                command=new DeleteGenre();
+            case "/delete_genre":
+                command = new DeleteGenre();
                 break;
-            case"/delete_category":
-                command=new DeleteCategory();
+            case "/delete_category":
+                command = new DeleteCategory();
                 break;
-            case"/add_category":
-                command=new AddCategory();
+            case "/add_category":
+                command = new AddCategory();
                 break;
-            case"/categories":
-                command=new FindCategories();
+            case "/categories":
+                command = new FindCategories();
                 break;
-            case"/games":
-                command=new FindGames();
+            case "/games":
+                command = new FindGames();
                 break;
-            case"/add_game":
-                command=new AddGame();
+            case "/add_game":
+                command = new AddGame();
                 break;
-            case"/delete_game":
-                command=new DeleteGame();
+            case "/delete_game":
+                command = new DeleteGame();
                 break;
-            case"/choose_game":
-                command=new ChooseGame();
+            case "/choose_game":
+                command = new ChooseGame();
                 break;
-            case"/to_adding_game_offer":
-                command=new ToAddingGameOffer();
+            case "/to_adding_game_offer":
+                command = new ToAddingGameOffer();
                 break;
-            case"/currencies":
-                command=new FindCurrencies();
+            case "/currencies":
+                command = new FindCurrencies();
                 break;
-            case"/delete_currency":
-                command=new DeleteCurrency();
+            case "/delete_currency":
+                command = new DeleteCurrency();
                 break;
-            case"/add_currency":
-                command=new AddCurrency();
+            case "/add_currency":
+                command = new AddCurrency();
                 break;
-            case"/add_game_offer":
-                command=new AddGameOffer();
+            case "/add_game_offer":
+                command = new AddGameOffer();
                 break;
-            case"/game_offers":
-                command=new FindGameOffers();
+            case "/game_offers":
+                command = new FindGameOffers();
                 break;
-            case"/game_offer":
-                command=new ToGameOffer();
+            case "/game_offer":
+                command = new ToGameOffer();
                 break;
             case "/countries":
-                command=new FindCountries();
+                command = new FindCountries();
                 break;
-            case"/add_country":
-                command=new AddCountry();
+            case "/add_country":
+                command = new AddCountry();
                 break;
-            case"/delete_country":
-                command=new DeleteCountry();
+            case "/delete_country":
+                command = new DeleteCountry();
                 break;
-            case"/cities":
-                command=new FindCity();
+            case "/cities":
+                command = new FindCity();
                 break;
-            case"/add_city":
-                command=new AddCity();
+            case "/add_city":
+                command = new AddCity();
                 break;
-            case"/delete_city":
-                command=new DeleteCity();
+            case "/delete_city":
+                command = new DeleteCity();
                 break;
-            case"/set_user_role":
-                command=new SetUserRole();
+            case "/set_user_role":
+                command = new SetUserRole();
                 break;
-            case"/set_user_status":
-                command=new SetUserStatus();
+            case "/set_user_status":
+                command = new SetUserStatus();
                 break;
+            case "/user_game_offers":
+                command = new FindUserOffers();
+                break;
+            case "/delete_game_offer":
+                command = new DeleteGameOffer();
+                break;
+
             default:
+                command = new ErrorPage();
         }
 
     }

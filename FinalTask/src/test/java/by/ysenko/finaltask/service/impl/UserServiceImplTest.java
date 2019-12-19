@@ -52,7 +52,7 @@ public class UserServiceImplTest {
     @DataProvider(name = "RightUsersForSignUp")
     Object[][] createRightUsersForSignUpTest() {
         return new Object[][]{
-                {new User("one", "oneeee", "one", "sasaasenko0@gmail.com", new Timestamp(new Date().getTime()), 0, 1)},
+                {new User("one", "oneeee", "one", "sasaase2snko0@gmail.com", new Timestamp(new Date().getTime()), 0, 1)},
                 {new User("two2", "twoooo2", "two", "sasSdasWasenko0@gmail.com", new Timestamp(new Date().getTime()), 1, 0)},
                 {new User("three3", "three3", "two2013", "sa2013saasenko0@gmail.com", new Timestamp(new Date().getTime()), 0, 0)}
 

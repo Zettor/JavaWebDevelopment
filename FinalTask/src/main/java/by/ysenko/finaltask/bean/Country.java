@@ -35,10 +35,5 @@ public class Country extends Bean {
         return getName().hashCode();
     }
 
-    @Override
-    public String toString() {
-        return "Country{" +
-                "name='" + name + '\'' +
-                '}';
-    }
+
 }

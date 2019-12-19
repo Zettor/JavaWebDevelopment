@@ -3,7 +3,7 @@ package by.ysenko.finaltask.controller.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class UserCommand implements Command {
+public abstract class UserCommand extends Command {
     private List<Integer> roles;
    public UserCommand(){
         roles=new ArrayList<>();

@@ -23,9 +23,6 @@ public class ChooseGame extends UserCommand {
         GenreService genreService = ServiceFactory.createGenreService();
         List<Genre> genres = null;
             games = gameService.findAll();
-            for(Game game: games){
-                System.out.println(game.getImgPath());
-            }
             genres = genreService.findAll();
 
         request.setAttribute(LIST_ATTRIBUTE,games);

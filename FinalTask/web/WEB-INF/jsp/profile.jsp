@@ -57,22 +57,30 @@
     <br>
     <c:choose>
         <c:when test="${sessionScope.user.id==user.id}">
-    <div class="btn-group-vertical" style="margin-left: auto; margin-bottom: auto; margin-top: auto; margin-right: auto; width: 200px">
-        <form action="/choose_game.html" method="post">
-            <button class="btn btn-lg btn-primary btn-block" type="submit"  ><fmt:message key="games"/></button>
-        </form>
-        <br>
+            <div class="btn-group-vertical"
+                 style="margin-left: auto; margin-bottom: auto; margin-top: auto; margin-right: auto; width: 200px">
+                <form action="/choose_game.html" method="post">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message key="games"/></button>
+                </form>
+                <br>
 
-        <form action="/to_edit_profile.html" method="post">
-            <input type="hidden" name="id" value=${user.id}>
-            <button class="btn btn-lg btn-primary btn-block" type="submit"  ><fmt:message key="edit_profile"/></button>
-        </form>
+                <form action="/to_edit_profile.html" method="post">
+                    <input type="hidden" name="id" value=${user.id}>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message
+                            key="edit_profile"/></button>
+                </form>
+                <br>
 
-        <br>
-    </div>
+
+
+            </div>
         </c:when>
         <c:otherwise></c:otherwise>
     </c:choose>
+    <form action="/user_game_offers.html" method="post">
+        <input type="hidden" name="user_id" value=${user.id}>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">User offers</button>
+    </form>
 </div>
 </body>
 </html>

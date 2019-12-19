@@ -1,6 +1,7 @@
 package by.ysenko.finaltask.service;
 
 import by.ysenko.finaltask.bean.Currency;
+import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ public interface CurrencyService {
     public void delete(int id);
 
 
-    public void add(Currency currency);
+    public void add(Currency currency) throws IncorrectFormDataException;
 }

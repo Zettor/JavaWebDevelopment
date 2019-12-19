@@ -66,9 +66,6 @@ public class SignUp extends GuestCommand {
         } else {
             throw new IncorrectFormDataException(EMAIL_ATTRIBUTE);
         }
-        user.setCreateDate(new Timestamp(new Date().getTime()));
-        user.setRole(0);
-        user.setStatus(0);
 
         return user;
     }

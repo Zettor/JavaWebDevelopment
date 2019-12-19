@@ -9,6 +9,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,7 +40,7 @@ public class AddGame extends AdminCommand {
         uploadFile(request, game);
 
         GameService service = ServiceFactory.createGameService();
-            service.add(game);
+        service.add(game);
         return TO_HTML;
     }
 
@@ -69,7 +70,6 @@ public class AddGame extends AdminCommand {
 
             }
         } catch (FileUploadException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -80,28 +80,33 @@ public class AddGame extends AdminCommand {
         String filePath = uploadPath + File.separator + fileName;
         File imgFile = new File(filePath);
         item.write(imgFile);
-        game.setImgPath(UPLOAD_DIRECTORY+ File.separator + fileName);
+        System.out.println(filePath);
+        game.setImgPath(UPLOAD_DIRECTORY + File.separator + fileName);
     }
 
-    private void setGameField(FileItem item, Game game)  {
+    private void setGameField(FileItem item, Game game) {
         String parameter = item.getString();
         switch (item.getFieldName()) {
             case NAME_ATTRIBUTE:
+
                 game.setName(parameter);
                 break;
             case GENRE_ATTRIBUTE:
+
                 Genre genre = new Genre();
                 genre.setId(Integer.parseInt(parameter));
                 game.setGenre(genre);
                 break;
             case EXCLUSIVITY_ATTRIBUTE:
+
                 game.setExclusivity(Integer.parseInt(parameter));
                 break;
             case DATE_ATTRIBUTE:
-                System.out.println(parameter);
+
                 game.setReleaseDate((Timestamp.valueOf(parameter + " 00:00:00.0")));
                 break;
             default:
+
                 game.setDescription(parameter);
                 break;
         }

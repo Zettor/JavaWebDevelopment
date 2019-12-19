@@ -26,7 +26,7 @@
                 <div class="row" style="position: relative;
                  font-family: Arial; font-size:90%;  left: 100px ">
                     <div class="col-sm-2" style="padding: unset; ">
-                        <img src="../../images/doom.jpg" alt="Games"
+                        <img src=${offer.game.imgPath} alt="Games"
                              preserveAspectRatio="xMidYMid slice" focusable="false" role="img" width="100%"
                              height="100%">
                         </img>

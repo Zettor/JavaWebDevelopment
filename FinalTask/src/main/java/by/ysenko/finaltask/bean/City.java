@@ -47,11 +47,5 @@ public class City extends Bean {
         return getName().hashCode()+ getCountryId();
     }
 
-    @Override
-    public String toString() {
-        return "City{" +
-                "name='" + name + '\'' +
-                ", countryId=" + countryId +
-                '}';
-    }
+
 }

@@ -13,4 +13,8 @@ public interface TradeGameOfferService {
     public void add(TradeGameOffer offer) ;
 
     public TradeGameOffer findById(Integer id);
+
+    public List<TradeGameOffer> findUserOffers(int user_id);
+
+    void delete(int id);
 }

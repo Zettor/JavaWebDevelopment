@@ -80,14 +80,9 @@
         <c:forEach var="game" items="${list}" varStatus="loop">
             <tr>
                 <td>${game.name} </td>
-                <td><c:choose>
-                    <c:when test="${game.genre==null}">
-                        <p>Other</p>
-                    </c:when>
-                    <c:otherwise>
+                <td>
                         ${game.genre.name}
-                    </c:otherwise>
-                </c:choose></td>
+                   </td>
                 <td><c:choose>
                     <c:when test="${game.exclusivity==0}">PS4
                     </c:when>

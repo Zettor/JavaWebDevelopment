@@ -1,6 +1,7 @@
 package by.ysenko.finaltask.service;
 
 import by.ysenko.finaltask.bean.Country;
+import by.ysenko.finaltask.service.exceptions.IncorrectFormDataException;
 
 import java.util.List;
 
@@ -11,5 +12,5 @@ public interface CountryService {
 
     public void delete(int id);
 
-    public void add(Country country);
+    public void add(Country country) throws IncorrectFormDataException;
 }
